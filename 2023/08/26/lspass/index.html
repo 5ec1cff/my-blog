@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/my-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="学习 LSPass (LSPosed&#x2F;AndroidHiddenApiByPass)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LSPass 学习">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="学习 LSPass (LSPosed&#x2F;AndroidHiddenApiByPass)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-26T03:46:00.000Z">
+<meta property="article:modified_time" content="2023-09-20T07:01:15.194Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>LSPass 学习 | 5ec1cff's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/my-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">5ec1cff's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/my-blog/images/avatar.gif">
+      <meta itemprop="name" content="5ec1cff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="5ec1cff's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LSPass 学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-26 11:46:00" itemprop="dateCreated datePublished" datetime="2023-08-26T11:46:00+08:00">2023-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-20 15:01:15" itemprop="dateModified" datetime="2023-09-20T15:01:15+08:00">2023-09-20</time>
+              </span>
+
+          
+            <div class="post-description">学习 LSPass (LSPosed/AndroidHiddenApiByPass)</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="LSPass-学习"><a href="#LSPass-学习" class="headerlink" title="LSPass 学习"></a>LSPass 学习</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><h3 id="ART-对象表示"><a href="#ART-对象表示" class="headerlink" title="ART 对象表示"></a>ART 对象表示</h3><p>在 ART 中，一个 Java 对象与一个 <code>art::mirror::Object</code> 一一对应，此外一些系统的特殊类会和 mirror Object 的派生类对应，如 java&#x2F;lang&#x2F;Class 对应 <code>art::mirror::Class</code> 。</p>
+<p>mirror::Object 对象所包含的内容就是 instance field 的内容，因此它的大小和类的 instance field 有关。之所以叫 mirror ，是因为这些 mirror 类中定义的成员和 Java 类的字段(field)是一致的。</p>
+<p>一般的类的对象对应的都是 <code>art::mirror::Object</code> ，访问 field 是通过对象地址 + field offset 实现的。如果一个类继承另一个类，则内存布局上子类的 field 排在父类的后面，这和结构体继承的内存布局是一致的。</p>
+<p>例如 <code>art::mirror::Object</code> 只有两个成员：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// art/runtime/mirror/object.h</span></span><br><span class="line">  <span class="comment">// The Class representing the type of the object.</span></span><br><span class="line">  HeapReference&lt;Class&gt; klass_;</span><br><span class="line">  <span class="comment">// Monitor and hash code information.</span></span><br><span class="line">  <span class="type">uint32_t</span> monitor_;</span><br></pre></td></tr></table></figure>
+
+<p>java.lang.Object 也只有两个字段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// libcore/ojluni/src/main/java/java/lang/Object.java</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Class&lt;?&gt; shadow$_klass_;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="type">int</span> shadow$_monitor_;</span><br></pre></td></tr></table></figure>
+
+<p>在 C++ 中的两个成员和 Java 中这两个字段都是一一对应的。</p>
+<p>又如 <code>art::mirror::Class</code> 和 java.lang.Class ，它的字段更多：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// art/runtime/mirror/class.h</span></span><br><span class="line">  <span class="comment">// &#x27;Class&#x27; Object Fields</span></span><br><span class="line">  <span class="comment">// Order governed by java field ordering. See art::ClassLinker::LinkFieldsHelper::LinkFields.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Defining class loader, or null for the &quot;bootstrap&quot; system loader.</span></span><br><span class="line">  HeapReference&lt;ClassLoader&gt; class_loader_;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// For array classes, the component class object for instanceof/checkcast</span></span><br><span class="line">  <span class="comment">// (for String[][][], this will be String[][]). null for non-array classes.</span></span><br><span class="line">  HeapReference&lt;Class&gt; component_type_;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// DexCache of resolved constant pool entries (will be null for classes generated by the</span></span><br><span class="line">  <span class="comment">// runtime such as arrays and primitive classes).</span></span><br><span class="line">  HeapReference&lt;DexCache&gt; dex_cache_;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// libcore/ojluni/src/main/java/java/lang/Class.java</span></span><br><span class="line">    <span class="comment">/** defining class loader, or null for the &quot;bootstrap&quot; system loader. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> ClassLoader classLoader;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * For array classes, the component class object for instanceof/checkcast (for String[][][],</span></span><br><span class="line"><span class="comment">     * this will be String[][]). null for non-array classes.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Class&lt;?&gt; componentType;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * DexCache of resolved constant pool entries. Will be null for certain runtime-generated classes</span></span><br><span class="line"><span class="comment">     * e.g. arrays and primitive classes.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> Object dexCache;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
+<p>由于 <code>art::mirror::Class</code> 继承 <code>art::mirror::Object</code> ，因此它也有 <code>shadow$_klass_</code> 和 <code>shadow$_monitor_</code> 两个字段，而在 Java 中 java.lang.Class 也是继承 java.lang.Object 的，由此可见二者在 java 和 native 中对象关系的一致性。</p>
+<p>从注释中可以看到，Object 的内存布局，也就是各个 instance fields 的布局由 <code>art::ClassLinker::LinkFieldsHelper::LinkFields</code> 决定。</p>
+<h4 id="LinkFields"><a href="#LinkFields" class="headerlink" title="LinkFields"></a>LinkFields</h4><p><code>ClassLinker::LinkFieldsHelper::LinkFields -&gt; .. -&gt; ArtField::SetOffset</code></p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:art/runtime/class_linker.cc;l=9099;drc=c0eb27ecf91c807d66efbae6991918557627e120">https://cs.android.com/android/platform/superproject/main/+/main:art/runtime/class_linker.cc;l=9099;drc=c0eb27ecf91c807d66efbae6991918557627e120</a></p>
+<p>从注释可以看出，field 的布局与我们在 java 中定义的顺序或者 dex 的 index 都无关，而是与所有 field 的名字和类型相关。首先按照类型 object, long, double, int, float, char, short, boolean, byte 的顺序，然后按照 field 名的字典序分布。因此，<code>art::mirror</code> 上手动定义的成员也要遵守这个顺序。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// we want a relatively stable order so that adding new fields</span></span><br><span class="line"><span class="comment">// minimizes disruption of C++ version such as Class and Method.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// The overall sort order order is:</span></span><br><span class="line"><span class="comment">// 1) All object reference fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 2) All java long (64-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 3) All java double (64-bit) floating point fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 4) All java int (32-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 5) All java float (32-bit) floating point fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 6) All java char (16-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 7) All java short (16-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 8) All java boolean (8-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">// 9) All java byte (8-bit) integer fields, sorted alphabetically.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// (References are first to increase the chance of reference visiting</span></span><br><span class="line"><span class="comment">// being able to take a fast path using a bitmap of references at the</span></span><br><span class="line"><span class="comment">// start of the object, see `Class::reference_instance_offsets_`.)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Once the fields are sorted in this order we will attempt to fill any gaps</span></span><br><span class="line"><span class="comment">// that might be present in the memory layout of the structure.</span></span><br><span class="line"><span class="comment">// Note that we shall not fill gaps between the superclass fields.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Collect fields and their &quot;type order index&quot; (see numbered points above).</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="隐藏-API"><a href="#隐藏-API" class="headerlink" title="隐藏 API"></a>隐藏 API</h3><p>隐藏 API 限制是 <a target="_blank" rel="noopener" href="https://developer.android.google.cn/distribute/best-practices/develop/restrictions-non-sdk-interfaces?hl=zh-cn">Android P 引入的</a>。它可以限制通过反射、JNI 和链接方式获取被禁止的 method 或 field 的访问。实际上被限制的就是这几个地方：</p>
+<ol>
+<li><code>Class.get[Declared]Field|Method[s]</code>  </li>
+<li><code>JNIEnv::Get&#123;Method|Field&#125;ID</code>   </li>
+<li>dalvik 指令直接访问 method 或 field ，在 link 阶段，阻止隐藏的 method 或 field 被解析到 dex cache 中。这限制了通过 api stub 的链接方式访问。</li>
+</ol>
+<p>值得注意的是，如果得到了 Method 或 Field 对象，然后直接 invoke 或 get&#x2F;set 是不会有检查的。此外，这个限制也不会阻止访问 Class ，<code>Class.forName</code> 或者在 dalvik 指令访问有隐藏 API 的类都是可以的。可以说这个限制仅阻拦了应用代码以某种形式获取 ArtMethod 或 ArtField 的访问，但并不会在调用时检查。</p>
+<p>实现：<a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:art/runtime/hidden_api.cc;l=569;drc=1f2196fbe8438ca8e516f9df41aabac4b2ea8ea7">art&#x2F;runtime&#x2F;hidden_api.cc ShouldDenyAccessToMemberImpl</a></p>
+<p>在 Java 层有 API <code>dalvik.system.VMRuntime.setHiddenApiExemptions</code> 可以设置隐藏 API 的豁免名单，然而这也是个隐藏 API 。对于 DexFile ，调用 <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:libcore/dalvik/src/main/java/dalvik/system/DexFile.java;l=457;drc=1f2196fbe8438ca8e516f9df41aabac4b2ea8ea7">setTrusted</a> 方法可以解除限制，不过仅当 Java debuggable 的时候有效。</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:libcore/ojluni/src/main/java/sun/misc/Unsafe.java;l=43;drc=f5dff995c4939ffe9e41d709cca3b198435a55de">sun.misc.Unsafe</a> 并不是 SDK API ，不过也没有隐藏 API 限制。</p>
+<h2 id="getUnsafe"><a href="#getUnsafe" class="headerlink" title="getUnsafe"></a>getUnsafe</h2><p>这里用反射调用是因为 getUnsafe 会检查调用者的 ClassLoader ，限制只有 BootClassLoader 才能调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//noinspection JavaReflectionMemberAccess DiscouragedPrivateApi</span></span><br><span class="line">        unsafe = (Unsafe) Unsafe.class.getDeclaredMethod(<span class="string">&quot;getUnsafe&quot;</span>).invoke(<span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">assert</span> unsafe != <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Gets the unique instance of this class. This is only allowed in</span></span><br><span class="line"><span class="comment"> * very limited situations.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Unsafe <span class="title function_">getUnsafe</span><span class="params">()</span> &#123;</span><br><span class="line">    Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Only code on the bootclasspath is allowed to get at the</span></span><br><span class="line"><span class="comment">     * Unsafe instance.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="type">ClassLoader</span> <span class="variable">calling</span> <span class="operator">=</span> (caller == <span class="literal">null</span>) ? <span class="literal">null</span> : caller.getClassLoader();</span><br><span class="line">    <span class="keyword">if</span> ((calling != <span class="literal">null</span>) &amp;&amp; (calling != Unsafe.class.getClassLoader())) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">SecurityException</span>(<span class="string">&quot;Unsafe access denied&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> THE_ONE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="native-pointer-fields"><a href="#native-pointer-fields" class="headerlink" title="native pointer fields"></a>native pointer fields</h2><p>接下来通过 unsafe 访问一些 fields ，基本步骤是 objectFieldOffset -&gt; getLong(obj, offset) 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">methodOffset = unsafe.objectFieldOffset(Helper.Executable.class.getDeclaredField(<span class="string">&quot;artMethod&quot;</span>));</span><br><span class="line">classOffset = unsafe.objectFieldOffset(Helper.Executable.class.getDeclaredField(<span class="string">&quot;declaringClass&quot;</span>));</span><br><span class="line">artOffset = unsafe.objectFieldOffset(Helper.MethodHandle.class.getDeclaredField(<span class="string">&quot;artFieldOrMethod&quot;</span>));</span><br><span class="line">infoOffset = unsafe.objectFieldOffset(Helper.MethodHandleImpl.class.getDeclaredField(<span class="string">&quot;info&quot;</span>));</span><br><span class="line">methodsOffset = unsafe.objectFieldOffset(Helper.Class.class.getDeclaredField(<span class="string">&quot;methods&quot;</span>));</span><br><span class="line">iFieldOffset = unsafe.objectFieldOffset(Helper.Class.class.getDeclaredField(<span class="string">&quot;iFields&quot;</span>));</span><br><span class="line">sFieldOffset = unsafe.objectFieldOffset(Helper.Class.class.getDeclaredField(<span class="string">&quot;sFields&quot;</span>));</span><br><span class="line">memberOffset = unsafe.objectFieldOffset(Helper.HandleInfo.class.getDeclaredField(<span class="string">&quot;member&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>Helper 定义了一系列和 android 中 Class, Executable 等类的 field 完全一致的类。因为这几个 fields 都是隐藏 api ，不能直接访问，但可以利用相同布局 offset 一致的特性，通过 Unsafe 访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Accessing hidden field Ljava/lang/reflect/Executable;-&gt;declaringClass:Ljava/lang/Class; (greylist-max-o, reflection, denied)</span><br><span class="line">Accessing hidden field Ljava/lang/invoke/MethodHandle;-&gt;artFieldOrMethod:J (greylist-max-o, reflection, denied)</span><br><span class="line">Accessing hidden field Ljava/lang/Class;-&gt;methods:J (greylist-max-o, reflection, denied)</span><br><span class="line">Accessing hidden field Ljava/lang/Class;-&gt;iFields:J (greylist-max-o, reflection, denied)</span><br><span class="line">Accessing hidden field Ljava/lang/Class;-&gt;sFields:J (greylist-max-o, reflection, denied)</span><br></pre></td></tr></table></figure>
+
+<h2 id="计算-method-和-field-数组的-bias"><a href="#计算-method-和-field-数组的-bias" class="headerlink" title="计算 method 和 field 数组的 bias"></a>计算 method 和 field 数组的 bias</h2><p>Class.methods 指向一个长度前缀的数组，由于有内存对齐，我们还是要计算第一个元素的偏移(bias)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Method</span> <span class="variable">mA</span> <span class="operator">=</span> Helper.NeverCall.class.getDeclaredMethod(<span class="string">&quot;a&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">mB</span> <span class="operator">=</span> Helper.NeverCall.class.getDeclaredMethod(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">mA.setAccessible(<span class="literal">true</span>);</span><br><span class="line">mB.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhA</span> <span class="operator">=</span> MethodHandles.lookup().unreflect(mA);</span><br><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhB</span> <span class="operator">=</span> MethodHandles.lookup().unreflect(mB);</span><br><span class="line"><span class="type">long</span> <span class="variable">aAddr</span> <span class="operator">=</span> unsafe.getLong(mhA, artOffset);</span><br><span class="line"><span class="type">long</span> <span class="variable">bAddr</span> <span class="operator">=</span> unsafe.getLong(mhB, artOffset);</span><br><span class="line"><span class="type">long</span> <span class="variable">aMethods</span> <span class="operator">=</span> unsafe.getLong(Helper.NeverCall.class, methodsOffset);</span><br><span class="line">artMethodSize = bAddr - aAddr;</span><br><span class="line"><span class="keyword">if</span> (BuildConfig.DEBUG) Log.v(TAG, artMethodSize + <span class="string">&quot; &quot;</span> +</span><br><span class="line">        Long.toString(aAddr, <span class="number">16</span>) + <span class="string">&quot;, &quot;</span> +</span><br><span class="line">        Long.toString(bAddr, <span class="number">16</span>) + <span class="string">&quot;, &quot;</span> +</span><br><span class="line">        Long.toString(aMethods, <span class="number">16</span>));</span><br><span class="line">artMethodBias = aAddr - aMethods - artMethodSize;</span><br></pre></td></tr></table></figure>
+
+<p>减去一个 artMethodSize 是因为有一个 constructor </p>
+<p>TODO： 方法在 methods 中的排列顺序</p>
+<p>在这里没有取 Executable.artMethod 而是用了 MethodHandle.artFieldOrMethod ，理论上两个值是一样的。不过 Field 没有 artField 这样的 field ，只有 getArtField 方法，这个方法也是隐藏的，因此 Field 只能用 MethodHandle 获取 ArtField 的地址了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">        <span class="type">Field</span> <span class="variable">fI</span> <span class="operator">=</span> Helper.NeverCall.class.getDeclaredField(<span class="string">&quot;i&quot;</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">fJ</span> <span class="operator">=</span> Helper.NeverCall.class.getDeclaredField(<span class="string">&quot;j&quot;</span>);</span><br><span class="line">        fI.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        fJ.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">MethodHandle</span> <span class="variable">mhI</span> <span class="operator">=</span> MethodHandles.lookup().unreflectGetter(fI);</span><br><span class="line">        <span class="type">MethodHandle</span> <span class="variable">mhJ</span> <span class="operator">=</span> MethodHandles.lookup().unreflectGetter(fJ);</span><br><span class="line">        <span class="type">long</span> <span class="variable">iAddr</span> <span class="operator">=</span> unsafe.getLong(mhI, artOffset);</span><br><span class="line">        <span class="type">long</span> <span class="variable">jAddr</span> <span class="operator">=</span> unsafe.getLong(mhJ, artOffset);</span><br><span class="line">        <span class="type">long</span> <span class="variable">iFields</span> <span class="operator">=</span> unsafe.getLong(Helper.NeverCall.class, iFieldOffset);</span><br><span class="line">        artFieldSize = jAddr - iAddr;</span><br><span class="line">        <span class="keyword">if</span> (BuildConfig.DEBUG) Log.v(TAG, artFieldSize + <span class="string">&quot; &quot;</span> +</span><br><span class="line">                Long.toString(iAddr, <span class="number">16</span>) + <span class="string">&quot;, &quot;</span> +</span><br><span class="line">                Long.toString(jAddr, <span class="number">16</span>) + <span class="string">&quot;, &quot;</span> +</span><br><span class="line">                Long.toString(iFields, <span class="number">16</span>));</span><br><span class="line">        artFieldBias = iAddr - iFields;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ReflectiveOperationException e) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">&quot;Initialize error&quot;</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ExceptionInInitializerError</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="getDeclared"><a href="#getDeclared" class="headerlink" title="getDeclared"></a>getDeclared</h2><p>利用上面计算的 ArtMethod 、ArtField 的大小和首个元素在带前缀数组的偏移，我们就可以遍历 Class 对象的 methods, iFields, sFields 获取 Method 和 Field 了。</p>
+<p>getDeclaredMethods:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Executable&gt; <span class="title function_">getDeclaredMethods</span><span class="params">(<span class="meta">@NonNull</span> Class&lt;?&gt; clazz)</span> &#123;</span><br><span class="line">    ArrayList&lt;Executable&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (clazz.isPrimitive() || clazz.isArray()) <span class="keyword">return</span> list;</span><br><span class="line">    MethodHandle mh;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">Method</span> <span class="variable">mA</span> <span class="operator">=</span> Helper.NeverCall.class.getDeclaredMethod(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">        mA.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        mh = MethodHandles.lookup().unreflect(mA);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchMethodException | IllegalAccessException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">methods</span> <span class="operator">=</span> unsafe.getLong(clazz, methodsOffset);</span><br><span class="line">    <span class="keyword">if</span> (methods == <span class="number">0</span>) <span class="keyword">return</span> list;</span><br><span class="line">    <span class="type">int</span> <span class="variable">numMethods</span> <span class="operator">=</span> unsafe.getInt(methods);</span><br><span class="line">    <span class="keyword">if</span> (BuildConfig.DEBUG) Log.d(TAG, clazz + <span class="string">&quot; has &quot;</span> + numMethods + <span class="string">&quot; methods&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numMethods; i++) &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">method</span> <span class="operator">=</span> methods + i * artMethodSize + artMethodBias;</span><br><span class="line">        unsafe.putLong(mh, artOffset, method);</span><br><span class="line">        unsafe.putObject(mh, infoOffset, <span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            MethodHandles.lookup().revealDirect(mh);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable ignored) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">MethodHandleInfo</span> <span class="variable">info</span> <span class="operator">=</span> (MethodHandleInfo) unsafe.getObject(mh, infoOffset);</span><br><span class="line">        <span class="type">Executable</span> <span class="variable">member</span> <span class="operator">=</span> (Executable) unsafe.getObject(info, memberOffset);</span><br><span class="line">        <span class="keyword">if</span> (BuildConfig.DEBUG)</span><br><span class="line">            Log.v(TAG, <span class="string">&quot;got &quot;</span> + clazz.getTypeName() + <span class="string">&quot;.&quot;</span> + member.getName() +</span><br><span class="line">                    <span class="string">&quot;(&quot;</span> + Arrays.stream(member.getParameterTypes()).map(Type::getTypeName).collect(Collectors.joining()) + <span class="string">&quot;)&quot;</span>);</span><br><span class="line">        list.add(member);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先随便获取一个方法的 MethodHandle ，然后遍历 Class.methods ，获取 ArtMethod ，用 Unsafe 修改 artFieldOrMethod 为获取到的指针，调用 revealDirect ，就会根据 artFieldOrMethod 创建对应的 Member ，保存在 MethodHandleInfo 中，用 Unsafe 获取即可。这里忽略了异常，是因为 revealDirect 会在获取到 Member 之后进行访问检查。</p>
+<p>获取 instance fields 和 static fields 也是类似的方法，不过 MethodHandle 是来自 instance field 或者 static field 的。</p>
+<h2 id="invoke-newInstance"><a href="#invoke-newInstance" class="headerlink" title="invoke &#x2F; newInstance"></a>invoke &#x2F; newInstance</h2><p>随便选取一个 Stub 方法，反射获取它的 Method &#x2F; Constructor 对象，使用 Unsafe 修改 artMethod 的地址为目标方法，再调用 invoke 或者 newInstance 即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">InvokeStub</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object <span class="title function_">invoke</span><span class="params">(Object... args)</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;Failed to invoke the method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">InvokeStub</span><span class="params">(Object... args)</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(<span class="string">&quot;Failed to new a instance&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然用 getDeclaredMethod 得到的 Method 对象也是可以的。</p>
+<h2 id="进程内全局解除-API-限制"><a href="#进程内全局解除-API-限制" class="headerlink" title="进程内全局解除 API 限制"></a>进程内全局解除 API 限制</h2><p>有了 invoke 后，调用 <code>dalvik.system.VMRuntime.setHiddenApiExemptions</code> 即可。</p>
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><h3 id="JNI-OnLoad"><a href="#JNI-OnLoad" class="headerlink" title="JNI_OnLoad"></a>JNI_OnLoad</h3><p>JNI_OnLoad 的时候，实际上没有任何隐藏 API 限制！</p>
+<p>这是因为 JNI 的调用检查的依据是 Java 调用堆栈的 caller class 。当 JNI_OnLoad 被调用的时候，Caller 是 <code>java.lang.Runtime</code> ，这是个系统类，显然可以得到豁免。</p>
+<p>一般情况下，调用 JNI 方法的 caller 是自己，因此就无法豁免了。</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:art/runtime/jni/jni_internal.cc;l=245;drc=b6d38bcf24888f11cb3bf0ceaf2b6e30dd683853">jni_internal.cc GetJniAccessContext</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> hiddenapi::AccessContext <span class="title">GetJniAccessContext</span><span class="params">(Thread* self)</span></span></span><br><span class="line"><span class="function">    <span class="title">REQUIRES_SHARED</span><span class="params">(Locks::mutator_lock_)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Construct AccessContext from the first calling class on stack.</span></span><br><span class="line">  <span class="comment">// If the calling class cannot be determined, e.g. unattached threads,</span></span><br><span class="line">  <span class="comment">// we conservatively assume the caller is trusted.</span></span><br><span class="line">  ObjPtr&lt;mirror::Class&gt; caller = <span class="built_in">GetCallingClass</span>(self, <span class="comment">/* num_frames= */</span> <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> caller.<span class="built_in">IsNull</span>() ? hiddenapi::<span class="built_in">AccessContext</span>(<span class="comment">/* is_trusted= */</span> <span class="literal">true</span>)</span><br><span class="line">                         : hiddenapi::<span class="built_in">AccessContext</span>(caller);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实这和以前的（失效的）<a target="_blank" rel="noopener" href="https://weishu.me/2019/03/16/another-free-reflection-above-android-p/">元反射</a>类似，都是 visit stack 的时候没有考虑到系统类调用的情形。元反射最终被修复了，因为对于反射，walk stack 会寻找调用者中第一个不是 java.lang.Class, java.lang.reflect, java.lang.invoke 的类。</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/main/+/main:art/runtime/hidden_api.cc;l=168;drc=b6d38bcf24888f11cb3bf0ceaf2b6e30dd683853">art&#x2F;runtime&#x2F;hidden_api.cc GetReflectionCallerAccessContext</a></p>
+<p>类似地，如果创建一个 native 线程（pthread_create 之类）再 attach ，此时的 caller 根本不存在，因此 GetJniAccessContext 直接把它当作 trusted domain 了，这样也可以调用隐藏 API 。或者也可以通过反射调用自己的 JNI 函数。</p>
+<h3 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h3><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/app-compatibility/restrictions-non-sdk-interfaces#how_can_i_enable_access_to_non-sdk_interfaces">Google 留给开发者的后门</a>。修改系统设置可以在系统范围内给所有进程解除隐藏 API 限制。修改系统设置是不需要 root 的。</p>
+<p>解除：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings put global hidden_api_policy  1</span><br><span class="line">adb shell settings put global hidden_api_policy_pre_p_apps  1</span><br><span class="line">adb shell settings put global hidden_api_policy_p_apps 1</span><br></pre></td></tr></table></figure>
+
+<p>还原：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings delete global hidden_api_policy</span><br><span class="line">adb shell settings delete global hidden_api_policy_pre_p_apps</span><br><span class="line">adb shell settings delete global hidden_api_policy_p_apps</span><br></pre></td></tr></table></figure>
+
+<p>实质上是让系统服务创建进程的时候改变 runtimeFlags ，关闭隐藏 API 限制。</p>
+<h2 id="DexFile-setTrusted"><a href="#DexFile-setTrusted" class="headerlink" title="DexFile.setTrusted"></a>DexFile.setTrusted</h2><p>LSPlant 的 <a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPlant/blob/ab5830a0207a76cc2abc82e6d4f15f2053f51523/lsplant/src/main/jni/lsplant.cc#L876">MakeDexFileTrusted</a> 可以给某个 dex 解除隐藏 api 限制，其<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPlant/blob/master/lsplant/src/main/jni/art/runtime/dex_file.hpp#L107">实现</a>是调用 art 内部函数 <code>DexFile::setTrusted</code> 。LSPosed 利用这个方法(<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/blob/b2ab117380ce4d6a35d56b0285999b659dcb067d/core/src/main/jni/src/context.cpp#L86">1</a>, <a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/blob/b2ab117380ce4d6a35d56b0285999b659dcb067d/core/src/main/java/org/lsposed/lspd/hooker/OpenDexFileHooker.java#L28">2</a>)给自己和模块的 dex 解除限制，因此模块可以正常使用隐藏的 api 。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>LSPass 应该是目前功能最为完备的隐藏 api 限制绕过工具了，不仅可以在进程内全局解除 api 限制，也可以在不解除 api 限制的情况下使用隐藏 api ，避免对应用产生影响（<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPatch/blob/b35f3c549a8338702ae0601a3a5ee5390759fead/meta-loader/src/main/java/org/lsposed/lspatch/metaloader/LSPAppComponentFactoryStub.java#L73">LSPatch 的例子</a>）。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/alex_wsc/androids/473623">Android运行时ART加载类和方法的过程分析 · 老罗的Android之旅（总结） · 看云</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/AndroidHiddenApiBypass">https://github.com/LSPosed/AndroidHiddenApiBypass</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/AndroidHiddenApiBypass/blob/545cd590af5990e66c5ec1fee27839f4c0391b2d/library/src/main/java/org/lsposed/hiddenapibypass/HiddenApiBypass.java#L69">https://github.com/LSPosed/AndroidHiddenApiBypass/blob/545cd590af5990e66c5ec1fee27839f4c0391b2d/library/src/main/java/org/lsposed/hiddenapibypass/HiddenApiBypass.java#L69</a></p>
+<p><a target="_blank" rel="noopener" href="https://lovesykun.cn/archives/android-hidden-api-bypass.html#fn:5">https://lovesykun.cn/archives/android-hidden-api-bypass.html#fn:5</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6950920684768296996">ART虚拟机 | Java对象和类的内存结构 - 掘金</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+
+            <span class="label">Github</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/08/14/lsplant/" rel="prev" title="LSPlant 学习">
+      <i class="fa fa-chevron-left"></i> LSPlant 学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LSPass-%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">LSPass 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ART-%E5%AF%B9%E8%B1%A1%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.1.1.</span> <span class="nav-text">ART 对象表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LinkFields"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">LinkFields</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F-API"><span class="nav-number">1.1.2.</span> <span class="nav-text">隐藏 API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getUnsafe"><span class="nav-number">1.2.</span> <span class="nav-text">getUnsafe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#native-pointer-fields"><span class="nav-number">1.3.</span> <span class="nav-text">native pointer fields</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97-method-%E5%92%8C-field-%E6%95%B0%E7%BB%84%E7%9A%84-bias"><span class="nav-number">1.4.</span> <span class="nav-text">计算 method 和 field 数组的 bias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getDeclared"><span class="nav-number">1.5.</span> <span class="nav-text">getDeclared</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invoke-newInstance"><span class="nav-number">1.6.</span> <span class="nav-text">invoke &#x2F; newInstance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%86%85%E5%85%A8%E5%B1%80%E8%A7%A3%E9%99%A4-API-%E9%99%90%E5%88%B6"><span class="nav-number">1.7.</span> <span class="nav-text">进程内全局解除 API 限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.8.</span> <span class="nav-text">其他方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-OnLoad"><span class="nav-number">1.8.1.</span> <span class="nav-text">JNI_OnLoad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.8.2.</span> <span class="nav-text">系统设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DexFile-setTrusted"><span class="nav-number">1.9.</span> <span class="nav-text">DexFile.setTrusted</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.10.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.11.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">5ec1cff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/my-blog/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/my-blog/lib/anime.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/my-blog/js/utils.js"></script>
+
+<script src="/my-blog/js/motion.js"></script>
+
+
+<script src="/my-blog/js/schemes/muse.js"></script>
+
+
+<script src="/my-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

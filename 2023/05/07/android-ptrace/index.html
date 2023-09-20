@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/my-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Android 上的 ptrace 实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ptrace">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/05/07/android-ptrace/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="Android 上的 ptrace 实践">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-07T10:27:00.000Z">
+<meta property="article:modified_time" content="2023-09-20T07:05:45.500Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/05/07/android-ptrace/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android ptrace | 5ec1cff's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/my-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">5ec1cff's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/05/07/android-ptrace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/my-blog/images/avatar.gif">
+      <meta itemprop="name" content="5ec1cff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="5ec1cff's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android ptrace
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-07 18:27:00" itemprop="dateCreated datePublished" datetime="2023-05-07T18:27:00+08:00">2023-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-20 15:05:45" itemprop="dateModified" datetime="2023-09-20T15:05:45+08:00">2023-09-20</time>
+              </span>
+
+          
+            <div class="post-description">Android 上的 ptrace 实践</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Android-上的-ptrace-实践"><a href="#Android-上的-ptrace-实践" class="headerlink" title="Android 上的 ptrace 实践"></a>Android 上的 ptrace 实践</h1><p><a href="ptrace.md">前篇</a></p>
+<h2 id="dlopen"><a href="#dlopen" class="headerlink" title="dlopen"></a>dlopen</h2><p>获取 dlopen 有两种方法：</p>
+<ol>
+<li>从 linker 获取 <code>__loader_dlopen</code> （或者 <code>__dl___loader_dlopen</code>），需要提供 caller_addr  </li>
+<li>从 libdl.so 获取 <code>dlopen</code></li>
+</ol>
+<p>详细代码：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/5ec1cff/ptrace-examples/tree/android">https://github.com/5ec1cff/ptrace-examples/tree/android</a></p>
+<p>实现了注入到任意进程，调用 __loader_dlopen 打开指定路径的 lib ，或者调用 __loader_dlclose 关闭指定 handle 的 lib 。目前只支持 x86-64 和 arm64 。</p>
+<h3 id="对齐问题"><a href="#对齐问题" class="headerlink" title="对齐问题"></a>对齐问题</h3><p>一开始总是得到 SIGSEGV ，并且 fault addr 为 0 。出现问题的时候注入信号并 detach ，观察 crash dump ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">05-02 13:13:59.534 18907 18907 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***</span><br><span class="line">05-02 13:13:59.534 18907 18907 F DEBUG   : Build fingerprint: &#x27;Android/sdk_phone64_x86_64/emulator64_x86_64:12/SE1A.220621.001/8752307:userdebug/test-keys&#x27;</span><br><span class="line">05-02 13:13:59.534 18907 18907 F DEBUG   : Revision: &#x27;0&#x27;</span><br><span class="line">05-02 13:13:59.534 18907 18907 F DEBUG   : ABI: &#x27;x86_64&#x27;</span><br><span class="line">05-02 13:13:59.534 18907 18907 F DEBUG   : Timestamp: 2023-05-02 13:13:59.436192500+0000</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   : Process uptime: 0s</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   : Cmdline: zygote64</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   : pid: 17413, tid: 17413, name: main  &gt;&gt;&gt; zygote64 &lt;&lt;&lt;</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   : uid: 0</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   : signal 11 (SIGSEGV), code 128 (SI_KERNEL), fault addr 0x0</span><br><span class="line">05-02 13:13:59.535 18907 18907 F DEBUG   :     rax 0000000000000000  rbx 00007ffe94362c77  rcx 0000000000000000  rdx 0000000000000000</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :     r8  0000000000000000  r9  0000000000000028  r10 0000000000000000  r11 0000000000000246</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :     r12 0000000000000002  r13 00007ffe94362dd0  r14 00007b1f79c6f8b8  r15 0000000000000000</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :     rdi 00007ffe94362c77  rsi 0000000000000002</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :     rbp 0000000000000000  rsp 00007ffe94361ad7  rip 00007b1f79b75d1d</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   : backtrace:</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :       #00 pc 0000000000048d1d  /apex/com.android.runtime/bin/linker64 (__dl__Z9do_dlopenPKciPK17android_dlextinfoPKv+29) (BuildId: 82dabb4f8aa58c9aa33c9c6fcabc92a7)</span><br><span class="line">05-02 13:13:59.536 18907 18907 F DEBUG   :       #01 pc 00000000000444f9  /apex/com.android.runtime/bin/linker64 (__loader_dlopen+57) (BuildId: 82dabb4f8aa58c9aa33c9c6fcabc92a7)</span><br><span class="line">05-02 13:13:59.537 18907 18907 F DEBUG   :       #02 pc 00000000000b3aab  /apex/com.android.runtime/lib64/bionic/libc.so (__ppoll+11) (BuildId: 5db8d317d3741b337ef046540bbdd0f7)</span><br><span class="line">05-02 13:13:59.537 18907 18907 F DEBUG   :       #03 pc 6f6c2f617461642f  &lt;unknown&gt;</span><br></pre></td></tr></table></figure>
+
+<p>gdb 反编译看一看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">disas __dl__Z9do_dlopenPKciPK17android_dlextinfoPKv</span><br><span class="line">Dump of assembler code for function __dl__Z9do_dlopenPKciPK17android_dlextinfoPKv:</span><br><span class="line">   ...</span><br><span class="line">   0x0000000000048d1d &lt;+29&gt;:    movaps %xmm0,0x40(%rsp)</span><br></pre></td></tr></table></figure>
+
+<p>movaps 是什么指令？问一问万能的 ChatGPT：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">movaps是x86-64汇编语言中的一条指令，用于将数据块从一个位置移动到另一个位置。该指令可以在操作数和目的地操作数都是128位XMM寄存器时使用，它将操作数寄存器中128位的值复制到目标操作数寄存器中，覆盖其128位的值。&quot;movaps&quot;表示“移动对齐的128位数据”，如果任意一个操作数不是128位对齐的话，该指令将引发异常情况。</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，这条指令要求 rsp 是 16 字节对齐的，而我们往栈上写入了字符串后， rsp 并不是对齐的。</p>
+<p>实践表明，ptrace 停止后当前的 rsp 也未必就是 128 位对齐的，因此修改代码，在我们调用前将 rsp 调整为比它小的最大的 128 位对齐的地址。</p>
+<blockquote>
+<p>但是为什么 linker64 的函数需要堆栈对齐，而我们在 libc 停下的地方却没有对齐呢？</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">make_call</span><span class="params">(<span class="type">int</span> pid, <span class="type">void</span>* addr, <span class="keyword">struct</span> user_regs_struct &amp;regs, <span class="type">void</span>** result)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    regs.rsp = regs.rsp &amp; (~<span class="number">0xf</span>); <span class="comment">// here</span></span><br><span class="line">    regs.rax = (<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>) addr;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">ptrace_set_regs</span>(pid, regs)) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>libdl:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(gdb) disas dlopen</span><br><span class="line">Dump of assembler code for function dlopen:</span><br><span class="line">   0x0000000000001b50 &lt;+0&gt;:     mov    (%rsp),%rdx</span><br><span class="line">   0x0000000000001b54 &lt;+4&gt;:     jmp    0x1ce0 &lt;__loader_dlopen@plt&gt;</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) disas 0x1ce0</span><br><span class="line">Dump of assembler code for function __loader_dlopen@plt:</span><br><span class="line">   0x0000000000001ce0 &lt;+0&gt;:     jmp    *0x11ca(%rip)        # 0x2eb0 &lt;__loader_dlopen@got.plt&gt;</span><br><span class="line">   0x0000000000001ce6 &lt;+6&gt;:     push   $0x1</span><br><span class="line">   0x0000000000001ceb &lt;+11&gt;:    jmp    0x1cc0</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+
+<h3 id="权限问题"><a href="#权限问题" class="headerlink" title="权限问题"></a>权限问题</h3><p>解决了上面的问题，dlopen 总算不会出现 SIGSEGV 了，但是注入 zygote 返回的 handle 是 0 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">05-02 13:45:45.136 26460 26460 D linker  : ... dlopen failed: library &quot;/data/local/tmp/libinject-lib.so&quot; not found</span><br><span class="line">05-02 13:45:45.132 26460 26460 W main    : type=1400 audit(0.0:59): avc: denied &#123; search &#125; for name=&quot;tmp&quot; dev=&quot;dm-5&quot; ino=65538 scontext=u:r:zygote:s0 tcontext=u:object_r:shell_data_file:s0 tclass=dir permissive=0</span><br></pre></td></tr></table></figure>
+
+<p>看起来我们放在 <code>/data/local/tmp</code> 会导致 zygote 无法访问。</p>
+<blockquote>
+<p>linker 日志： <code>setprop debug.ld.all dlopen</code>  并重启 zygote 。</p>
+</blockquote>
+<p>那么先临时关闭 SELinux ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0</span><br><span class="line">injector open `pidof zygote64` /data/local/tmp/libinject-lib.so</span><br><span class="line">dlopen /data/local/tmp/libinject-lib.so on 27974</span><br><span class="line"></span><br><span class="line">found linker in maps, base=0x74a3bf78a000,path=/apex/com.android.runtime/bin/linker64</span><br><span class="line">dlopen_addr: 0x74a3bf7ce4c0</span><br><span class="line">rsp=0x7ffdf5619708</span><br><span class="line">string pushed to 0x7ffdf5619680 (size=33)</span><br><span class="line">rip=0x74a3a9d08aaa instruction: 972fffff0013d48</span><br><span class="line">handle: 0x91b6696f12f223bf</span><br></pre></td></tr></table></figure>
+
+<p>这样我们的代码可以正常执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">05-02 13:59:21.475 27974 27974 D linker  : ... dlopen calling constructors: realpath=&quot;/data/local/tmp/libinject-lib.so&quot;, soname=&quot;libinject-lib.so&quot;, handle=0x91b6696f12f223bf</span><br><span class="line">05-02 13:59:21.475 27974 27974 D pt-injector: injected</span><br><span class="line">05-02 13:59:21.475 27974 27974 D linker  : ... dlopen successful: realpath=&quot;/data/local/tmp/libinject-lib.so&quot;, soname=&quot;libinject-lib.so&quot;, handle=0x91b6696f12f223bf</span><br></pre></td></tr></table></figure>
+
+<p>那么有什么方法可以在开启 selinux 的情况下执行呢？可以考虑修改 selinux 规则，或者换个位置存放，比如放在 <code>/dev</code> ，context 改为 <code>u:object_r:system_file:s0</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">05-03 01:29:45.954  3237  3237 D linker  : ... dlopen calling constructors: realpath=&quot;/dev/libinject-lib.so&quot;, soname=&quot;libinject-lib.so&quot;, handle=0x17a87dbf82e7009f</span><br><span class="line">05-03 01:29:45.954  3237  3237 D pt-injector: injected</span><br><span class="line">05-03 01:29:45.954  3237  3237 D linker  : ... dlopen successful: realpath=&quot;/dev/libinject-lib.so&quot;, soname=&quot;libinject-lib.so&quot;, handle=0x17a87dbf82e7009f</span><br><span class="line">^C</span><br><span class="line">130|emulator64_x86_64:/data/local/tmp # getenforce</span><br><span class="line">Enforcing</span><br></pre></td></tr></table></figure>
+
+<p>这样注入到 init 也是没问题的。</p>
+<h3 id="linker-日志"><a href="#linker-日志" class="headerlink" title="linker 日志"></a>linker 日志</h3><p>LinkerLogger 会在 dlopen 和 dlsym 的时候刷新，设置了系统属性 <code>debug.ld.*</code> 之后，app 进程都可以得到动态更新，注入 dlopen 会产生 linker 日志，但是注入到 zygote 进行 dlopen 却不会发生更新，进而无法产生日志，不得不重启。</p>
+<p>实际上只有进程是 dumpable 的时候才会发生更新：</p>
+<p><a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/bionic/+/ebd654640abdc3f048f0a676741b79dd3d23b766/linker/linker_logger.cpp#89">https://android.googlesource.com/platform/bionic/+/ebd654640abdc3f048f0a676741b79dd3d23b766/linker/linker_logger.cpp#89</a></p>
+<p>模拟器是 debug 构建的系统，因此 app 进程都是 dumpable 的，不过 zygote 自身仍然不是 dumpable 的。</p>
+<p>我们可以用 ptrace 注入系统调用查看或修改 dumpable ，这样 debug.ld 属性就可以被 zygote 读取了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">./injector get-dumpable `pidof zygote64`</span><br><span class="line">get dumpable for 365</span><br><span class="line">rip=0x74d24725eaaa instruction: 972fffff0013d48</span><br><span class="line">dumpable:0x0</span><br><span class="line">./injector set-dumpable `pidof zygote64` 1</span><br><span class="line">set dumpable to 1 for 365</span><br><span class="line">rip=0x74d24725eaaa instruction: 972fffff0013d48</span><br><span class="line">result:0x0</span><br><span class="line">./injector get-dumpable `pidof zygote64`</span><br><span class="line">get dumpable for 365</span><br><span class="line">rip=0x74d24725eaaa instruction: 972fffff0013d48</span><br><span class="line">dumpable:0x1</span><br></pre></td></tr></table></figure>
+
+<p>另外，init 的日志比较特殊，在我的 AVD 上，无法通过 <code>logcat --pid 1</code> 获取 init 的日志，而实际上 init 仍然会往 logd 写入日志，只是 pid 为 0 ，我们无法通过 <code>logcat --pid 0</code> 获取 init 的日志。更加奇怪的是，debug.ld 也无法影响 init 的 linker ，也就是无法产生 linker 日志，尽管 init 本来就是 dumpable 的，可能和 init 自身的 linker 有关。</p>
+<p>考虑到 init 是一个非常特殊的进程，它的死亡会直接导致 kernel panic ，因此 ptrace 注入它还是要小心谨慎。</p>
+<h2 id="其他指令集"><a href="#其他指令集" class="headerlink" title="其他指令集"></a>其他指令集</h2><h3 id="arm64-v8a"><a href="#arm64-v8a" class="headerlink" title="arm64-v8a"></a>arm64-v8a</h3><h4 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h4><p>函数调用的汇编代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blr x9</span><br><span class="line">brk #0x1</span><br></pre></td></tr></table></figure>
+
+<p>编译成机器码就是 <code>0x20, 0x1, 0x3f, 0xd6, 0x20, 0x0, 0x20, 0xd4</code> 或者 <code>0xd4200020d63f0120</code> 。</p>
+<p>其中 <code>brk #0x1</code> 是从 <code>__builtin_trap()</code> 得来的，cpu 到这条指令断下来之后似乎不会增加 pc 的值。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11345371/how-do-i-set-a-software-breakpoint-on-an-arm-processor">https://stackoverflow.com/questions/11345371/how-do-i-set-a-software-breakpoint-on-an-arm-processor</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/44949124/absolute-jump-with-a-pc-relative-data-source-aarch64">https://stackoverflow.com/questions/44949124/absolute-jump-with-a-pc-relative-data-source-aarch64</a></p>
+<p>arm64 的调用约定：x0~x7 作为函数参数，x0 也作为返回值。由于 x9 是被调用方保存的寄存器，因此选择它来传递函数的绝对地址。</p>
+<h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svc 0</span><br></pre></td></tr></table></figure>
+
+<p>机器码：<code>0x1, 0x0, 0x0, 0xd4</code> 或者 <code>0xd4000001</code> 。</p>
+<p>参数：x0~x5 ，返回值是 x0 ，系统调用号 NR 是 x8 。</p>
+<p><a target="_blank" rel="noopener" href="https://syscall.sh/">https://syscall.sh/</a></p>
+<p>下面是直接注入当前 shell 的效果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">u0_a212@192.168.1.xxx ~</span><br><span class="line">$ ./injector open $$ $PWD/libinject-lib.so; logcat --pid $$</span><br><span class="line">dlopen /data/data/com.termux/files/home/libinject-lib.so on 26496</span><br><span class="line"></span><br><span class="line">found linker in maps, base=0x701ef49000,path=/apex/com.android.runtime/bin/linker64</span><br><span class="line">dlopen_addr: 0x701ef7a190</span><br><span class="line">sp=0x7ffa8d84e0</span><br><span class="line">string pushed to 0x7ffa8d84ae (size=50)</span><br><span class="line">pc=0x701d9c1c94 instruction: b140041fd4000001</span><br><span class="line">handle: 0xfcff7941be05802d</span><br><span class="line">--------- beginning of main</span><br><span class="line">05-03 20:23:54.309 26496 26496 D pt-injector: injected</span><br><span class="line">^C</span><br><span class="line">u0_a212@192.168.1.xxx ~</span><br><span class="line">$ ./injector close $$  0xfcff7941be05802d; logcat --pid $$</span><br><span class="line">dlclose 0xfcff7941be05802d on 26496</span><br><span class="line"></span><br><span class="line">found linker in maps, base=0x701ef49000,path=/apex/com.android.runtime/bin/linker64</span><br><span class="line">dlclose_addr: 0x701ef7a2d8</span><br><span class="line">pc=0x701d9c1c94 instruction: b140041fd4000001</span><br><span class="line">--------- beginning of main</span><br><span class="line">05-03 20:23:54.309 26496 26496 D pt-injector: injected</span><br><span class="line">05-03 20:24:08.152 26496 26496 D pt-injector: closed</span><br></pre></td></tr></table></figure>
+
+<h3 id="armeabi-v7a"><a href="#armeabi-v7a" class="headerlink" title="armeabi-v7a"></a>armeabi-v7a</h3><p>arm 的适配应该是最艰难的。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/guides/abis?hl=zh-cn#v7a">https://developer.android.com/ndk/guides/abis?hl=zh-cn#v7a</a></p>
+<h4 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h4><p><code>__builtin_trap</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defe            udf     #254    ; 0xfe</span><br></pre></td></tr></table></figure>
+
+<p>直接执行并不产生 trap ，而是得到一个 SIGILL ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">u0_a212@192.168.1.144 ~/codes</span><br><span class="line">$ strace ../bkpt_exe</span><br><span class="line">execve(&quot;../bkpt_exe&quot;, [&quot;../bkpt_exe&quot;], 0xb400007268e0e000 /* 47 vars */ &lt;unfinished ...&gt;</span><br><span class="line">[ Process PID=19460 runs in 32 bit mode. ]</span><br><span class="line">&lt;... execve resumed&gt;)                   = 0</span><br><span class="line">--- SIGILL &#123;si_signo=SIGILL, si_code=ILL_ILLOPC, si_addr=0x11128&#125; ---</span><br><span class="line">+++ killed by SIGILL +++</span><br><span class="line">Illegal instruction</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://developer.arm.com/documentation/dui0801/h/A32-and-T32-Instructions/UDF">https://developer.arm.com/documentation/dui0801/h/A32-and-T32-Instructions/UDF</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11345371/how-do-i-set-a-software-breakpoint-on-an-arm-processor">https://stackoverflow.com/questions/11345371/how-do-i-set-a-software-breakpoint-on-an-arm-processor</a>  </p>
+<p><code>bkpt #0</code> ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e1200070        bkpt    0x0000</span><br></pre></td></tr></table></figure>
+
+<p>得到 Trap ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">u0_a212@192.168.1.144 ~/codes</span><br><span class="line">$ strace ../bkpt_exe</span><br><span class="line">execve(&quot;../bkpt_exe&quot;, [&quot;../bkpt_exe&quot;], 0xb40000775740e000 /* 47 vars */ &lt;unfinished ...&gt;</span><br><span class="line">[ Process PID=19616 runs in 32 bit mode. ]</span><br><span class="line">&lt;... execve resumed&gt;)                   = 0</span><br><span class="line">--- SIGTRAP &#123;si_signo=SIGTRAP, si_code=TRAP_BRKPT, si_addr=0x110f8&#125; ---</span><br><span class="line">+++ killed by SIGTRAP +++</span><br><span class="line">Trap</span><br></pre></td></tr></table></figure>
+
+<p>此外观察 si_addr 发现两者都不会越过断点。</p>
+<p><a target="_blank" rel="noopener" href="https://developer.arm.com/documentation/dui0473/m/arm-and-thumb-instructions/bkpt">https://developer.arm.com/documentation/dui0473/m/arm-and-thumb-instructions/bkpt</a></p>
+<h4 id="thumb-模式"><a href="#thumb-模式" class="headerlink" title="thumb 模式"></a>thumb 模式</h4><p>arm 上有 arm 和 thumb 两种指令集，根据跳转地址的最后一位来区分并切换 cpu 工作状态。Android 上 armeabi-v7a 默认都是编译为 thumb 指令集，那么 pc 寄存器里面的实际值是什么呢？</p>
+<p>使用 debuggerd 观察 32 位 arm 进程的堆栈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;pal.androidterm&quot; sysTid=24586</span><br><span class="line">    #00 pc 0009c2fc  /apex/com.android.runtime/lib/bionic/libc.so!libc.so (offset 0x9b000) (__epoll_pwait+20) (BuildId: edc23b5a08cb25fcac190e6392a4d537)</span><br><span class="line">    #01 pc 0006dbc9  /apex/com.android.runtime/lib/bionic/libc.so!libc.so (offset 0x6c000) (epoll_wait+16) (BuildId: edc23b5a08cb25fcac190e6392a4d537)</span><br></pre></td></tr></table></figure>
+
+<p>libc.so 的代码是 thumb 指令集的，看起来 pc 寄存器保存的还是实际的地址，也就是只有偶数，而堆栈回溯可以看到奇数地址实际上是因为这个地址不是来自 pc ，而是来自栈上。</p>
+<p>……</p>
+<p>实际上 Android 大部分进程都运行在 thumb 模式，对于 arm 模式和 thumb 模式，我们需要不同的 shellcode ，而上面生成的是 arm 模式的机器码。</p>
+<p>为了确保一致性，我直接用 NDK 编译。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enable_language</span>(ASM)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(ANDROID_ABI <span class="keyword">STREQUAL</span> <span class="string">&quot;armeabi-v7a&quot;</span>)</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;current abi is armeabi-v7a&quot;</span>)</span><br><span class="line">    <span class="keyword">add_executable</span>(libshellcode.so shellcode/armeabi-v7a.s)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(libshellcode.so -nostdlib -static)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/22396214/understanding-this-part-arm-assembly-code">https://stackoverflow.com/questions/22396214/understanding-this-part-arm-assembly-code</a></p>
+<p>下面的代码加上了 <code>.thumb_func</code> 确保生成 thumb 代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        .global _start</span><br><span class="line"></span><br><span class="line">        .text</span><br><span class="line">        .thumb_func</span><br><span class="line">_start:</span><br><span class="line">call_code:</span><br><span class="line">    blx r4</span><br><span class="line">break_code:</span><br><span class="line">    bkpt #0</span><br><span class="line">svc_code:</span><br><span class="line">    svc 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ arm-linux-gnueabi-objdump -d /mnt/f/works/ptinjector/app/build/intermediates/merged_native_libs/debug/out/lib/armeabi-</span><br><span class="line">v7a/libshellcode.so</span><br><span class="line"></span><br><span class="line">/mnt/f/works/ptinjector/app/build/intermediates/merged_native_libs/debug/out/lib/armeabi-v7a/libshellcode.so:     file format elf32-littlearm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">000110f8 &lt;_start&gt;:</span><br><span class="line">   110f8:       47a0            blx     r4</span><br><span class="line"></span><br><span class="line">000110fa &lt;break_code&gt;:</span><br><span class="line">   110fa:       be00            bkpt    0x0000</span><br><span class="line"></span><br><span class="line">000110fc &lt;svc_code&gt;:</span><br><span class="line">   110fc:       df00            svc     0</span><br><span class="line"></span><br><span class="line">$ dd if=/mnt/f/works/ptinjector/app/build/intermediates/merged_native_libs/debug/out/lib/armeabi-v7a/libshellcode.so skip=$((0xf8)) count=16 bs=1c |xxd</span><br><span class="line">00000000: a047 00be 00df 411d 0000 0061 6561 6269  .G....A....aeabi</span><br></pre></td></tr></table></figure>
+
+<p>最终 shellcode （注释的代码为 arm 模式的，暂不考虑支持）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// const unsigned long CODE_FOR_CALL[] = &#123; 0x34ff2fe1lu, 0x700020e1lu &#125;; // blx r4; bkpt #0</span></span><br><span class="line"><span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> CODE_FOR_CALL[] = &#123; <span class="number">0xbe0047a0</span>lu &#125;; <span class="comment">// blx r4; bkpt #0</span></span><br><span class="line"><span class="comment">// const unsigned long CODE_FOR_SYSCALL[] = &#123; 0x000000eflu &#125;; // svc 0</span></span><br><span class="line"><span class="type">const</span> <span class="type">unsigned</span> <span class="type">long</span> CODE_FOR_SYSCALL[] = &#123; <span class="number">0xdf00</span>lu &#125;; <span class="comment">// svc 0</span></span><br><span class="line"><span class="comment">// const auto CALL_EXPECTED_OFFSET = 4;</span></span><br></pre></td></tr></table></figure>
+
+<p>至于进程运行在什么模式，可以通过 cpsr 寄存器的 T 标志（第五位）判断：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.arm.com/documentation/den0013/d/ARM-Processor-Modes-and-Registers/Registers/Program-Status-Registers">https://developer.arm.com/documentation/den0013/d/ARM-Processor-Modes-and-Registers/Registers/Program-Status-Registers</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_IS_THUMB(regs) (((regs).ARM_cpsr &amp; (1 &lt;&lt; 5)) != 0)</span></span><br></pre></td></tr></table></figure>
+
+<p>实践表明，通过 ptrace 修改 cpsr 的 T 标志不会使进程切换模式，因此如果要同时支持 thumb 和 arm ，必须写两套代码。</p>
+<h3 id="x86"><a href="#x86" class="headerlink" title="x86"></a>x86</h3><p>说到底 32 位就是坑，比起 armeabi-v7 ，还是 x86 更加坑。难怪大家都不想兼容 32 位。</p>
+<h4 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h4><p>x86 上有三种调用约定：stdcall, cdecl, fastcall 。其中只有 fastcall 会通过寄存器传参，而且只是少得可怜的两个。Android 作为 类 unix 系统，应该用 cdecl 。不过说到底这三种规范的区别只是在于栈平衡的维护者到底是 caller 还是 callee ，而我们的注入调用其实不需要纠结维护栈平衡的问题——反正都有备份。</p>
+<p>其他架构上我们只要往寄存器传参，基本能满足大部分需求，然而在 x86 ，你需要通过栈传参。</p>
+<h4 id="syscall"><a href="#syscall" class="headerlink" title="syscall"></a>syscall</h4><p>x86 的 syscall 也非常骚，所有的系统调用都通过 vdso 的 __kernel_vsyscall 执行，比如下面的 poll ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;main&quot; sysTid=24552</span><br><span class="line">    #00 pc 00000b89  [vdso] (__kernel_vsyscall+9)</span><br><span class="line">    #01 pc 000cdeb6  /apex/com.android.runtime/lib/bionic/libc.so (__ppoll+38) (BuildId: 57f4eb5e1df9fa8bd21032ad6be9823f)</span><br><span class="line">    #02 pc 00083119  /apex/com.android.runtime/lib/bionic/libc.so (poll+105) (BuildId: 57f4eb5e1df9fa8bd21032ad6be9823f)</span><br><span class="line">    #03 pc 00027733  /apex/com.android.art/lib/libjavacore.so (Linux_poll(_JNIEnv*, _jobject*, _jobjectArray*, int)+595) (BuildId: c7f6465a601f9e86c20e3630f4fa90e6)</span><br></pre></td></tr></table></figure>
+
+<p>这样就显现出了我们之前做法的弊端。我们之前都是通过 ptrace 替换进程停下来的位置 pc 处指令执行任意代码，一般来说进程都会停在某个长期阻塞的 syscall 上。现在在 x86 上，这个位置总是 vdso ，如果我们替换了这里的指令，然后又调用某个会进行系统调用的函数（显然，dlopen 会进行若干系统调用），就导致函数调用中的 syscall 错误地执行了我们的指令。</p>
+<h4 id="使用受控内存？"><a href="#使用受控内存？" class="headerlink" title="使用受控内存？"></a>使用受控内存？</h4><p>因此我们需要思考解决方法，一个显然的想法就是：我们需要一块自己管理的内存。</p>
+<p>在这种想法下，不管是写入指令、写入数据、调用使用的栈，都在我们所管理的内存上，这样就避免了借用 tracee 程序自身资源导致的问题。</p>
+<p>不过我们仍然需要某种方法创建受控内存，比如远程调用 mmap ，如果程序真的需要在 tracee 创建可控的内存区域，必须通过上面的「不安全」方法实现。这样给编码也带来的麻烦：我们需要实现两套代码。</p>
+<p>因此在实践这个方法之前，我想首先尝试另一种方法实现函数调用。</p>
+<h4 id="模拟-call"><a href="#模拟-call" class="headerlink" title="模拟 call"></a>模拟 call</h4><p>上面的想法是对任意进程考虑的，也就是假定 tracee 可能是静态链接的程序，可能无法找到 libc, linker 等我们能利用的代码，而设计的通用方法，我们不得不自己写 shellcode 到进程中。</p>
+<p>然而大部分情况下，我们要注入的就是一个动态链接的程序，并且假定它没有对自身或者其他动态链接库进行修改。这时候我们可以利用的东西还是很多的。</p>
+<p>也许我们不写 shellcode 也能实现函数调用。</p>
+<p>想法是，直接修改 pc 到要调用的函数地址，并且返回地址写一个非法地址，这样函数调用返回的时候就能通过 SIGSEGV 截获。</p>
+<p>但是当我真正实现这个方法的时候发现有很多问题。我写了一个用上面的方法调用 mmap 映射一块只读内存的程序，在 x86 和 x64 上测试注入 zygote 的结果：</p>
+<p>在 x86 上，当我们安排好栈上的调用参数和返回地址，修改好 pc ，ptrace continue 的时候，下一次停止发现它得到一个 SIGTRAP ，原因是 pc 并没有前进，反而回退了一个字节，刚好是 0xcc 。</p>
+<p>在 x64 上，看上去是得到了 SIGSEGV ，但是 pc 回退了 4 个字节，也不是我预定的那个非法地址。此时 single step 不管怎么走都无法前进。</p>
+<p>以上两个现象出现在 zygote 中，而 x64 下普通 app 进程这么调用是正常的。x86 尚未测试。</p>
+<p>我怀疑是系统调用重启的一些副作用，有待进一步调查。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lsgxeva/p/7614856.html">数据模型（LP32 ILP32 LP64 LLP64 ILP64 ） - lsgxeva - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Calling_convention">Calling convention - Wikipedia</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-224583.htm">&#x5b;原创&#x5d;常见函数调用约定(x86、x64、arm、arm64)-软件逆向-看雪论坛-安全社区|安全招聘|bbs.pediy.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27339191">x86-64 下函数调用及栈帧原理 - 知乎</a></p>
+<p>bionic 的 syscall 实现（不同架构写在不同目录下，使用汇编）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bionic/libc/arch-XXXXX/bionic/syscall.S</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+
+            <span class="label">Github</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/04/28/ptrace/" rel="prev" title="ptrace">
+      <i class="fa fa-chevron-left"></i> ptrace
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/08/11/system-properties/" rel="next" title="Android 系统属性">
+      Android 系统属性 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-%E4%B8%8A%E7%9A%84-ptrace-%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.</span> <span class="nav-text">Android 上的 ptrace 实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dlopen"><span class="nav-number">1.1.</span> <span class="nav-text">dlopen</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">对齐问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">权限问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linker-%E6%97%A5%E5%BF%97"><span class="nav-number">1.1.3.</span> <span class="nav-text">linker 日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="nav-number">1.2.</span> <span class="nav-text">其他指令集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#arm64-v8a"><span class="nav-number">1.2.1.</span> <span class="nav-text">arm64-v8a</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">函数调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">系统调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#armeabi-v7a"><span class="nav-number">1.2.2.</span> <span class="nav-text">armeabi-v7a</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%AD%E7%82%B9"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#thumb-%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">thumb 模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x86"><span class="nav-number">1.2.3.</span> <span class="nav-text">x86</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">调用约定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#syscall"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">syscall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%97%E6%8E%A7%E5%86%85%E5%AD%98%EF%BC%9F"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">使用受控内存？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F-call"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">模拟 call</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">5ec1cff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/my-blog/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/my-blog/lib/anime.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/my-blog/js/utils.js"></script>
+
+<script src="/my-blog/js/motion.js"></script>
+
+
+<script src="/my-blog/js/schemes/muse.js"></script>
+
+
+<script src="/my-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

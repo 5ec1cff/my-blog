@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/my-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Android 系统属性分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 系统属性">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/08/11/system-properties/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="Android 系统属性分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-11T06:27:00.000Z">
+<meta property="article:modified_time" content="2023-09-20T07:02:27.111Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/08/11/system-properties/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android 系统属性 | 5ec1cff's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/my-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">5ec1cff's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/11/system-properties/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/my-blog/images/avatar.gif">
+      <meta itemprop="name" content="5ec1cff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="5ec1cff's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android 系统属性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-11 14:27:00" itemprop="dateCreated datePublished" datetime="2023-08-11T14:27:00+08:00">2023-08-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-20 15:02:27" itemprop="dateModified" datetime="2023-09-20T15:02:27+08:00">2023-09-20</time>
+              </span>
+
+          
+            <div class="post-description">Android 系统属性分析</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="系统属性"><a href="#系统属性" class="headerlink" title="系统属性"></a>系统属性</h1><p><a target="_blank" rel="noopener" href="https://blog.canyie.top/2022/04/09/property-implementation-and-isolation/">Android Property 实现解析与黑魔法 - 残页的小博客</a></p>
+<h2 id="bionic"><a href="#bionic" class="headerlink" title="bionic"></a>bionic</h2><h3 id="属性系统概述"><a href="#属性系统概述" class="headerlink" title="属性系统概述"></a>属性系统概述</h3><p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/bionic/system_property_api.cpp;drc=b481a2e743102efc6b18cc586aa979a70e575d64">bionic&#x2F;libc&#x2F;bionic&#x2F;system_property_api.cpp</a></p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/include/sys/_system_properties.h;l=44;drc=a505b2d37a4ed106925c480b8c1c3ffc442d6ec5">bionic&#x2F;libc&#x2F;include&#x2F;sys&#x2F;_system_properties.h</a></p>
+<p>属性系统实际上就是一个整个系统共享的键值对存储器，通过共享文件内存映射实现。</p>
+<p>存放属性的文件位于 <code>/dev/__properties__</code> ，这下面的多个文件，实际上是将属性按照前缀划分为不同的 SELinux 上下文，存放在对应的文件中。</p>
+<p>划分的规则可以在 <code>/&#123;system,vendor,...&#125;/etc/selinux/&#123;plat,...&#125;_property_contexts</code> 等文件找到。</p>
+<p>init 进程负责初始化属性存储区域，且是系统中唯一能够修改属性的进程（当然，只要某个进程能 rw 映射存放属性的文件，也是可以修改的），其他进程通过属性服务（一个名为 property_service 的 socket）修改属性。其他进程会以 ro 形式共享映射属性存储，用于读取。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>一般进程：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/bionic/libc_init_common.cpp;l=171;drc=2557f73c05f256db3ffa9ac9892b13e226b6ea4c">bionic&#x2F;libc&#x2F;bionic&#x2F;libc_init_common.cpp __libc_init_common</a></p>
+<p><code>__system_properties_init</code></p>
+<p>只能映射 ro 的属性区域共享内存</p>
+<p>init：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:system/core/init/property_service.cpp;l=1368;drc=da5323e2d6be16470b7ce2be118d41a497c7d9a6">system&#x2F;core&#x2F;init&#x2F;property_service.cpp PropertyInit</a></p>
+<p><code>__system_property_area_init</code></p>
+<p>创建属性区域，并映射 rw 共享内存</p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>bionic&#x2F;libc&#x2F;system_properties&#x2F;include&#x2F;system_properties&#x2F;prop_area.h<br>bionic&#x2F;libc&#x2F;system_properties&#x2F;prop_area.cpp  </p>
+<p>prop_area 结构体对应了整个存储区域的结构。大小 128K ，前 32*4 字节包含已分配字节、用于同步的原子 serial、魔数和版本</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">prop_trie_node</span> &#123;</span><br><span class="line">  <span class="type">uint32_t</span> namelen;</span><br><span class="line">  <span class="type">atomic_uint_least32_t</span> prop; <span class="comment">// 指向 prop_info 结构体</span></span><br><span class="line">  <span class="type">atomic_uint_least32_t</span> left; <span class="comment">// 二叉树左子</span></span><br><span class="line">  <span class="type">atomic_uint_least32_t</span> right; <span class="comment">// 二叉树右子</span></span><br><span class="line">  <span class="type">atomic_uint_least32_t</span> children; <span class="comment">// 下一层级的二叉树</span></span><br><span class="line">  <span class="type">char</span> name[<span class="number">0</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>prop_trie_node(prop_bt) 是二叉搜索树。属性名按 <code>.</code> 分割为数个层级，每个层级都由二叉搜索树用于按名字索引。prop_area 数据区的第一个对象（偏移 0）就是根结点，其 children 是第一层级的根树。可以看到，每个结点还要记录自己的名字（在最末尾）。</p>
+<p>这一点在源码的注释已经说得比较清楚了，总的来说，这就是一个二叉搜索树 + 字典树的混合体。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Properties are stored in a hybrid trie/binary tree structure.</span></span><br><span class="line"><span class="comment">// Each property&#x27;s name is delimited at &#x27;.&#x27; characters, and the tokens are put</span></span><br><span class="line"><span class="comment">// into a trie structure.  Siblings at each level of the trie are stored in a</span></span><br><span class="line"><span class="comment">// binary tree.  For instance, &quot;ro.secure&quot;=&quot;1&quot; could be stored as follows:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// +-----+   children    +----+   children    +--------+</span></span><br><span class="line"><span class="comment">// |     |--------------&gt;| ro |--------------&gt;| secure |</span></span><br><span class="line"><span class="comment">// +-----+               +----+               +--------+</span></span><br><span class="line"><span class="comment">//                       /    \                /   |</span></span><br><span class="line"><span class="comment">//                 left /      \ right   left /    |  prop   +===========+</span></span><br><span class="line"><span class="comment">//                     v        v            v     +--------&gt;| ro.secure |</span></span><br><span class="line"><span class="comment">//                  +-----+   +-----+     +-----+            +-----------+</span></span><br><span class="line"><span class="comment">//                  | net |   | sys |     | com |            |     1     |</span></span><br><span class="line"><span class="comment">//                  +-----+   +-----+     +-----+            +===========+</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Represents a node in the trie.</span></span><br></pre></td></tr></table></figure>
+
+<p>bionic&#x2F;libc&#x2F;system_properties&#x2F;include&#x2F;system_properties&#x2F;prop_info.h</p>
+<p>prop_info 就是属性对象，记录了属性的值。这个值可以是最长 92 字节的短值，也可以是更长的长值。长值会作为独立的对象进行分配。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">prop_info</span> &#123;</span><br><span class="line">  <span class="type">atomic_uint_least32_t</span> serial;</span><br><span class="line">  <span class="keyword">union</span> &#123;</span><br><span class="line">    <span class="type">char</span> value[PROP_VALUE_MAX];</span><br><span class="line">    <span class="keyword">struct</span> &#123;</span><br><span class="line">      <span class="type">char</span> error_message[kLongLegacyErrorBufferSize];</span><br><span class="line">      <span class="type">uint32_t</span> offset;</span><br><span class="line">    &#125; long_property;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="type">char</span> name[<span class="number">0</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// bionic/libc/include/sys/system_properties.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PROP_VALUE_MAX  92</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="对象分配"><a href="#对象分配" class="headerlink" title="对象分配"></a>对象分配</h3><p>用于分配 prop_trie_node 、 prop_info 和 long value 。所有对象都在内存区域上依次分配。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bionic/libc/system_properties/prop_area.cpp</span></span><br><span class="line"><span class="function"><span class="type">void</span>* <span class="title">prop_area::allocate_obj</span><span class="params">(<span class="type">const</span> <span class="type">size_t</span> size, <span class="type">uint_least32_t</span>* <span class="type">const</span> off)</span> </span>&#123;</span><br><span class="line">  <span class="type">const</span> <span class="type">size_t</span> aligned = __BIONIC_ALIGN(size, <span class="built_in">sizeof</span>(<span class="type">uint_least32_t</span>));</span><br><span class="line">  <span class="keyword">if</span> (bytes_used_ + aligned &gt; pa_data_size_) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  *off = bytes_used_;</span><br><span class="line">  bytes_used_ += aligned;</span><br><span class="line">  <span class="keyword">return</span> data_ + *off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>prop_area 没有实现值的释放，因为 prop_info 是一个固定大小的结构体，只要已经分配过 prop 的结点，今后改写都在这个结点进行。而 long value 是 ro 属性专属的特性（众所周知 ro 不需要修改，且 bionic 也没有实现修改 long value 属性）。</p>
+<h2 id="Magisk-resetprop"><a href="#Magisk-resetprop" class="headerlink" title="Magisk resetprop"></a>Magisk resetprop</h2><p>Magisk resetprop 并没有调用系统实现，而是根据 <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/system_properties/">bionic</a> 自行实现了 property 的操作。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/blob/350d0d600cd8f24d82c83876d79e74ade5c9db64/native/src/core/resetprop/resetprop.cpp#L254">https://github.com/topjohnwu/Magisk/blob/350d0d600cd8f24d82c83876d79e74ade5c9db64/native/src/core/resetprop/resetprop.cpp#L254</a></p>
+<p>在这里， <code>__system_property_xxx</code> 不是系统 API ，而是自己实现的，原始的系统 API 通过 dlsym 获得。</p>
+<p>就在今年五月的一个<a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/commit/f36b21bae55d13317b126ddf1489719870739801">提交</a>后，该模块从 magisk 独立出来</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/system_properties">https://github.com/topjohnwu/system_properties</a></p>
+<p>实际上大部分源码都照搬 bionic ，属性的初始化也是从 <code>__system_properties_init</code> -&gt; <code>SystemProperties::Init</code> ，即一般进程的调用，映射的是 ro 属性区域。</p>
+<p>不同之处在于给 <code>prop_area::map_fd_ro</code> 加了一个 rw 映射的实现，并且这个 rw 是可选的，如果不能 rw 才映射 ro 。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/system_properties/blob/3b4b3f0c64bb83f955acb10fe1f2716a91c335dd/prop_area.cpp#L107">https://github.com/topjohnwu/system_properties/blob/3b4b3f0c64bb83f955acb10fe1f2716a91c335dd/prop_area.cpp#L107</a></p>
+<p>此外该库还实现了属性的 delete </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/system_properties/blob/3b4b3f0c64bb83f955acb10fe1f2716a91c335dd/prop_area.cpp#L433">https://github.com/topjohnwu/system_properties/blob/3b4b3f0c64bb83f955acb10fe1f2716a91c335dd/prop_area.cpp#L433</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">prop_area::remove</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *name, <span class="type">bool</span> prune)</span> </span>&#123;</span><br><span class="line">  prop_bt *node = <span class="built_in">traverse_trie</span>(<span class="built_in">root_node</span>(), name, <span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">if</span> (!node) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">uint_least32_t</span> prop_offset = <span class="built_in">get_offset</span>(&amp;node-&gt;prop);</span><br><span class="line">  <span class="keyword">if</span> (prop_offset == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  prop_info *prop = <span class="built_in">to_prop_info</span>(&amp;node-&gt;prop);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Detach the property from trie ASAP</span></span><br><span class="line">  <span class="built_in">set_offset</span>(&amp;node-&gt;prop, <span class="number">0u</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Then wipe out the property from memory</span></span><br><span class="line">  <span class="keyword">if</span> (prop-&gt;<span class="built_in">is_long</span>()) &#123;</span><br><span class="line">    <span class="type">char</span> *value = <span class="built_in">const_cast</span>&lt;<span class="type">char</span>*&gt;(prop-&gt;<span class="built_in">long_value</span>());</span><br><span class="line">    <span class="built_in">memset</span>(value, <span class="number">0</span>, <span class="built_in">strlen</span>(value));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">memset</span>(prop-&gt;name, <span class="number">0</span>, <span class="built_in">strlen</span>(prop-&gt;name));</span><br><span class="line">  <span class="built_in">memset</span>(prop, <span class="number">0</span>, <span class="built_in">sizeof</span>(*prop));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (prune) &#123;</span><br><span class="line">    <span class="built_in">prune_trie</span>(<span class="built_in">root_node</span>());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法是将 prop info 及 long value 填 0 ，并从 prop_bt 删除 prop ，还可能执行 prune ，会把没有 prop info 的树结点也全部填 0 。</p>
+<p>为了实现修改 ro 属性，需要删除原先的 ro 属性，再用 add 重新分配结点（因为 update 不允许增加 long value）</p>
+<h2 id="权限检查"><a href="#权限检查" class="headerlink" title="权限检查"></a>权限检查</h2><p>曾经尝试提权某 tv os ，由于其 selinux permissive ，利用 magica 拿到受限的 root ，尝试修改属性的 ro.debuggable 进一步提权，但是没有文件系统的 cap ，因此直接修改属性文件权限为 777 ，这样确实可以直接写文件了，但是 resetprop 报错初始化失败，启动其他新程序也无法正确初始化属性，将权限恢复后才正常，可能原因来自于 prop_area map_fd_ro 的一段检查：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/system_properties/prop_area.cpp;l=113;drc=c37aa7ad3c9767257dfcfd978a2527dc63fb57cd">https://cs.android.com/android/platform/superproject/+/master:bionic/libc/system_properties/prop_area.cpp;l=113;drc=c37aa7ad3c9767257dfcfd978a2527dc63fb57cd</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">prop_area* <span class="title">prop_area::map_fd_ro</span><span class="params">(<span class="type">const</span> <span class="type">int</span> fd)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">stat</span> fd_stat;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">fstat</span>(fd, &amp;fd_stat) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ((fd_stat.st_uid != <span class="number">0</span>) || (fd_stat.st_gid != <span class="number">0</span>) ||</span><br><span class="line">      ((fd_stat.st_mode &amp; (S_IWGRP | S_IWOTH)) != <span class="number">0</span>) ||</span><br><span class="line">      (fd_stat.st_size &lt; <span class="built_in">static_cast</span>&lt;<span class="type">off_t</span>&gt;(<span class="built_in">sizeof</span>(prop_area)))) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+
+            <span class="label">Github</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/05/07/android-ptrace/" rel="prev" title="Android ptrace">
+      <i class="fa fa-chevron-left"></i> Android ptrace
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/08/14/lsplant/" rel="next" title="LSPlant 学习">
+      LSPlant 学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">系统属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bionic"><span class="nav-number">1.1.</span> <span class="nav-text">bionic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">属性系统概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%88%86%E9%85%8D"><span class="nav-number">1.1.4.</span> <span class="nav-text">对象分配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magisk-resetprop"><span class="nav-number">1.2.</span> <span class="nav-text">Magisk resetprop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%A3%80%E6%9F%A5"><span class="nav-number">1.3.</span> <span class="nav-text">权限检查</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">5ec1cff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/my-blog/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/my-blog/lib/anime.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/my-blog/js/utils.js"></script>
+
+<script src="/my-blog/js/motion.js"></script>
+
+
+<script src="/my-blog/js/schemes/muse.js"></script>
+
+
+<script src="/my-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

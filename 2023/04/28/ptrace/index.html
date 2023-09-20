@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/my-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ptrace">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ptrace">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/04/28/ptrace/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="ptrace">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-28T04:20:00.000Z">
+<meta property="article:modified_time" content="2023-09-20T07:06:20.594Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/04/28/ptrace/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ptrace | 5ec1cff's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/my-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">5ec1cff's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/04/28/ptrace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/my-blog/images/avatar.gif">
+      <meta itemprop="name" content="5ec1cff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="5ec1cff's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ptrace
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-28 12:20:00" itemprop="dateCreated datePublished" datetime="2023-04-28T12:20:00+08:00">2023-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-20 15:06:20" itemprop="dateModified" datetime="2023-09-20T15:06:20+08:00">2023-09-20</time>
+              </span>
+
+          
+            <div class="post-description">ptrace</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ptrace"><a href="#ptrace" class="headerlink" title="ptrace"></a>ptrace</h1><p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/ptrace.2.html">ptrace(2) - Linux manual page</a></p>
+<p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/waitpid.2.html">wait(2) - Linux manual page</a></p>
+<p>本文相关代码都在下面的仓库：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/5ec1cff/ptrace-examples">https://github.com/5ec1cff/ptrace-examples</a></p>
+<h2 id="tracee-execve-时的行为"><a href="#tracee-execve-时的行为" class="headerlink" title="tracee execve 时的行为"></a>tracee execve 时的行为</h2><p>当被跟踪者(tracee)进程成功调用 execve 后，会立即产生一个 SIGTRAP ，并进入 signal-delivery-stop 状态，允许我们在进程的所有新代码执行之前进行处理。</p>
+<p>这个状态不好辨识，在 man ptrace 中已经不建议使用。我们可以用 <code>PTRACE_O_TRACEEXEC</code> 选项，这样当成功 execve 的时候，原先的 SIGTRAP 不会产生，取而代之的是另一个 stop ，status 满足 <code>status &gt;&gt; 8 == (SIGTRAP | (PTRACE_EVENT_EXEC &lt;&lt; 8))</code> ，并且我们可以通过 <code>PTRACE_GETEVENTMSG</code> 获得 execve 之前的 pid （在多线程中有用，因为在非主线程进行 execve ，pid 会发生改变）。</p>
+<p>除了多线程中 pid 的问题之外，这两个 stop 看起来没什么区别，停止的时候，新的映像都已经装载，且没有执行。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trace-exec.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ptrace.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> pid = fork();</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="keyword">if</span> (pid &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">ptrace</span>(PTRACE_TRACEME);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;child forked&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">raise</span>(SIGTRAP);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;trapped&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">execlp</span>(<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;ls&quot;</span>, <span class="literal">nullptr</span>);</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;execve&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;forked pid &quot;</span> &lt;&lt; pid &lt;&lt; endl;</span><br><span class="line">    <span class="type">bool</span> first_stop = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">waitpid</span>(pid, &amp;status, __WALL) == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno != EINTR) &#123;</span><br><span class="line">                <span class="built_in">perror</span>(<span class="string">&quot;waitpid&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">WIFSTOPPED</span>(status)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (status &gt;&gt; <span class="number">8</span> == (SIGTRAP | (PTRACE_EVENT_EXEC &lt;&lt; <span class="number">8</span>))) &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;stopped at execve&quot;</span> &lt;&lt; endl;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;stopped by &quot;</span> &lt;&lt; <span class="built_in">WSTOPSIG</span>(status) &lt;&lt; endl;</span><br><span class="line">                <span class="keyword">if</span> (first_stop) &#123;</span><br><span class="line">                    <span class="built_in">ptrace</span>(PTRACE_SETOPTIONS, pid, <span class="literal">nullptr</span>, PTRACE_O_TRACEEXEC);</span><br><span class="line">                    first_stop = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cin.<span class="built_in">get</span>();</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;continue&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">WIFEXITED</span>(status)) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;exited with &quot;</span> &lt;&lt; <span class="built_in">WEXITSTATUS</span>(status) &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;unknown status &quot;</span> &lt;&lt; status &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的程序，应该观察得到两次 ptrace stop ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">forked pid 1980</span><br><span class="line">child forked</span><br><span class="line">stopped by 5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">continue</span><br><span class="line">trapped</span><br><span class="line">stopped at execve</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">continue</span><br><span class="line">CMakeCache.txt  CMakeFiles  Makefile  Testing  cmake_install.cmake  exec  fork-exec  ptrace_learn  ptrace_learn.cbp  trace-exec  trace-fork-exec</span><br><span class="line">exited with 0</span><br></pre></td></tr></table></figure>
+
+<p>在第二次停下的时候查看子进程 1980 的状态，已经 execve 到 ls ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/1980/status</span><br><span class="line">Name:   ls</span><br><span class="line">Umask:  0022</span><br><span class="line">State:  t (tracing stop)</span><br><span class="line">Tgid:   1980</span><br><span class="line">Ngid:   0</span><br><span class="line">Pid:    1980</span><br><span class="line">PPid:   1979</span><br><span class="line">TracerPid:      1979</span><br><span class="line"></span><br><span class="line">$ ls /proc/1980/exe -l</span><br><span class="line">lrwxrwxrwx 1 five_ec1cff five_ec1cff 0 Apr 24 21:11 /proc/2011/exe -&gt; /mnt/f/works/ptrace-learn/cmake-build-debug-wsl/trace-exec</span><br><span class="line">$ ls /proc/1980/exe -l</span><br><span class="line">lrwxrwxrwx 1 five_ec1cff five_ec1cff 0 Apr 24 21:11 /proc/2011/exe -&gt; /usr/bin/ls</span><br></pre></td></tr></table></figure>
+
+<h2 id="跟踪-tracee-fork"><a href="#跟踪-tracee-fork" class="headerlink" title="跟踪 tracee fork"></a>跟踪 tracee fork</h2><p>有这样一个程序，它会 fork ，并在子进程 execve ，主进程等待子进程结束。我们需要跟踪主进程，并跟踪子进程：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fork-exec</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;my pid=&quot;</span> &lt;&lt; <span class="built_in">getpid</span>() &lt;&lt; <span class="string">&quot;,press enter to fork and exec&quot;</span> &lt;&lt; endl;</span><br><span class="line">    cin.<span class="built_in">get</span>();</span><br><span class="line">    <span class="keyword">auto</span> pid = fork();</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="keyword">if</span> (pid &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;fork&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;child forked&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">execlp</span>(<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;ls&quot;</span>, <span class="literal">nullptr</span>);</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;execve&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;forked pid &quot;</span> &lt;&lt; pid &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">waitpid</span>(pid, &amp;status, __WALL) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (errno != EINTR) &#123;</span><br><span class="line">            <span class="built_in">perror</span>(<span class="string">&quot;waitpid&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">WIFEXITED</span>(status)) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;exited with &quot;</span> &lt;&lt; <span class="built_in">WEXITSTATUS</span>(status) &lt;&lt; endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;unknown status &quot;</span> &lt;&lt; status &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面的程序使用 PTRACE_ATTACH 附加上面的进程，对主进程，设置 <code>PTRACE_O_TRACEFORK</code> 选项跟踪 fork 。</p>
+<p><code>PTRACE_O_TRACEFORK</code> 会在 tracee 原本的进程发生成功 fork 返回的时候停止，status 满足 <code>status &gt;&gt; 8 == (SIGTRAP | (PTRACE_EVENT_FORK &lt;&lt; 8)</code> ，可以通过 PTRACE_GETEVENTMSG 得到 fork 的新进程的 pid 。同时，新的子进程也会处于 SIGSTOP 停止状态。</p>
+<p>使用 <code>PTRACE_O_*</code> 自动附加的进程会继承原先的选项，在这里我们在第一次附加后直接覆盖掉了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trace-fork-exec</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ptrace.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;csignal&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (argc &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        cerr &lt;&lt; <span class="string">&quot;usage: &quot;</span> &lt;&lt; argv[<span class="number">0</span>] &lt;&lt; <span class="string">&quot; &lt;pid&gt;&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> ipid = (<span class="type">int</span>) <span class="built_in">strtol</span>(argv[<span class="number">1</span>], <span class="literal">nullptr</span>, <span class="number">0</span>);</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;tracing pid &quot;</span> &lt;&lt; ipid &lt;&lt; endl;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="built_in">ptrace</span>(PTRACE_ATTACH, ipid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="type">bool</span> first_stop = <span class="literal">true</span>;</span><br><span class="line">    set&lt;<span class="type">int</span>&gt; pids&#123;&#125;;</span><br><span class="line">    pids.<span class="built_in">insert</span>(ipid);</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="keyword">auto</span> pid = <span class="built_in">waitpid</span>(<span class="number">-1</span>, &amp;status, __WALL);</span><br><span class="line">        <span class="keyword">if</span> (pid == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno != EINTR) &#123;</span><br><span class="line">                <span class="built_in">perror</span>(<span class="string">&quot;waitpid&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">WIFSTOPPED</span>(status)) &#123;</span><br><span class="line">            <span class="type">int</span> orig_sig = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (status &gt;&gt; <span class="number">8</span> == (SIGTRAP | (PTRACE_EVENT_EXEC &lt;&lt; <span class="number">8</span>))) &#123;</span><br><span class="line">                cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; stopped at execve&quot;</span> &lt;&lt; endl;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status &gt;&gt; <span class="number">8</span> == (SIGTRAP | (PTRACE_EVENT_FORK &lt;&lt; <span class="number">8</span>))) &#123;</span><br><span class="line">                <span class="type">long</span> msg;</span><br><span class="line">                <span class="built_in">ptrace</span>(PTRACE_GETEVENTMSG, pid, <span class="literal">nullptr</span>, &amp;msg);</span><br><span class="line">                cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; stopped at fork, child pid=&quot;</span> &lt;&lt; msg &lt;&lt; endl;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                orig_sig = <span class="built_in">WSTOPSIG</span>(status);</span><br><span class="line">                cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; stopped by SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(orig_sig) &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; orig_sig &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; endl;</span><br><span class="line">                <span class="keyword">if</span> (first_stop) &#123;</span><br><span class="line">                    <span class="built_in">ptrace</span>(PTRACE_SETOPTIONS, pid, <span class="literal">nullptr</span>, PTRACE_O_TRACEFORK);</span><br><span class="line">                    first_stop = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (pids.<span class="built_in">find</span>(pid) == pids.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                pids.<span class="built_in">insert</span>(pid);</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;new process &quot;</span> &lt;&lt; pid &lt;&lt; <span class="string">&quot; added&quot;</span> &lt;&lt; endl;</span><br><span class="line">                <span class="built_in">ptrace</span>(PTRACE_SETOPTIONS, pid, <span class="literal">nullptr</span>, PTRACE_O_TRACEEXEC);</span><br><span class="line">            &#125;</span><br><span class="line">            cin.<span class="built_in">get</span>();</span><br><span class="line">            cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; continue&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, (<span class="type">void</span>*) orig_sig);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">WIFEXITED</span>(status)) &#123;</span><br><span class="line">            cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; exited with &quot;</span> &lt;&lt; <span class="built_in">WEXITSTATUS</span>(status) &lt;&lt; endl;</span><br><span class="line">            pids.<span class="built_in">erase</span>(pid);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; pid &lt;&lt; <span class="string">&quot; unknown status &quot;</span> &lt;&lt; status &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pids.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;all processes exited&quot;</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fork-exec:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">my pid=2332,press enter to fork and exec</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">forked pid 2334</span><br><span class="line">child forked</span><br><span class="line">CMakeCache.txt  CMakeFiles  Makefile  Testing  cmake_install.cmake  exec  fork-exec  ptrace_learn  ptrace_learn.cbp  trace-exec  trace-fork-exec</span><br><span class="line">exited with 0</span><br></pre></td></tr></table></figure>
+
+<p>trace-fork-exec:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ ./trace-fork-exec 2332</span><br><span class="line">tracing pid 2332</span><br><span class="line">2332 stopped by SIGSTOP(19)</span><br><span class="line"></span><br><span class="line">2332 continue</span><br><span class="line">2332 stopped by SIGSTOP(19)</span><br><span class="line"></span><br><span class="line">2332 continue</span><br><span class="line">2332 stopped at fork, child pid=2334</span><br><span class="line"></span><br><span class="line">2332 continue</span><br><span class="line">2334 stopped by SIGSTOP(19)</span><br><span class="line">new process 2334 added</span><br><span class="line"></span><br><span class="line">2334 continue</span><br><span class="line">2334 stopped by SIGSTOP(19)</span><br><span class="line"></span><br><span class="line">2334 continue</span><br><span class="line">2332 stopped by SIGCHLD(17)</span><br><span class="line"></span><br><span class="line">2332 continue</span><br><span class="line">2334 stopped at execve</span><br><span class="line"></span><br><span class="line">2334 continue</span><br><span class="line">2334 exited with 0</span><br><span class="line">2332 stopped by SIGCHLD(17)</span><br><span class="line"></span><br><span class="line">2332 continue</span><br><span class="line">2332 exited with 0</span><br><span class="line">all processes exited</span><br></pre></td></tr></table></figure>
+
+<p>反复执行，观察结果，发现父进程和子进程的 fork 停止究竟谁更先被收到，似乎是不确定的。</p>
+<h2 id="远程系统调用和执行任意代码"><a href="#远程系统调用和执行任意代码" class="headerlink" title="远程系统调用和执行任意代码"></a>远程系统调用和执行任意代码</h2><p>我们将使用 mmap 映射一块 rwx 内存，然后写入代码并执行。</p>
+<h3 id="Step-1-生成-shellcode"><a href="#Step-1-生成-shellcode" class="headerlink" title="Step 1. 生成 shellcode"></a>Step 1. 生成 shellcode</h3><p>为此首先需要准备要执行的代码，看上去就像 CTF 中的 shellcode ，用 pwntools 等工具很容易可以生成，不过考虑到我们要在未来的项目中使用，还是要学会自己生成 shellcode 。我们先从汇编开始。</p>
+<p>下面是一个 x86-64 上的汇编 hello world 实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># hello.s</span><br><span class="line"># https://cs.lmu.edu/~ray/notes/gasexamples/</span><br><span class="line"># ----------------------------------------------------------------------------------------</span><br><span class="line"># Writes &quot;Hello, World&quot; to the console using only system calls. Runs on 64-bit Linux only.</span><br><span class="line"># To assemble and run:</span><br><span class="line">#</span><br><span class="line">#     gcc -c hello.s &amp;&amp; ld hello.o &amp;&amp; ./a.out</span><br><span class="line">#</span><br><span class="line"># or</span><br><span class="line">#</span><br><span class="line">#     gcc -nostdlib hello.s &amp;&amp; ./a.out</span><br><span class="line"># ----------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">        .global _start</span><br><span class="line"></span><br><span class="line">        .text</span><br><span class="line">_start:</span><br><span class="line">        # write(1, message, 13)</span><br><span class="line">        mov     $1, %rax                # system call 1 is write</span><br><span class="line">        mov     $1, %rdi                # file handle 1 is stdout</span><br><span class="line">        #mov     $message, %rsi          # address of string to output</span><br><span class="line">        lea     message(%rip), %rsi</span><br><span class="line">        mov     $13, %rdx               # number of bytes</span><br><span class="line">        syscall                         # invoke operating system to do the write</span><br><span class="line"></span><br><span class="line">        # exit(0)</span><br><span class="line">        mov     $60, %rax               # system call 60 is exit</span><br><span class="line">        xor     %rdi, %rdi              # we want return code 0</span><br><span class="line">        syscall                         # invoke operating system to exit</span><br><span class="line">message:</span><br><span class="line">        .ascii  &quot;Hello, world\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要将代码编译为位置无关的，需要加上 <code>-fPIC</code> 或者 <code>-fPIE</code></p>
+<blockquote>
+<p>pic 和 pie 的区别：<a target="_blank" rel="noopener" href="https://e-mailky.github.io/2018-03-06-gcc-pic">Gcc中编译和链接选项 -fpic -fPIC -fpie -fPIE -pie的含义</a> <del>其实我也没看懂</del></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -static -nostdlib -fPIE hello.s -o hello</span><br></pre></td></tr></table></figure>
+
+<p>需要注意代码中不能直接用 <code>mov $label</code> ，这样无法链接成 PIC 的程序，因此原来的代码中的 mov message 改成了 lea ，才能通过编译。</p>
+<p>[c - relocation R_X86_64_32 against &#96;.data’ can not be used when making a shared object; - Stack Overflow](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/49434489/relocation-r-x86-64-32-against-data-can-not-be-used-when-making-a-shared-obje">https://stackoverflow.com/questions/49434489/relocation-r-x86-64-32-against-data-can-not-be-used-when-making-a-shared-obje</a>)</p>
+<p>因为我们的代码和数据都放在 .text 段，且入口就在开头，所以这样我们只要得到 .text 段的内容，把它写入到 mmap 的区域即可。</p>
+<p>下面的命令可以复制 text section 到单独的文件中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objcopy -O binary -j .text hello hello_</span><br></pre></td></tr></table></figure>
+
+<p>可以用下面的命令 disassemble 刚才产生的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -b binary -m i386:x86-64 -D hello_</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/237300.html">简述获取shellcode的几种方式 - FreeBuf</a></p>
+<p>接下来就是把 binary 嵌入到程序中，我们可以生成一个数组。</p>
+<p>但是也有别的方法：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/graphitemaster/incbin">graphitemaster&#x2F;incbin: Include binary files in C&#x2F;C++</a></p>
+<h3 id="Step-2-远程系统调用-mmap"><a href="#Step-2-远程系统调用-mmap" class="headerlink" title="Step 2. 远程系统调用 mmap"></a>Step 2. 远程系统调用 mmap</h3><p>其实我们可以直接写代码到 rip ，然后直接执行，不过为了同时演示远程系统调用，还是用一下 mmap 。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ON_ERROR_KILL(d, x) <span class="keyword">if</span> ((x) == -1) &#123; perror(d); kill(pid, SIGKILL); return; &#125;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">inject</span><span class="params">(<span class="type">int</span> pid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">user_regs_struct</span> regs&#123;&#125;, regs_backup&#123;&#125;;</span><br><span class="line">    <span class="type">long</span> ins_back;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;single step&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SINGLESTEP, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != SIGTRAP) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;stopped by other signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status))  &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    <span class="built_in">memcpy</span>(&amp;regs_backup, &amp;regs, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> user_regs_struct));</span><br><span class="line">    ins_back = <span class="built_in">ptrace</span>(PTRACE_PEEKTEXT, pid, regs.rip, <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;poke&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_POKETEXT, pid, regs.rip, <span class="number">0x050f</span>));</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;rip=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rip &lt;&lt; <span class="string">&quot;,backup instructions:&quot;</span> &lt;&lt; hex &lt;&lt; ins_back &lt;&lt; endl;</span><br><span class="line">    regs.rax = SYS_mmap;</span><br><span class="line">    regs.rdi = <span class="number">0</span>;</span><br><span class="line">    regs.rsi = <span class="number">10</span>;</span><br><span class="line">    regs.rdx = PROT_READ | PROT_WRITE | PROT_EXEC;</span><br><span class="line">    regs.r10 = MAP_ANONYMOUS | MAP_PRIVATE;</span><br><span class="line">    regs.r8 = <span class="number">0xffffffff</span>; <span class="comment">// -1</span></span><br><span class="line">    regs.r9 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;single step&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SINGLESTEP, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;waiting&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != SIGTRAP) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;stopped by other signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status))  &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;done&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get result&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;rip=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rip &lt;&lt; <span class="string">&quot;,mmap returned: &quot;</span> &lt;&lt; hex &lt;&lt; regs.rax &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;check mappings&quot;</span> &lt;&lt; endl;</span><br><span class="line">    cin.<span class="built_in">get</span>();</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore text&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_POKETEXT, pid, regs_backup.rip, ins_back));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs_backup));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;cont&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用 peekdata 和 pokedata 读写内存</p>
+<p>此处我们的 tracee 是 fork + exec 产生的，当产生了 execve stop 之后，似乎需要先 single step 一下才能正常进入下面的流程。这一点不知道在 man page 的哪里提到了。</p>
+<p>调用 syscall 非常简单，我们往 rip 所指的位置写入 syscall 指令 (<code>0x050f</code>)  ，并向寄存器写入参数即可。接下来使用 single step 进行调用，然后还原修改的指令和寄存器。</p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromiumos/docs/+/HEAD/constants/syscalls.md#x86_64-64_bit">ChromiumOS Docs - Linux System Call Table</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">forked pid 2159</span><br><span class="line">child forked</span><br><span class="line">stopped by SIGTRAP(5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">continue</span><br><span class="line">trapped</span><br><span class="line">stopped at execve</span><br><span class="line">rip=7f076faa72b0,backup instructions:d98e8e78948</span><br><span class="line">waiting</span><br><span class="line">done</span><br><span class="line">rip=7f076faa72b2,mmap returned: 7f076fabe000</span><br><span class="line">check mappings</span><br></pre></td></tr></table></figure>
+
+<p>maps:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">5568aff72000-5568aff76000 r--p 00000000 08:20 48289                      /usr/bin/ls</span><br><span class="line">5568aff76000-5568aff8a000 r-xp 00004000 08:20 48289                      /usr/bin/ls</span><br><span class="line">5568aff8a000-5568aff92000 r--p 00018000 08:20 48289                      /usr/bin/ls</span><br><span class="line">5568aff93000-5568aff95000 rw-p 00020000 08:20 48289                      /usr/bin/ls</span><br><span class="line">5568aff95000-5568aff96000 rw-p 00000000 00:00 0</span><br><span class="line">7f076fa87000-7f076fa89000 r--p 00000000 08:20 2055                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</span><br><span class="line">7f076fa89000-7f076fab3000 r-xp 00002000 08:20 2055                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</span><br><span class="line">7f076fab3000-7f076fabe000 r--p 0002c000 08:20 2055                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</span><br><span class="line">7f076fabe000-7f076fabf000 rwxp 00000000 00:00 0</span><br><span class="line">7f076fabf000-7f076fac3000 rw-p 00037000 08:20 2055                       /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</span><br><span class="line">7ffec7de4000-7ffec7e05000 rw-p 00000000 00:00 0                          [stack]</span><br><span class="line">7ffec7e70000-7ffec7e74000 r--p 00000000 00:00 0                          [vvar]</span><br><span class="line">7ffec7e74000-7ffec7e76000 r-xp 00000000 00:00 0                          [vdso]</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，mmap 返回值 7f076fabe000 就是我们需要的 rwx page 。</p>
+<p>此外，首次停止时的 rip 为 7f076faa72b0 ，对应内存区域属于 <code>/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</code> ，即动态链接器，使用 readelf 查看 entry ，计算 entry 发现和 rip 刚好相等，因此 execve 确实停在了程序的入口（对于动态链接的程序，入口应该是动态链接器的入口）；进行系统调用的 single step 之后，rip 为 7f076faa72b2 ，即原来的 rip+2 ，刚好执行完 <code>syscall</code> 指令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -h /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2</span><br><span class="line">  Entry point address:               0x202b0</span><br><span class="line"></span><br><span class="line">0x7f076fa87000 + 0x202b0 = 0x7f076faa72b0</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 dd 查看修改了指令后的内存：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dd if=/proc/2159/mem skip=139669914940080 bs=1c count=16 | xxd</span><br><span class="line">dd: /proc/2159/mem: cannot skip to specified offset</span><br><span class="line">16+0 records in</span><br><span class="line">16+0 records out</span><br><span class="line">00000000: 0f05 0000 0000 0000 4989 c48b 05f7 9701  ........I.......</span><br><span class="line">16 bytes copied, 0.00011526 s, 139 kB/s</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3-写入代码并执行"><a href="#Step-3-写入代码并执行" class="headerlink" title="Step 3. 写入代码并执行"></a>Step 3. 写入代码并执行</h3><p>接下来我们把之前产生的代码写入并执行：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">unsigned</span> <span class="type">char</span> code[] = &#123;</span><br><span class="line">        <span class="number">0x48</span>, <span class="number">0xc7</span>, <span class="number">0xc0</span>, <span class="number">0x1</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>,</span><br><span class="line">        <span class="number">0xc7</span>, <span class="number">0xc7</span>, <span class="number">0x1</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>, <span class="number">0x8d</span>,</span><br><span class="line">        <span class="number">0x35</span>, <span class="number">0x15</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>, <span class="number">0xc7</span>, <span class="number">0xc2</span>,</span><br><span class="line">        <span class="number">0xd</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0xf</span>, <span class="number">0x5</span>, <span class="number">0x48</span>, <span class="number">0xc7</span>,</span><br><span class="line">        <span class="number">0xc0</span>, <span class="number">0x3c</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>, <span class="number">0x31</span>, <span class="number">0xff</span>,</span><br><span class="line">        <span class="number">0xf</span>, <span class="number">0x5</span>, <span class="number">0x48</span>, <span class="number">0x65</span>, <span class="number">0x6c</span>, <span class="number">0x6c</span>, <span class="number">0x6f</span>, <span class="number">0x2c</span>,</span><br><span class="line">        <span class="number">0x20</span>, <span class="number">0x77</span>, <span class="number">0x6f</span>, <span class="number">0x72</span>, <span class="number">0x6c</span>, <span class="number">0x64</span>, <span class="number">0xa</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">iovec</span> local&#123;</span><br><span class="line">        .iov_base = (<span class="type">void</span>*) code,</span><br><span class="line">        .iov_len = <span class="built_in">sizeof</span>(code)</span><br><span class="line">    &#125;, remote&#123;</span><br><span class="line">        .iov_base = (<span class="type">void</span>*) regs.rax,</span><br><span class="line">        .iov_len = <span class="built_in">sizeof</span>(code)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;write memory&quot;</span>, <span class="built_in">process_vm_writev</span>(pid, &amp;local, <span class="number">1</span>, &amp;remote, <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">    <span class="comment">// ON_ERROR_KILL(&quot;restore text&quot;, ptrace(PTRACE_POKETEXT, pid, regs_backup.rip, ins_back));</span></span><br><span class="line">    <span class="comment">// ON_ERROR_KILL(&quot;restore regs&quot;, ptrace(PTRACE_SETREGS, pid, nullptr, &amp;regs_backup));</span></span><br><span class="line">    regs.rip = regs.rax;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;cont&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br></pre></td></tr></table></figure>
+
+<p>这样的结果是 ls 没被执行，直接退出了，因为我们写的程序就是打印 hello world 然后退出。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stopped at execve</span><br><span class="line">rip=<span class="number">7f</span>a1a1dd72b0,backup instructions:d98e8e78948</span><br><span class="line">waiting</span><br><span class="line">done</span><br><span class="line">rip=<span class="number">7f</span>a1a1dd72b2,mmap returned: <span class="number">7f</span>a1a1dee000</span><br><span class="line">Hello, world</span><br><span class="line">exited with <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们希望执行完成后继续执行 ls ，我们修改上面的汇编程序，把 exit(0) 改成 <code>int3</code> ，这样打印了 hello world 后会产生一个断点，我们捕获断点后恢复修改的代码和上下文。</p>
+<p>此时直接编译并执行 hello ，应该是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./hello</span><br><span class="line">Hello, world</span><br><span class="line">Trace/breakpoint trap</span><br></pre></td></tr></table></figure>
+
+<p>相应地修改 inject 的代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">unsigned</span> <span class="type">char</span> code[] = &#123;</span><br><span class="line">        <span class="number">0x48</span>, <span class="number">0xc7</span>, <span class="number">0xc0</span>, <span class="number">0x1</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>,</span><br><span class="line">        <span class="number">0xc7</span>, <span class="number">0xc7</span>, <span class="number">0x1</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>, <span class="number">0x8d</span>,</span><br><span class="line">        <span class="number">0x35</span>, <span class="number">0xa</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x48</span>, <span class="number">0xc7</span>, <span class="number">0xc2</span>,</span><br><span class="line">        <span class="number">0xd</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0xf</span>, <span class="number">0x5</span>, <span class="number">0xcc</span>, <span class="number">0x48</span>,</span><br><span class="line">        <span class="number">0x65</span>, <span class="number">0x6c</span>, <span class="number">0x6c</span>, <span class="number">0x6f</span>, <span class="number">0x2c</span>, <span class="number">0x20</span>, <span class="number">0x77</span>, <span class="number">0x6f</span>,</span><br><span class="line">        <span class="number">0x72</span>, <span class="number">0x6c</span>, <span class="number">0x64</span>, <span class="number">0xa</span></span><br><span class="line">&#125;;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;write memory&quot;</span>, <span class="built_in">process_vm_writev</span>(pid, &amp;local, <span class="number">1</span>, &amp;remote, <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">    regs.rip = regs.rax;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;cont&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != SIGTRAP) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;stopped by other signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status))  &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore text&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_POKETEXT, pid, regs_backup.rip, ins_back));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs_backup));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;cont&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以在注入的代码执行完后继续执行原来的程序了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rip=7f0dc58f52b2,mmap returned: 7f0dc590c000</span><br><span class="line">Hello, world</span><br><span class="line">CMakeCache.txt  CMakeFiles  Makefile  Testing  cmake_install.cmake  exec  fork-exec  inject  ptrace_learn  ptrace_learn.cbp  trace-exec  trace-fork-exec</span><br><span class="line">exited with 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="ptrace-POKEDATA-和-process-vm-writev"><a href="#ptrace-POKEDATA-和-process-vm-writev" class="headerlink" title="ptrace POKEDATA 和 process_vm_writev"></a>ptrace POKEDATA 和 process_vm_writev</h2><p>ptrace POKEDATA&#x2F;POKETEXT 可以直接写入没有写权限的页，process_vm_writev 则不行。因此 POKEDATA 成为了在只有 ptrace ，且进程中没有 rwx 页面的情况下，写入任意代码的唯一方法。</p>
+<p>PEEKDATA&#x2F;POKEDATA 一次只能传输一个处理器字长 (long) 的数据，只能做一些替换少量代码的工作。相比之下，process_vm_readv&#x2F;writev 使用 iovec ，可以实现从多个缓冲区读出&#x2F;写入多个缓冲区，一次系统调用能传输指定长度的数据，比 ptrace 更适合传输大量数据。</p>
+<h2 id="系统调用劫持"><a href="#系统调用劫持" class="headerlink" title="系统调用劫持"></a>系统调用劫持</h2><p>考虑到 POKEDATA 存在一些问题，我们最好不要往上面写 syscall 的代码，那么怎么执行系统调用呢？可以想到的方法是借用已有的 syscall 。</p>
+<p>一般来说，我们的 tracee 都会执行系统调用，下面我们将劫持第一个系统调用，借助它完成 mmap 并写入和执行代码，然后恢复原来的执行流程。</p>
+<h3 id="Step-1-等待第一个系统调用"><a href="#Step-1-等待第一个系统调用" class="headerlink" title="Step 1. 等待第一个系统调用"></a>Step 1. 等待第一个系统调用</h3><p>使用 <code>PTRACE_SYSCALL</code> 可以在系统调用进入 (syscall-enter) 前停止。我们在这个阶段观察 rip, rax, orig_rax ，并备份寄存器上下文。</p>
+<p>设置了 <code>PTRACE_O_TRACESYSGOOD</code> 之后，syscall stop 的 STOPSIG 为 <code>SIGTRAP|0x80</code> ，便于我们区分。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set options&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETOPTIONS, pid, <span class="literal">nullptr</span>, PTRACE_O_TRACESYSGOOD));</span><br><span class="line"></span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;next syscall&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SYSCALL, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != (SIGTRAP | <span class="number">0x80</span>)) &#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;stopped by other non-syscall stop signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status)) &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;regs_backup, &amp;regs, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> user_regs_struct));</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;rip=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rip &lt;&lt; <span class="string">&quot; rax=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rax &lt;&lt; <span class="string">&quot; orig_rax=&quot;</span> &lt;&lt; dec &lt;&lt; regs.orig_rax &lt;&lt; endl;</span><br><span class="line">cin.<span class="built_in">get</span>();</span><br></pre></td></tr></table></figure>
+
+<p>我们执行的 ls 在第一个系统调用停下了，可以检查 maps 发现 rip 所指的地址位于 ld-linux ，orig_rax 保存了系统调用号，此处为 12 ，也就是 brk 。rax 寄存器的值看起来像是某个 errno ，对不同的系统调用似乎还不一样，不过不需要管它，我们只要关注 orig_rax 即可。</p>
+<p>另外，rip 指向的地址已经是 <code>syscall</code> 指令的下一个指令了，因此后来恢复的时候需要将 rip -2 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">forked pid 2880</span><br><span class="line">child forked</span><br><span class="line">stopped by SIGTRAP(5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">continue</span><br><span class="line">trapped</span><br><span class="line">stopped at execve</span><br><span class="line">rip=7f27fa87caab rax=ffffffffffffffda orig_rax=12</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-2-系统调用号，借用一下"><a href="#Step-2-系统调用号，借用一下" class="headerlink" title="Step 2. 系统调用号，借用一下"></a>Step 2. 系统调用号，借用一下</h3><p>接下来我们可以把 orig_rax 换掉，也就是替换系统调用号为 mmap ；同时也要把系统调用参数的寄存器设置成 mmap 的参数。</p>
+<blockquote>
+<p>在 x86 上是替换 orig_rax&#x2F;eax ，在 arm 上没有 orig rax 了，但是可以使用 PTRACE_SET_SYSCALL 替代。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;exec mmap&quot;</span> &lt;&lt; endl;</span><br><span class="line">regs.orig_rax = SYS_mmap;</span><br><span class="line">regs.rdi = <span class="number">0</span>;</span><br><span class="line">regs.rsi = <span class="built_in">sizeof</span>(code);</span><br><span class="line">regs.rdx = PROT_READ | PROT_WRITE | PROT_EXEC;</span><br><span class="line">regs.r10 = MAP_ANONYMOUS | MAP_PRIVATE;</span><br><span class="line">regs.r8 = <span class="number">0xffffffff</span>; <span class="comment">// -1</span></span><br><span class="line">regs.r9 = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;next syscall&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SYSCALL, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != (SIGTRAP | <span class="number">0x80</span>)) &#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;stopped by other non-syscall stop signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status)) &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;mmap return:&quot;</span> &lt;&lt; hex &lt;&lt; regs.rax &lt;&lt; endl;</span><br><span class="line">cin.<span class="built_in">get</span>();</span><br></pre></td></tr></table></figure>
+
+<p>经过下一个 <code>PTRACE_SYSCALL</code> ，我们来到了 syscall-exit stop ，此时可以拿到 mmap 的返回值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exec mmap</span><br><span class="line">mmap return:7f27fa88e000</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-3-写入代码和运行"><a href="#Step-3-写入代码和运行" class="headerlink" title="Step 3. 写入代码和运行"></a>Step 3. 写入代码和运行</h3><p>步骤同「远程系统调用」一节的 Step 3 ，成功执行后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">write code and run</span><br><span class="line">Hello, world</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step-4-恢复原来的系统调用"><a href="#Step-4-恢复原来的系统调用" class="headerlink" title="Step 4. 恢复原来的系统调用"></a>Step 4. 恢复原来的系统调用</h3><p>我们借用了第一个 syscall ，但是应该怎么还回去呢？</p>
+<p>前面提到，在 syscall-enter stop 的时候，rip 已经走到了 syscall 的下一个指令，rax 的值也被装入 orig_rax 。</p>
+<p>因此我们需要把 rip -2 ，同时 rax 的值也还原回去。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; <span class="string">&quot;replay syscall&quot;</span> &lt;&lt; endl;</span><br><span class="line">regs_backup.rip -= <span class="number">2</span>;</span><br><span class="line">regs_backup.rax = regs_backup.orig_rax;</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs_backup));</span><br></pre></td></tr></table></figure>
+
+<p>接下来可以直接 PTRACE_CONT 或者 PTRACE_SINGLESTEP 了，不过我们也可以看一看原先的系统调用有没有正确执行：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;next syscall&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SYSCALL, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;waitpid&quot;</span>, <span class="built_in">waitpid</span>(pid, &amp;status, __WALL));</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">WIFSTOPPED</span>(status) || <span class="built_in">WSTOPSIG</span>(status) != (SIGTRAP | <span class="number">0x80</span>)) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;stopped by other non-syscall stop signal SIG&quot;</span> &lt;&lt; <span class="built_in">sigabbrev_np</span>(<span class="built_in">WSTOPSIG</span>(status)) &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">kill</span>(pid, SIGKILL);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;rip=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rip &lt;&lt; <span class="string">&quot; rax=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rax &lt;&lt; <span class="string">&quot; orig_rax=&quot;</span> &lt;&lt; dec &lt;&lt; regs.orig_rax &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;cont&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_CONT, pid, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>));</span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">replay syscall</span><br><span class="line">rip=7f27fa87caab rax=ffffffffffffffda orig_rax=12</span><br><span class="line">rip=7f27fa87caab rax=55d9159a9000 orig_rax=12</span><br><span class="line">CMakeCache.txt  CMakeFiles  Makefile  Testing  cmake_install.cmake  exec  fork-exec  inject  memory-write  ptrace_learn  ptrace_learn.cbp  test  trace-exec  trace-fork-exec  trace-syscall</span><br><span class="line">exited with 0</span><br></pre></td></tr></table></figure>
+
+<p>看起来 brk 被正确执行了，PTRACE_CONT 后，下面的 ls 程序也正常运行直到退出。</p>
+<blockquote>
+<p>与 glibc 不同，真正的 syscall brk 实际上返回的是新的 brk 地址，而非 errno ，在 man brk 的 notes 有提到。</p>
+</blockquote>
+<h2 id="远程函数调用"><a href="#远程函数调用" class="headerlink" title="远程函数调用"></a>远程函数调用</h2><p>我们的目标是附加任意进程，调用 puts 函数输出 hello world 。</p>
+<p>首先明确，这个操作是针对动态链接的程序的。在这种情况下，处理 execve + traceme 就比较麻烦了，因为 linker 究竟何时完成初始化比较难以判断，所以这里使用 attach 。</p>
+<blockquote>
+<p>当然我们可以用给真正的程序入口下断点等方式，确保 linker 完成加载。</p>
+</blockquote>
+<h3 id="Step-1-确定函数地址"><a href="#Step-1-确定函数地址" class="headerlink" title="Step 1. 确定函数地址"></a>Step 1. 确定函数地址</h3><p>puts 函数位于 libc 中，由于是动态链接库的函数，因此获取地址分为两步：</p>
+<ol>
+<li>在目标进程找到 libc 的基地址。  </li>
+<li>在 libc 中找到 puts 函数。</li>
+</ol>
+<p>第一步寻找基地址，可以通过 &#x2F;proc&#x2F;pid&#x2F;maps 确定，已经有现成的 <a target="_blank" rel="noopener" href="https://github.com/ouadev/proc_maps_parser/blob/master/pmparser.c">proc maps parser</a> 可以直接使用。我们将在 tracer 中完成这个工作。</p>
+<blockquote>
+<p>上面的 proc-maps-parser 调用 fgets 的时候有些问题，可以参考 Rikka 的 <a target="_blank" rel="noopener" href="https://github.com/RikkaW/proc-maps-parser-prefab/blob/master/proc-maps-parser/src/main/cpp/pmparser.c">prefab</a> 版本，另外原版是 C 专用的，在 C++ 项目中使用需要在 header 加上 <code>extern &quot;C&quot;</code> 。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span>* libc_base = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">procmaps_iterator* maps = <span class="built_in">pmparser_parse</span>(pid);</span><br><span class="line"><span class="keyword">if</span> (maps == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;cannot parse the memory map of &quot;</span> &lt;&lt; pid &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">procmaps_struct* maps_tmp;</span><br><span class="line"><span class="keyword">while</span> ((maps_tmp = <span class="built_in">pmparser_next</span>(maps)) != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">string_view</span>(maps_tmp-&gt;pathname).<span class="built_in">find</span>(<span class="string">&quot;libc.so.6&quot;</span>) != string_view::npos &amp;&amp; maps_tmp-&gt;offset == <span class="number">0</span>) &#123;</span><br><span class="line">        libc_base = maps_tmp-&gt;addr_start;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;found libc in maps, base=&quot;</span> &lt;&lt; hex &lt;&lt; libc_base &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">pmparser_free</span>(maps);</span><br><span class="line"><span class="keyword">if</span> (!libc_base) &#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;libc not found&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来是寻找 puts 的相对地址，可以在 tracer 中解析 libc 这个 ELF 文件，找到 puts 的地址，但这里我偷懒了，直接 readelf 把地址读出来硬编码进 tracer 就完事了。</p>
+<blockquote>
+<p>甚至可以在 tracer 中 dlsym 找到函数地址，然后结合 tracer 中 libc 基址（通过 dl_iterator_phdr 确定），得到 puts 的相对地址。这样的做法不适合不同指令集的进程的情况。（硬编码自然更不适合。）</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// readelf -s -W /lib/x86_64-linux-gnu/libc.so.6 | grep puts</span></span><br><span class="line"><span class="comment">//  1429: 0000000000080ed0   409 FUNC    WEAK   DEFAULT   15 puts@@GLIBC_2.2.5</span></span><br><span class="line">    <span class="keyword">auto</span> puts_off = <span class="number">0x80ed0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>得到了进程中 libc 基址和 puts 的偏移地址后，加起来就是进程中的 puts 地址。</p>
+<h3 id="Step-2-构造调用代码"><a href="#Step-2-构造调用代码" class="headerlink" title="Step 2. 构造调用代码"></a>Step 2. 构造调用代码</h3><p>上面得到的是一个绝对地址，因此我们使用 <code>call *%rax</code> 进行调用，这样只要使用 ptrace 写 puts 的地址到 rax 寄存器即可。</p>
+<p>我用 python 写了一个简陋的 shellcode 生成器 shell.py:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">TMP_PATH = Path(<span class="string">&#x27;/tmp&#x27;</span>)</span><br><span class="line">TEMPLATE = <span class="string">&#x27;&#x27;&#x27;        .global _start</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        .text</span></span><br><span class="line"><span class="string">_start:</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">temp_asm = TMP_PATH / <span class="string">&quot;shellcode.s&quot;</span></span><br><span class="line">temp_exe = TMP_PATH / <span class="string">&quot;shellcode&quot;</span></span><br><span class="line">temp_bin = TMP_PATH / <span class="string">&quot;shellcode.bin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(temp_asm, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(TEMPLATE + sys.stdin.read())</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">f&quot;gcc -static -nostdlib -fPIE <span class="subst">&#123;temp_asm&#125;</span> -o <span class="subst">&#123;temp_exe&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">print</span>(cmd)</span><br><span class="line"><span class="keyword">if</span> os.system(cmd) != <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;failed to exec gcc&#x27;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">f&quot;objcopy -O binary -j .text <span class="subst">&#123;temp_exe&#125;</span> <span class="subst">&#123;temp_bin&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">print</span>(cmd)</span><br><span class="line"><span class="keyword">if</span> os.system(cmd) != <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;failed to exec objcopy&#x27;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;result:&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(temp_bin, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> f.read():</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">hex</span>(b), end=<span class="string">&#x27;, &#x27;</span>)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">8</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+
+<p>用上面的生成器生成我们的代码，其实就是一个 call ，加上一个断点。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ python3 ~/code/shell.py &lt;&lt;-EOF</span><br><span class="line">&gt; call *%rax</span><br><span class="line">&gt; int3</span><br><span class="line">&gt; EOF</span><br><span class="line">gcc -static -nostdlib -fPIE /tmp/shellcode.s -o /tmp/shellcode</span><br><span class="line">objcopy -O binary -j .text /tmp/shellcode /tmp/shellcode.bin</span><br><span class="line">result:</span><br><span class="line">0xff, 0xd0, 0xcc,</span><br></pre></td></tr></table></figure>
+
+<p>shellcode 不过 3 字节，方便 POKEDATA 写入。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">user_regs_struct</span> regs&#123;&#125;, regs_backup&#123;&#125;;</span><br><span class="line"><span class="type">long</span> ins_back;</span><br><span class="line"><span class="type">int</span> status;</span><br><span class="line"></span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs))</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;regs_backup, &amp;regs, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> user_regs_struct));</span><br><span class="line">ins_back = <span class="built_in">ptrace</span>(PTRACE_PEEKTEXT, pid, regs.rip, <span class="literal">nullptr</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;rsp=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rsp &lt;&lt; <span class="string">&quot;,rip=&quot;</span> &lt;&lt; hex &lt;&lt; regs.rip &lt;&lt; <span class="string">&quot;,backup instructions:&quot;</span> &lt;&lt; hex &lt;&lt; ins_back &lt;&lt; endl;</span><br><span class="line">cin.<span class="built_in">get</span>();</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;poke&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_POKETEXT, pid, regs.rip, <span class="number">0xccd0ff</span>));</span><br></pre></td></tr></table></figure>
+
+<p>确定了函数地址和调用的代码，还需要提供参数。这里我们选择在栈上写入 <code>Hello world</code> 。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> MSG[] = <span class="string">&quot;Hello world!&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> arg = (<span class="type">void</span>*) (regs.rsp - <span class="built_in">sizeof</span>(MSG));</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">iovec</span> local&#123;</span><br><span class="line">            .iov_base = (<span class="type">void</span>*) MSG,</span><br><span class="line">            .iov_len = <span class="built_in">sizeof</span>(MSG)</span><br><span class="line">    &#125;, remote&#123;</span><br><span class="line">            .iov_base = arg,</span><br><span class="line">            .iov_len = <span class="built_in">sizeof</span>(MSG)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;write memory&quot;</span>, <span class="built_in">process_vm_writev</span>(pid, &amp;local, <span class="number">1</span>, &amp;remote, <span class="number">1</span>, <span class="number">0</span>))</span><br><span class="line">    cin.<span class="built_in">get</span>();</span><br><span class="line">    regs.rax = (<span class="type">long</span> <span class="type">long</span> <span class="type">int</span>) libc_base + puts_off; <span class="comment">// call $rax</span></span><br><span class="line">    regs.rdi = (<span class="type">long</span> <span class="type">long</span> <span class="type">int</span>) arg; <span class="comment">// arg1</span></span><br><span class="line">    regs.rsp -= <span class="built_in">sizeof</span>(MSG);</span><br><span class="line">    <span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;set regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs));</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/2538212">https://stackoverflow.com/a/2538212</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27339191">https://zhuanlan.zhihu.com/p/27339191</a>  </p>
+</blockquote>
+<p>x86-64 中的函数<ruby>调用约定<rt>Calling Convention</rt></ruby>大概是：<br>前 6 个参数依次通过下面的寄存器传参： <code>%rdi, %rsi, %rdx, %rcx, %r8, %r9</code>；<br>多于 6 个参数则放到栈上。  </p>
+<p>我们的 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man3/puts.3.html">puts</a> 函数很简单，只接收一个参数，就是字符串的地址。</p>
+<p>上面的代码将堆栈指针 rsp 向下移动 MSG 的长度，并把 MSG 复制到 rsp 所指的地址后面，此时 rsp 的值就是要传给 puts 的字符串的地址。</p>
+<p>最后别忘了函数地址是赋给 rax 而不是 rip 。</p>
+<p>完成了寄存器的布置后，继续运行程序，如果成功，应该可以观察到 tracee 输出 <code>Hello world!</code> ，随后 tracee 在我们布置的断点处停下。</p>
+<h3 id="Step-3-还原"><a href="#Step-3-还原" class="headerlink" title="Step 3. 还原"></a>Step 3. 还原</h3><p>这里就没什么好说的了，把之前修改的寄存器和指令用备份还原回去即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;get regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_GETREGS, pid, <span class="literal">nullptr</span>, &amp;regs))</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore text&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_POKETEXT, pid, regs_backup.rip, ins_back))</span><br><span class="line"><span class="built_in">ON_ERROR_KILL</span>(<span class="string">&quot;restore regs&quot;</span>, <span class="built_in">ptrace</span>(PTRACE_SETREGS, pid, <span class="literal">nullptr</span>, &amp;regs_backup))</span><br></pre></td></tr></table></figure>
+
+<p>上面的例子演示了使用 ptrace 实现简单的函数调用。假如需要调用的函数参数很复杂，用上面的方法就很繁琐，需要自己定位函数地址，并且写入内存、设置寄存器以传参，这样编写的代码难以具有通用性。此外，如果需要实现更复杂的调用，那么用上面的方法依次进行远程调用，效率会非常低下。</p>
+<p>我们更希望使用熟悉的高级编程语言编写逻辑，然后注入到进程中执行。可以想到的方法是使用 ptrace mmap 代码，跳转到对应位置执行。更进一步地想，在动态链接的程序中，ptrace 通过 dlopen 打开我们事先编写的动态共享库，加载代码执行，这样就比上面的方法方便多了。</p>
+<h2 id="信号处理和-PTRACE-SEIZE"><a href="#信号处理和-PTRACE-SEIZE" class="headerlink" title="信号处理和 PTRACE_SEIZE"></a>信号处理和 PTRACE_SEIZE</h2><p>siginfo:</p>
+<p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/sigaction.2.html">https://man7.org/linux/man-pages/man2/sigaction.2.html</a></p>
+<p>我们知道 ptrace 虽然强大，但是同一时间每个进程只允许一个进程作为它的 tracer 。当我们自己编写的 tracer 遇到了无法处理的问题，难以再挂接调试器到 tracee 上，除非我们主动 detach （当然，你也可以做调试 tracer ，进而间接调试 tracee 这样的套娃操作），那么这时候就需要我们 detach 的同时把进程留在 stop 状态。此外，我们也要知道如何附加一个一开始就是 stop 状态的进程。</p>
+<p>之前我们附加进程都是使用 <code>PTRACE_ATTACH</code> 或者 <code>PTRACE_TRACEME</code> 。</p>
+<p>……</p>
+<h3 id="attach-与-SIGSTOP"><a href="#attach-与-SIGSTOP" class="headerlink" title="attach 与 SIGSTOP"></a>attach 与 SIGSTOP</h3><p>下面考虑一个进程，一开始就通过 raise SIGSTOP 处于 stop 状态，然后使用 PTRACE_ATTACH 附加。</p>
+<p>一开始会得到一个 SIGSTOP 。尝试 GETSIGINFO 会得到 EINVAL 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">waiting ...</span><br><span class="line">process stopped by signal SIGSTOP (19), status=137f, event=(none)</span><br><span class="line">get siginfo: Invalid argument</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们 CONT ，注入信号 0 ，得到另一个 SIGSTOP ，这个 STOP 来源于内核，看起来似乎是由 attach 产生的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inject signal SIG0</span><br><span class="line">waiting ...</span><br><span class="line">process stopped by signal SIGSTOP (19), status=137f, event=(none)</span><br><span class="line">signo: 19, si_code:SI_KERNEL(128)</span><br></pre></td></tr></table></figure>
+
+<p>如果此时选择注入信号 0 ，那么原先 raise 的 stop 状态就被解除，进程随后执行完毕退出。</p>
+<p>如果选择注入信号 SIGSTOP ，接下来 waitpid 又会收到一个 SIGSTOP ，和第一个一样，无法得到 siginfo 。</p>
+<p>接下来如果注入信号 0 ，进程同样解除 stop ，执行完毕退出；如果选择不注入信号（也就是不调用 CONT），那么 waitpid 会继续等待，此时进程的状态是 tracing stop ，此时从外部发送 SIGCONT 信号，tracer 和 tracee 都没有任何反应。</p>
+<p>另外一个例子：运行一个无限循环的程序，tracer attach 上去，然后从外部 kill SIGSTOP ，得到一个 signal delivery stop：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">inject signal SIG0</span><br><span class="line">inject 0 instead</span><br><span class="line">waiting ...</span><br><span class="line">process stopped by signal SIGSTOP (19), status=137f, event=(none)</span><br><span class="line">signo: 19, si_code:SI_USER(0)</span><br></pre></td></tr></table></figure>
+
+<p>此时注入 SIGSTOP 信号后，waitpid 也会得到一个无法获取 siginfo 的 SIGSTOP ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inject signal SIGSTOP</span><br><span class="line">waiting ...</span><br><span class="line">process stopped by signal SIGSTOP (19), status=137f, event=(none)</span><br><span class="line">get siginfo: Invalid argument</span><br></pre></td></tr></table></figure>
+
+<p>我们期望当进程自己收到 SIGSTOP ，处于 stop 状态的时候，ptrace 能够等待一个 SIGCONT 让进程重启，而通过上面的例子来看，我们似乎没法做到这一点，因为不管是 attach 前 stop ，还是 attach 之后发生了 stop ，通过信号注入 SIGSTOP ，我们都会收到一个未知来源的 SIGSTOP 。此时注入任意信号，都会使进程继续运行；如果忽略它，则进程一直停留在 tracing stop 状态，且无法拦截任何信号。</p>
+<p>其实上面的问题正是 PTRACE_ATTACH 的缺陷，在 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/ptrace.2.html">man 2 ptrace</a> 的 <code>Group-stops</code> 一节已经介绍了。而为了解决这个问题，在 Linux 3.4 推出了 PTRACE_SEIZE 。</p>
+<h3 id="PTRACE-SEIZE-下的-Group-stop"><a href="#PTRACE-SEIZE-下的-Group-stop" class="headerlink" title="PTRACE_SEIZE 下的 Group-stop"></a>PTRACE_SEIZE 下的 Group-stop</h3><p>ptrace 的 manual page 提到了几种不同的停止状态，包括 <code>signal-delivery-stop</code>, <code>group-stop</code>, <code>syscall-stop</code>, <code>PTRACE_EVENT stops</code> 四种。</p>
+<p>Group-stop 就是 SIGSTOP 等停止信号导致的进程停止，正常情况下，停止导致进程状态变为 T (stopped) ，而在 ptrace 下，它们导致进程状态变成 t (tracing-stop) 。在 PTRACE_ATTACH 模式中，Group-stop 汇报为 SIGSTOP ，此时调用 PTRACE_GETSIGINFO 应当返回 EINVAL ；而 PTRACE_SEIZE 中，这种停止状态得到的 status 满足 <code>(status &gt;&gt; 8) == (SIGSTOP | PTRACE_EVENT_STOP &lt;&lt; 8)</code>。同时，PTRACE_GETSIGINFO 是有效的，其 si_code 也设为前面的 <code>status &gt;&gt; 8</code> 的值。</p>
+<p>……</p>
+<p>当进程进入 Group-stop 的时候，可以使用 <code>PTRACE_LISTEN</code> 「恢复」进程。此时进程保持停止，但可以接收信号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">... The state of the tracee after PTRACE_LISTEN is somewhat of a gray</span><br><span class="line">area: it is not in any ptrace-stop (ptrace commands won&#x27;t work on</span><br><span class="line">it, and it will deliver waitpid(2) notifications), but it also</span><br><span class="line">may be considered &quot;stopped&quot; because it is not executing</span><br><span class="line">instructions (is not scheduled), and if it was in group-stop</span><br><span class="line">before PTRACE_LISTEN, it will not respond to signals until</span><br><span class="line">SIGCONT is received.</span><br></pre></td></tr></table></figure>
+
+<h4 id="SIGSTOP"><a href="#SIGSTOP" class="headerlink" title="SIGSTOP"></a>SIGSTOP</h4><p>如果 tracee 收到 SIGSTOP ，会进入 tracing-stop ，tracer 首先得到 signal delivery stop ，然后如果 tracer 注入了 SIGSTOP ，就会得到一个带有 PTRACE_EVENT_STOP 事件的 SIGTRAP。</p>
+<blockquote>
+<p>SIGSTOP 可以被 tracer 忽略。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">process stopped by signal SIGSTOP (19), status=137f, event=(none)</span><br><span class="line">signo: 19, si_code:SI_USER(0)</span><br><span class="line"></span><br><span class="line">inject signal SIGSTOP</span><br><span class="line">waiting ...</span><br><span class="line">process stopped by signal SIGSTOP (19), status=80137f, event=PTRACE_EVENT_STOP</span><br><span class="line">signo: 19, si_code:unknown(32787)</span><br></pre></td></tr></table></figure>
+
+<h4 id="SIGCONT"><a href="#SIGCONT" class="headerlink" title="SIGCONT"></a>SIGCONT</h4><p>如果 tracee 收到 SIGCONT ，无论 tracee 是否处于 group-stop ， tracer 都会首先得到一个 SIGTRAP ，带有 PTRACE_EVENT_STOP 事件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">process stopped by signal SIGTRAP (5), status=80057f, event=PTRACE_EVENT_STOP</span><br><span class="line">signo: 5, si_code:PTRACE_EVENT_STOP(32773)</span><br></pre></td></tr></table></figure>
+
+<p>然后调用 PTRACE_CONT 注入信号 0，如果 SIGCONT 没有被屏蔽，才会进入 signal delivery stop ，注入 SIGCONT 可以让 tracee 继续运行。如果 SIGCONT 被 tracee 屏蔽了，进程会直接运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">process stopped by signal SIGCONT (18), status=127f, event=(none)</span><br><span class="line">signo: 18, si_code:SI_USER(0)</span><br></pre></td></tr></table></figure>
+
+<p>此时注入信号 0 也会使得 tracee 继续运行（就像注入了 SIGCONT 一样），而注入信号 SIGSTOP 会使 tracee 保持停止。</p>
+<p>那么注入信号 0 和注入 SIGCONT 有什么区别呢？区别体现在是否调用信号处理器。</p>
+<p>正常进程接收 SIGCONT 的流程是这样的：</p>
+<ol>
+<li>如果进程停止，则首先唤醒（此时忽视 SIGCONT 的屏蔽字）  </li>
+<li>如果进程设置了 handler ，且 SIGCONT 没有被屏蔽，则调用 handler</li>
+</ol>
+<p>在 ptrace 下，我们可以注入信号 0 ，以忽略第二步，也就是 SIGCONT 的 handler 调用，如果注入信号 SIGCONT ，就会调用 handler 。</p>
+<p>我写了一个<a target="_blank" rel="noopener" href="https://github.com/5ec1cff/ptrace-examples/blob/master/trace-repl.cpp">交互式程序</a>，并观察 interrupt 、listen、cont 以及信号导致停止的行为，总结如下：</p>
+<ol>
+<li>向 tracee 发送 SIGSTOP ，首先产生 signal-delivery-stop ，可以注入或忽略 SIGSTOP ，注入后产生 SIGSTOP 的 PTRACE_EVENT_STOP  </li>
+<li>PTRACE_INTERRUPT 产生一个 SIGTRAP 的 PTRACE_EVENT_STOP 。  </li>
+<li>所有的 PTRACE_EVENT_STOP 事件导致的停止都可以调用 PTRACE_LISTEN ，除此之外都不可以。  </li>
+<li>PTRACE_EVENT_STOP 导致的停止，可以通过 PTRACE_CONT (0) 使其继续运行。  </li>
+<li>进入 listen 状态后，不能使用 PTRACE_CONT 继续 tracee 的运行，但是可以使用 PTRACE_INTERRUPT 中断。  </li>
+<li>进入 listen 状态后，tracee 停止运行，但可以接收信号产生 signal-delivery-stop ；如果进入 listen 状态之前发送了信号（也就是有 pending 信号），进入之后也会产生 signal-delivery-stop 。  </li>
+<li>向 tracee 发送 SIGCONT ，首先产生一个 SIGTRAP 的 PTRACE_EVENT_STOP ，行为和 PTRACE_INTERRUPT 相同。</li>
+</ol>
+<p>至于怎么 detach 并保持停止，其实也很简单，首先 kill&#x2F;tgkill SIGSTOP ，然后 PTRACE_DETACH sig&#x3D;SIGSTOP 即可。这样相当于注入一个 SIGSTOP 信号。</p>
+<p>另外观察到一个现象：<br>如果 seize 的时候 tracee 是停止的，那么即使用过 cont 0 使 tracee 在跟踪期间继续运行，在 tracer detach 或者直接退出的时候进程会重新变成停止的，除非跟踪期间进程收到过 SIGCONT 并被放行，或者存在 pending 的 SIGCONT；<br>如果 seize 的时候 tracee 是运行的，则 tracer detach 或直接退出的时候 tracee 会保持运行，除非最后发送一个 SIGSTOP 。</p>
+<p>上面的现象可以解释为进程有一个 run &#x2F; stop 的状态，可以通过 SIGSTOP 和 SIGCONT 修改，tracer 可以通过 ptrace 的暂时修改这个状态，让本来处于 stop 状态的进程运行，但 tracer 离开之后，进程又恢复到本来的状态。</p>
+<blockquote>
+<p>上文都是基于 man pages 和观察得出的结论，至于实际情况如何，还是要看内核源码的实现。</p>
+</blockquote>
+<h3 id="SIGCHLD-和-ptrace"><a href="#SIGCHLD-和-ptrace" class="headerlink" title="SIGCHLD 和 ptrace"></a>SIGCHLD 和 ptrace</h3><p>我们知道子进程的退出、停止和继续都可以对父进程产生 SIGCHLD 信号，而 ptrace 停止实际上也会导致 tracer 收到 SIGCHLD 信号。</p>
+<h3 id="signalfd-和-ptrace"><a href="#signalfd-和-ptrace" class="headerlink" title="signalfd 和 ptrace"></a>signalfd 和 ptrace</h3><p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/signalfd.2.html">signalfd</a> 是另一种信号处理机制，允许我们通过 poll fd 的方式接收信号，在 Android 的 <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/refs/heads/master:system/core/init/init.cpp;l=751;drc=7346c436e5a11ce08f6a80dcfeb8ef941ca30176">init</a> 中就使用了 signalfd 处理子进程退出。</p>
+<p>在使用 signalfd 处理信号的情况下，对应的信号需要设置 block 以避免信号的默认处置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">... Normally, the set of signals to be</span><br><span class="line">received via the file descriptor should be blocked using</span><br><span class="line">sigprocmask(2), to prevent the signals being handled according to</span><br><span class="line">their default dispositions.</span><br></pre></td></tr></table></figure>
+
+<h4 id="ptrace-使用-signalfd"><a href="#ptrace-使用-signalfd" class="headerlink" title="ptrace 使用 signalfd"></a>ptrace 使用 signalfd</h4><p>既然 ptrace 停止可以产生 SIGCHLD ，那么能否使用 signalfd 处理 ptrace 事件呢？</p>
+<h4 id="信号注入和-signalfd"><a href="#信号注入和-signalfd" class="headerlink" title="信号注入和 signalfd"></a>信号注入和 signalfd</h4><p>如果 tracee 使用 signalfd ，那么必然会屏蔽某些信号，此时 ptrace 是无法接收这些信号的，这种情况下如何控制信号注入？</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>chromium 项目的 errno 和 signal</p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromiumos/docs/+/HEAD/constants/errnos.md">ChromiumOS Docs - Linux Error Number Table (errno)</a></p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromiumos/docs/+/HEAD/constants/signals.md">ChromiumOS Docs - Linux Signal Table</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+
+            <span class="label">Github</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/05/07/android-ptrace/" rel="next" title="Android ptrace">
+      Android ptrace <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ptrace"><span class="nav-number">1.</span> <span class="nav-text">ptrace</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tracee-execve-%E6%97%B6%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.1.</span> <span class="nav-text">tracee execve 时的行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA-tracee-fork"><span class="nav-number">1.2.</span> <span class="nav-text">跟踪 tracee fork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%92%8C%E6%89%A7%E8%A1%8C%E4%BB%BB%E6%84%8F%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text">远程系统调用和执行任意代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-%E7%94%9F%E6%88%90-shellcode"><span class="nav-number">1.3.1.</span> <span class="nav-text">Step 1. 生成 shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-%E8%BF%9C%E7%A8%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8-mmap"><span class="nav-number">1.3.2.</span> <span class="nav-text">Step 2. 远程系统调用 mmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-%E5%86%99%E5%85%A5%E4%BB%A3%E7%A0%81%E5%B9%B6%E6%89%A7%E8%A1%8C"><span class="nav-number">1.3.3.</span> <span class="nav-text">Step 3. 写入代码并执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ptrace-POKEDATA-%E5%92%8C-process-vm-writev"><span class="nav-number">1.4.</span> <span class="nav-text">ptrace POKEDATA 和 process_vm_writev</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8A%AB%E6%8C%81"><span class="nav-number">1.5.</span> <span class="nav-text">系统调用劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-%E7%AD%89%E5%BE%85%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.1.</span> <span class="nav-text">Step 1. 等待第一个系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7%EF%BC%8C%E5%80%9F%E7%94%A8%E4%B8%80%E4%B8%8B"><span class="nav-number">1.5.2.</span> <span class="nav-text">Step 2. 系统调用号，借用一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-%E5%86%99%E5%85%A5%E4%BB%A3%E7%A0%81%E5%92%8C%E8%BF%90%E8%A1%8C"><span class="nav-number">1.5.3.</span> <span class="nav-text">Step 3. 写入代码和运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4-%E6%81%A2%E5%A4%8D%E5%8E%9F%E6%9D%A5%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.5.4.</span> <span class="nav-text">Step 4. 恢复原来的系统调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">远程函数调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-%E7%A1%AE%E5%AE%9A%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80"><span class="nav-number">1.6.1.</span> <span class="nav-text">Step 1. 确定函数地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-%E6%9E%84%E9%80%A0%E8%B0%83%E7%94%A8%E4%BB%A3%E7%A0%81"><span class="nav-number">1.6.2.</span> <span class="nav-text">Step 2. 构造调用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-%E8%BF%98%E5%8E%9F"><span class="nav-number">1.6.3.</span> <span class="nav-text">Step 3. 还原</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86%E5%92%8C-PTRACE-SEIZE"><span class="nav-number">1.7.</span> <span class="nav-text">信号处理和 PTRACE_SEIZE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#attach-%E4%B8%8E-SIGSTOP"><span class="nav-number">1.7.1.</span> <span class="nav-text">attach 与 SIGSTOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PTRACE-SEIZE-%E4%B8%8B%E7%9A%84-Group-stop"><span class="nav-number">1.7.2.</span> <span class="nav-text">PTRACE_SEIZE 下的 Group-stop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SIGSTOP"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">SIGSTOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SIGCONT"><span class="nav-number">1.7.2.2.</span> <span class="nav-text">SIGCONT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SIGCHLD-%E5%92%8C-ptrace"><span class="nav-number">1.7.3.</span> <span class="nav-text">SIGCHLD 和 ptrace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#signalfd-%E5%92%8C-ptrace"><span class="nav-number">1.7.4.</span> <span class="nav-text">signalfd 和 ptrace</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ptrace-%E4%BD%BF%E7%94%A8-signalfd"><span class="nav-number">1.7.4.1.</span> <span class="nav-text">ptrace 使用 signalfd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E6%B3%A8%E5%85%A5%E5%92%8C-signalfd"><span class="nav-number">1.7.4.2.</span> <span class="nav-text">信号注入和 signalfd</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">1.8.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">5ec1cff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/my-blog/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/my-blog/lib/anime.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/my-blog/js/utils.js"></script>
+
+<script src="/my-blog/js/motion.js"></script>
+
+
+<script src="/my-blog/js/schemes/muse.js"></script>
+
+
+<script src="/my-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
