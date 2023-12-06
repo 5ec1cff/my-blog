@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
+  <meta name="description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天(12-05)调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次 LSPosed Native Hook 偶现崩溃">
 <meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/12/06/lsp-native-hook-crash/index.html">
 <meta property="og:site_name" content="5ec1cff&#39;s blog">
-<meta property="og:description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
+<meta property="og:description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天(12-05)调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://5ec1cff.github.io/my-blog/images/20231206_01.png">
 <meta property="article:published_time" content="2023-12-06T11:40:56.000Z">
-<meta property="article:modified_time" content="2023-12-06T12:05:31.737Z">
+<meta property="article:modified_time" content="2023-12-06T13:43:38.574Z">
 <meta property="article:author" content="5ec1cff">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://5ec1cff.github.io/my-blog/images/20231206_01.png">
@@ -187,7 +187,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-12-06 19:40:56 / 修改时间：20:05:31" itemprop="dateCreated datePublished" datetime="2023-12-06T19:40:56+08:00">2023-12-06</time>
+              <time title="创建时间：2023-12-06 19:40:56 / 修改时间：21:43:38" itemprop="dateCreated datePublished" datetime="2023-12-06T19:40:56+08:00">2023-12-06</time>
             </span>
 
           
@@ -201,7 +201,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="记一次-LSPosed-Native-Hook-偶现崩溃"><a href="#记一次-LSPosed-Native-Hook-偶现崩溃" class="headerlink" title="记一次 LSPosed Native Hook 偶现崩溃"></a>记一次 LSPosed Native Hook 偶现崩溃</h1><h2 id="发现故障"><a href="#发现故障" class="headerlink" title="发现故障"></a>发现故障</h2><p>昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。</p>
+        <h1 id="记一次-LSPosed-Native-Hook-偶现崩溃"><a href="#记一次-LSPosed-Native-Hook-偶现崩溃" class="headerlink" title="记一次 LSPosed Native Hook 偶现崩溃"></a>记一次 LSPosed Native Hook 偶现崩溃</h1><h2 id="发现故障"><a href="#发现故障" class="headerlink" title="发现故障"></a>发现故障</h2><p><ruby>昨天<rp>(</rp><rt>12-05</rt><rp>)</rp></ruby>调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。</p>
 <span id="more"></span>
 
 <p>重启后恢复正常，于是我赶紧去翻查 tombstone ，发现 backtrace 来自某个 zygisk 模块，并且堆栈回溯到这里断掉了。</p>
@@ -245,6 +245,9 @@
 <p>x1 的地址被加上了 <a target="_blank" rel="noopener" href="https://source.android.com/docs/security/test/tagged-pointers">tag</a> (0xb4) 。在 arm64 上允许给地址加上 tag ，作为地址对待的时候忽略最高字节，然而我手机上愚蠢的 crash dump 不理解这种地址，所以在下面的寄存器附近内存 dump 找不到它，更不巧的是也没有 crash dump 能理解的其他寄存器的地址恰好在这附近。</p>
 <p>但是 Shatyuka 大师问我要了 libc ，分析了 memcpy 函数，发现 x6, x7 寄存器保存了 x1 指向的内容。</p>
 <p><img src="/my-blog/images/20231206_01.png"></p>
+<blockquote>
+<p>图片来自 Shatyuka </p>
+</blockquote>
 <p>所以我们可以从 x6 x7 获取到代码的前 12 字节 <code>d1c305b031f2239120021fd6</code> ，进而进行反汇编（我们假设跳板代码已经重定位好了，位置在 x0）：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0000007196fa5224 &lt;_binary_file_bin_start&gt;:</span><br><span class="line">7196fa5224: b005c3d1    adrp    x17, 0x71a281e000 &lt;_binary_file_bin_end+0xb878dd0&gt;</span><br><span class="line">7196fa5228: 9123f231    add     x17, x17, #0x8fc</span><br><span class="line">7196fa522c: d61f0220    br      x17</span><br></pre></td></tr></table></figure>
 
@@ -274,7 +277,8 @@
 <p>重构之前重启 companion 的逻辑：</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/blob/42eb928054c471a785931474b7be818c6ca0ddda/native/src/zygisk/entry.cpp#L184">https://github.com/topjohnwu/Magisk/blob/42eb928054c471a785931474b7be818c6ca0ddda/native/src/zygisk/entry.cpp#L184</a></p>
 <p>看起来原先 zygisk 在 app_process wrapper 向 Magisk 发送 <code>ZygiskRequest::SETUP</code> 通知 zygisk companion 重启，但重构之后，这部分代码和 wrapper 一并被消除了。</p>
-<p>这么看来问题或许不止存在于 latest 的 Zygisk Next ，也存在于 latest 的 Magisk 。既然现在 Zygisk 和 Zygisk Next 都不会重启 companion 了，那 LSPosed 的缓存或许才是问题，也许可以用其他方式检测 Zygote 的重启以更新缓存，或者直接不缓存。</p>
+<p>这么看来问题或许不止存在于 latest 的 Zygisk Next ，也存在于 latest 的 Magisk 。既然现在 Zygisk 和 Zygisk Next 都不会重启 companion 了，那 LSPosed 的缓存或许才是问题，也许可以用其他方式检测 Zygote 的重启以更新缓存，或者直接不缓存。LSPosed 已经做出了<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/commit/42190f1fb8dd3efe8c241bc60dc5fc38f4c3e6aa">相应更改</a>。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>了解清楚问题的原因之后，解决起来非常简单。但是我觉得更有意思的是分析问题的过程，在这个过程中从 LSPosed 的其他开发者们，特别是从 Shatyuka 大师那学到了很多，因此觉得写这么一篇文来记录一下还是很有意义的。</p>
 
     </div>
 
@@ -381,7 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1-LSPosed-Native-Hook-%E5%81%B6%E7%8E%B0%E5%B4%A9%E6%BA%83"><span class="nav-number">1.</span> <span class="nav-text">记一次 LSPosed Native Hook 偶现崩溃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E6%95%85%E9%9A%9C"><span class="nav-number">1.1.</span> <span class="nav-text">发现故障</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dobby"><span class="nav-number">1.2.</span> <span class="nav-text">Dobby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LSPosed-native-hook"><span class="nav-number">1.3.</span> <span class="nav-text">LSPosed native hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbol-Cache"><span class="nav-number">1.4.</span> <span class="nav-text">Symbol Cache</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1-LSPosed-Native-Hook-%E5%81%B6%E7%8E%B0%E5%B4%A9%E6%BA%83"><span class="nav-number">1.</span> <span class="nav-text">记一次 LSPosed Native Hook 偶现崩溃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E6%95%85%E9%9A%9C"><span class="nav-number">1.1.</span> <span class="nav-text">发现故障</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dobby"><span class="nav-number">1.2.</span> <span class="nav-text">Dobby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LSPosed-native-hook"><span class="nav-number">1.3.</span> <span class="nav-text">LSPosed native hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbol-Cache"><span class="nav-number">1.4.</span> <span class="nav-text">Symbol Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">1.5.</span> <span class="nav-text">结语</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
