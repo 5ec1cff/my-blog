@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/my-blog/css/main.css">
+
+
+<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次 LSPosed Native Hook 偶现崩溃">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/12/06/lsp-native-hook-crash/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="记一次 LSPosed Native Hook 偶现崩溃发现故障昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://5ec1cff.github.io/my-blog/images/20231206_01.png">
+<meta property="article:published_time" content="2023-12-06T11:40:56.000Z">
+<meta property="article:modified_time" content="2023-12-06T11:47:57.938Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://5ec1cff.github.io/my-blog/images/20231206_01.png">
+
+<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/12/06/lsp-native-hook-crash/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记一次 LSPosed Native Hook 偶现崩溃 | 5ec1cff's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8K3NDG4D9K"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8K3NDG4D9K');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/my-blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">5ec1cff's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/5ec1cff" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/12/06/lsp-native-hook-crash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/my-blog/images/avatar.gif">
+      <meta itemprop="name" content="5ec1cff">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="5ec1cff's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次 LSPosed Native Hook 偶现崩溃
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-06 19:40:56 / 修改时间：19:47:57" itemprop="dateCreated datePublished" datetime="2023-12-06T19:40:56+08:00">2023-12-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="记一次-LSPosed-Native-Hook-偶现崩溃"><a href="#记一次-LSPosed-Native-Hook-偶现崩溃" class="headerlink" title="记一次 LSPosed Native Hook 偶现崩溃"></a>记一次 LSPosed Native Hook 偶现崩溃</h1><h2 id="发现故障"><a href="#发现故障" class="headerlink" title="发现故障"></a>发现故障</h2><p>昨天（12.05）调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。</p>
+<span id="more"></span>
+
+<p>重启后恢复正常，于是我赶紧去翻查 tombstone ，发现 backtrace 来自某个 zygisk 模块，并且堆栈回溯到这里断掉了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x7196fa5224</span><br><span class="line"></span><br><span class="line">backtrace:</span><br><span class="line">      #00 pc 00000000000859b0  /apex/com.android.runtime/lib64/bionic/libc.so (__memcpy+96) (BuildId: a790cdbd8e44ea8a90802da343cb82ce)</span><br><span class="line">      #01 pc 000000000001c57c  /memfd:jit-cache (deleted)</span><br></pre></td></tr></table></figure>
+
+<p>既然是 LSPosed 模块导致了崩溃，那么这个应当是 lsp 的 zygisk lib 。为了确认，我观察 lr 的地址附近的内存，因为 lr 是返回地址，刚好就是 zygisk lib 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">memory near lr (/memfd:jit-cache (deleted)):</span><br><span class="line">    00000071a2821560 8b364279aa1703e0 8a0803362a1603f8  ....yB6....*6...</span><br></pre></td></tr></table></figure>
+
+<p>在所有 zygisk 模块中 grep <code>8b364279</code> ，确实来自 LSPosed :</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LANG=C grep -obUaP <span class="string">&quot;\x79\x42\x36\x8b&quot;</span> /data/adb/modules/*/zygisk/arm64-v8a.so</span><br><span class="line">/data/adb/modules/zygisk_lsposed/zygisk/arm64-v8a.so:116068:</span><br></pre></td></tr></table></figure>
+
+<p>另外这一个 tombstone 的内存 dump 字节序和存储的方向是相反的。</p>
+<p>知道了是 LSPosed 的问题，接下来就要确认出错代码位置。我用的是 LSPosed CI 7042 Release (6e4ed0a78650748bfbe61a03042773aabf9b1a77) ，对应的 actions <a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/actions/runs/6975503656">https://github.com/LSPosed/LSPosed/actions/runs/6975503656</a> ，从中可以找到 release 的 debug symbol 。</p>
+<p>对 lspd.debug 直接用 llvm-addr2line <code>1c57c</code> 得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DobbyCodePatch</span><br><span class="line">/home/runner/work/LSPosed/LSPosed/magisk-loader/.cxx/Release/5y6o41i3/arm64-v8a/../../../../../external/dobby/source/Backend/UserMode/ExecMemory/code-patch-tool-posix.cc:0</span><br></pre></td></tr></table></figure>
+
+<p>是 inline hook 库 Dobby 的问题，我对 Dobby 不熟，因此发到小群里求助。</p>
+<h2 id="Dobby"><a href="#Dobby" class="headerlink" title="Dobby"></a>Dobby</h2><p>经过一番分析，大家认为是 Dobby 寻找内存空洞的时候找错了地址。</p>
+<p>首先观察 memcpy 的 dst (x0) ，地址属于一个文件映射：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">memory near x0 (/apex/com.android.i18n/etc/icu/icudt66l.dat)</span><br><span class="line"></span><br><span class="line">    00000071&#x27;96d80000-00000071&#x27;96fa4fff r--         0    225000  /apex/com.android.i18n/etc/icu/icudt66l.dat</span><br><span class="line">---&gt;00000071&#x27;96fa5000-00000071&#x27;96fa5fff r-x    225000      1000  /apex/com.android.i18n/etc/icu/icudt66l.dat</span><br><span class="line">    00000071&#x27;96fa6000-00000071&#x27;9857ffff r--    226000   15da000  /apex/com.android.i18n/etc/icu/icudt66l.dat</span><br></pre></td></tr></table></figure>
+
+<p>在正常系统中，这应该是个 shared 映射，而且 zygote 时期就存在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7a12e81000-7a14681000 r--s 00000000 07:98 14                             /apex/com.android.i18n/etc/icu/icudt66l.dat</span><br></pre></td></tr></table></figure>
+
+<p>而找到 DobbyCodePatch 函数中 memcpy 的调用：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/Dobby/blob/6813ca76ddeafcaece525bf8c6cde7ff4c21d3ce/source/Backend/UserMode/ExecMemory/code-patch-tool-posix.cc#L23">https://github.com/LSPosed/Dobby/blob/6813ca76ddeafcaece525bf8c6cde7ff4c21d3ce/source/Backend/UserMode/ExecMemory/code-patch-tool-posix.cc#L23</a></p>
+<p>显然是生成了代码之后，通过 memcpy 复制到分配好的可执行内存中。</p>
+<p>然而 Dobby 没有正确分配可执行内存，反而找到了一处文件映射，代码中 mprotect rwx 显然会失效，而也没有被检查。</p>
+<blockquote>
+<p>mprotect 是否是非原子的？原内存权限 r– ，然而这里被修改成 r-x ，没有 w 固然可以理解，这是因为是 s 映射，但是该函数代码只调用了 mprotext rwx ，却只得到了 r-x 。</p>
+</blockquote>
+<p>寻找内存空洞的主要目的是实现 near call ，需要在被 patch 代码附近寻找一处可执行的区域存放跳板。但是据说这个功能只有单指令 hook 需要，而 LSPosed 并未开启。</p>
+<p>于是我在 Dobby 中寻找 DobbyCodePatch 的调用，发现下面的函数可能是寻找内存空洞：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/Dobby/blob/6813ca76ddeafcaece525bf8c6cde7ff4c21d3ce/source/MemoryAllocator/NearMemoryAllocator.cc#L118">https://github.com/LSPosed/Dobby/blob/6813ca76ddeafcaece525bf8c6cde7ff4c21d3ce/source/MemoryAllocator/NearMemoryAllocator.cc#L118</a></p>
+<p>allocateNearExecMemory -&gt; allocateNearBlockFromUnusedRegion</p>
+<p>但这里扫描 maps 和寻找空洞的逻辑似乎并无问题，而且找到了正确地址之后也会 mmap MAP_FIXED 进行映射，如果失败不应该走到下面。</p>
+<h2 id="LSPosed-native-hook"><a href="#LSPosed-native-hook" class="headerlink" title="LSPosed native hook"></a>LSPosed native hook</h2><p>由于缺少 backtrace ，因此尚不能确定调用来源。不过 Shatyuka 大师经过一通分析找到了来源。</p>
+<p>首先，既然 memcpy 目的是复制跳板代码，那么只要看 src (x1) 的内存就可以分析跳板的目的地址。然而并没有那么顺利，且看 tombstone 的寄存器：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">signal <span class="number">11</span> (SIGSEGV), code <span class="number">1</span> (SEGV_MAPERR), fault addr <span class="number">0x7196fa5224</span></span><br><span class="line">    x0  <span class="number">0000007196f</span>a5224  x1  b400007190b89760  x2  <span class="number">000000000000000</span>c  x3  <span class="number">0000007f</span>ef9fb7b0</span><br><span class="line">    x4  b400007190b8976c  x5  <span class="number">0000007196f</span>a5230  x6  <span class="number">9123f</span>231b005c3d1  x7  d61f02209123f231</span><br><span class="line">    x8  <span class="number">0000007234f</span>887f0  x9  <span class="number">89</span>a77bc212c871d9  x10 <span class="number">00000072323f</span>1120  x11 <span class="number">0000000000000019</span></span><br><span class="line">    x12 <span class="number">00000072323961e3</span>  x13 <span class="number">0000000000000080</span>  x14 <span class="number">0000007232467b</span>e2  x15 <span class="number">0000000000000002</span></span><br><span class="line">    x16 <span class="number">00000071</span>a2834498  x17 <span class="number">00000072323f</span>1ac0  x18 <span class="number">000000723443</span>a000  x19 <span class="number">0000007196f</span>a5224</span><br><span class="line">    x20 <span class="number">0000000000001000</span>  x21 b400007190b89760  x22 <span class="number">0000007196f</span>a5000  x23 <span class="number">0000007196f</span>a5000</span><br><span class="line">    x24 <span class="number">000000000000000</span>c  x25 <span class="number">0000007196f</span>a5230  x26 <span class="number">000000000000000</span>c  x27 <span class="number">0000000000000001</span></span><br><span class="line">    x28 <span class="number">0000007f</span>ef9fbe00  x29 <span class="number">0000007f</span>ef9fbe00</span><br><span class="line">    lr  <span class="number">00000071</span>a2821580  sp  <span class="number">0000007f</span>ef9fbbf0  pc  <span class="number">00000072323f</span>19b0  pst <span class="number">0000000020001000</span></span><br></pre></td></tr></table></figure>
+
+<p>x1 的地址被加上了 <a target="_blank" rel="noopener" href="https://source.android.com/docs/security/test/tagged-pointers">tag</a> (0xb4) 。在 arm64 上允许给地址加上 tag ，作为地址对待的时候忽略最高字节，然而我手机上愚蠢的 crash dump 不理解这种地址，所以在下面的寄存器附近内存 dump 找不到它，更不巧的是也没有 crash dump 能理解的其他寄存器的地址恰好在这附近。</p>
+<p>但是 Shatyuka 大师问我要了 libc ，分析了 memcpy 函数，发现 x6, x7 寄存器保存了 x1 指向的内容。</p>
+<p><img src="/my-blog/images/20231206_01.png"></p>
+<p>所以我们可以从 x6 x7 获取到代码的前 12 字节 <code>d1c305b031f2239120021fd6</code> ，进而进行反汇编（我们假设跳板代码已经重定位好了，位置在 x0）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0000007196fa5224 &lt;_binary_file_bin_start&gt;:</span><br><span class="line">7196fa5224: b005c3d1    adrp    x17, 0x71a281e000 &lt;_binary_file_bin_end+0xb878dd0&gt;</span><br><span class="line">7196fa5228: 9123f231    add     x17, x17, #0x8fc</span><br><span class="line">7196fa522c: d61f0220    br      x17</span><br></pre></td></tr></table></figure>
+
+<p>因此最终地址就是 <code>0x71a281e8fc</code> ，刚好就是 lspd 的内存区域（之前 lr 是 <code>71a2821580</code> ）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">00000071&#x27;a2805000-00000071&#x27;a2832fff r-x         0     2e000  /memfd:jit-cache (deleted)</span><br><span class="line">00000071&#x27;a2833000-00000071&#x27;a2834fff r--     2d000      2000  /memfd:jit-cache (deleted)</span><br><span class="line">00000071&#x27;a2835000-00000071&#x27;a2835fff rw-     2e000      1000  /memfd:jit-cache (deleted)</span><br></pre></td></tr></table></figure>
+
+<p><code>0x71a281e8fc - 0x71a2805000 = 0x198fc</code> ，用 addr2line 一看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_ZN4lspd3$_17replaceEPKciPKvS4_</span><br><span class="line">/home/runner/work/LSPosed/LSPosed/magisk-loader/.cxx/Release/5y6o41i3/arm64-v8a/../../../../../core/src/main/jni/src/native_api.cpp:93</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/blob/6e4ed0a78650748bfbe61a03042773aabf9b1a77/core/src/main/jni/src/native_api.cpp#L93">https://github.com/LSPosed/LSPosed/blob/6e4ed0a78650748bfbe61a03042773aabf9b1a77/core/src/main/jni/src/native_api.cpp#L93</a></p>
+<p>因此，hook 的函数是 <code>__dl__Z9do_dlopenPKciPK17android_dlextinfoPKv</code> ，这是 LSPosed Native API 用于监控 dlopen 的 hook 。仅当有模块存在 native hook 才会安装这个 hook 。</p>
+<p>到这里我才发现能发生崩溃的进程的模块都是包含 native hook 的，因此这个分析是正确的，不愧是大师。</p>
+<h2 id="Symbol-Cache"><a href="#Symbol-Cache" class="headerlink" title="Symbol Cache"></a>Symbol Cache</h2><p>仔细研究了 Dobby 的逻辑，感觉似乎没什么问题，因此怀疑的目光回到 LSPosed 本身上。</p>
+<p>观察 linker64 中 do_dlopen 的地址：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readelf -s -W /apex/com.android.runtime/bin/linker64 | grep do_dlopen</span><br><span class="line">   219: 0000000000035224  2440 FUNC    LOCAL  HIDDEN    11 __dl__Z9do_dlopenPKciPK17android_dlextinfoPKv</span><br></pre></td></tr></table></figure>
+
+<p>而 memcpy 试图写入的地址 <code>0000007196fa5224</code> 恰好和 do_dlopen 偏移一致，仅仅是基地址不同。</p>
+<p>所以我们可以推断，Dobby 想要改写被 hook 函数的内容，但是提供的地址是错误的。那么这个地址怎么来的呢？</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/blob/6e4ed0a78650748bfbe61a03042773aabf9b1a77/core/src/main/jni/src/native_api.cpp#L138">https://github.com/LSPosed/LSPosed/blob/6e4ed0a78650748bfbe61a03042773aabf9b1a77/core/src/main/jni/src/native_api.cpp#L138</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">InstallNativeAPI</span><span class="params">(<span class="type">const</span> lsplant::HookHandler &amp; handler)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">LOGD</span>(<span class="string">&quot;InstallNativeAPI: &#123;&#125;&quot;</span>, symbol_cache-&gt;do_dlopen);</span><br><span class="line">    <span class="keyword">if</span> (symbol_cache-&gt;do_dlopen) [[likely]] &#123;</span><br><span class="line">        <span class="built_in">HookSymNoHandle</span>(handler, symbol_cache-&gt;do_dlopen, do_dlopen);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>来自一个 symbol cache 。在 zygisk-lsposed 中，由于 Zygisk 不允许模块进入 Zygote 进程，无法在它内部提供一个全局性的缓存，所以 LSPosed 使用共享内存提供缓存，而共享内存保存在 Zygisk Companion 中。</p>
+<p>我现在用的 Zygisk Next 在重构成 ptrace init 的时候自己删掉了重启 companion 的逻辑，难道真的是因为缓存没有及时更新导致的？</p>
+<p>于是我翻找 tombstone ，发现那次开机确实有一次 system_server 崩溃，原因不明。这样一切都能解释得捅了，因为产生了 zygote 重启，而下一次启动时缓存的地址刚好是一块 r–s 的内存，所以产生了崩溃。</p>
+<p>但是我平常调试也用 Zygisk Next ，也经常重启 zygote ，却一直没观察到这种现象，也许是因为 Native Hook 的使用频率本身就比较低，有可能被缓存的地址恰好是另一块可以被写的内存，没有导致立即崩溃（但是内存说不定已经脏了）。</p>
+<p>这么看来，zygote 重启导致 zygisk companion 重启应该是被设计好的行为（不过似乎也不在<a target="_blank" rel="noopener" href="https://github.com/topjohnwu/zygisk-module-sample/blob/26ae876a437f4c34c5d1ab21d6aeac736301d2d0/module/jni/zygisk.hpp#L302">文档</a>中），Magisk 也有实现 zygote restart 的 hook 。不过我发现原本在 Magisk 26302 Zygisk companion 会随着 zygote 重启，但 26402 ，也就是重构成 nbzygisk 之后，这个行为发生了变化。</p>
+<p>重构之前重启 companion 的逻辑：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/blob/42eb928054c471a785931474b7be818c6ca0ddda/native/src/zygisk/entry.cpp#L184">https://github.com/topjohnwu/Magisk/blob/42eb928054c471a785931474b7be818c6ca0ddda/native/src/zygisk/entry.cpp#L184</a></p>
+<p>看起来原先 zygisk 在 app_process wrapper 向 Magisk 发送 <code>ZygiskRequest::SETUP</code> 通知 zygisk companion 重启，但重构之后，这部分代码和 wrapper 一并被消除了。</p>
+<p>这么看来问题或许不止存在于 latest 的 Zygisk Next ，也存在于 latest 的 Magisk 。既然现在 Zygisk 和 Zygisk Next 都不会重启 companion 了，那 LSPosed 的缓存或许才是问题，也许可以用其他方式检测 Zygote 的重启以更新缓存，或者直接不缓存。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+
+            <span class="label">Github</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/my-blog/2023/11/23/system-certs/" rel="prev" title="Android 安装系统证书">
+      <i class="fa fa-chevron-left"></i> Android 安装系统证书
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1-LSPosed-Native-Hook-%E5%81%B6%E7%8E%B0%E5%B4%A9%E6%BA%83"><span class="nav-number">1.</span> <span class="nav-text">记一次 LSPosed Native Hook 偶现崩溃</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E6%95%85%E9%9A%9C"><span class="nav-number">1.1.</span> <span class="nav-text">发现故障</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dobby"><span class="nav-number">1.2.</span> <span class="nav-text">Dobby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LSPosed-native-hook"><span class="nav-number">1.3.</span> <span class="nav-text">LSPosed native hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbol-Cache"><span class="nav-number">1.4.</span> <span class="nav-text">Symbol Cache</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">5ec1cff</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/my-blog/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/my-blog/lib/anime.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
+  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/my-blog/js/utils.js"></script>
+
+<script src="/my-blog/js/motion.js"></script>
+
+
+<script src="/my-blog/js/schemes/muse.js"></script>
+
+
+<script src="/my-blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
