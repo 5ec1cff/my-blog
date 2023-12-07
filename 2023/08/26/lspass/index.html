@@ -1,212 +1,158 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/my-blog/css/main.css">
-
-
-<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="学习 LSPass (LSPosed&#x2F;AndroidHiddenApiByPass)">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LSPass 学习 | 5ec1cff's blog</title><meta name="author" content="5ec1cff"><meta name="copyright" content="5ec1cff"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="学习 LSPass (LSPosed&#x2F;AndroidHiddenApiByPass)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LSPass 学习">
 <meta property="og:url" content="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/index.html">
 <meta property="og:site_name" content="5ec1cff&#39;s blog">
 <meta property="og:description" content="学习 LSPass (LSPosed&#x2F;AndroidHiddenApiByPass)">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:published_time" content="2023-08-26T03:46:00.000Z">
 <meta property="article:modified_time" content="2023-09-20T07:01:15.194Z">
 <meta property="article:author" content="5ec1cff">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>LSPass 学习 | 5ec1cff's blog</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8K3NDG4D9K"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-8K3NDG4D9K');
-      }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/my-blog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">5ec1cff's blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-  <a href="https://github.com/5ec1cff" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          LSPass 学习
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-26 11:46:00" itemprop="dateCreated datePublished" datetime="2023-08-26T11:46:00+08:00">2023-08-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 15:01:15" itemprop="dateModified" datetime="2023-09-20T15:01:15+08:00">2023-09-20</time>
-              </span>
-
-          
-            <div class="post-description">学习 LSPass (LSPosed/AndroidHiddenApiByPass)</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LSPass 学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-20 15:01:15'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
       
-        <h1 id="LSPass-学习"><a href="#LSPass-学习" class="headerlink" title="LSPass 学习"></a>LSPass 学习</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><h3 id="ART-对象表示"><a href="#ART-对象表示" class="headerlink" title="ART 对象表示"></a>ART 对象表示</h3><p>在 ART 中，一个 Java 对象与一个 <code>art::mirror::Object</code> 一一对应，此外一些系统的特殊类会和 mirror Object 的派生类对应，如 java&#x2F;lang&#x2F;Class 对应 <code>art::mirror::Class</code> 。</p>
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/my-blog/" title="5ec1cff's blog"><span class="site-name">5ec1cff's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">LSPass 学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-26T03:46:00.000Z" title="发表于 2023-08-26 11:46:00">2023-08-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-20T07:01:15.194Z" title="更新于 2023-09-20 15:01:15">2023-09-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LSPass 学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="LSPass-学习"><a href="#LSPass-学习" class="headerlink" title="LSPass 学习"></a>LSPass 学习</h1><h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><h3 id="ART-对象表示"><a href="#ART-对象表示" class="headerlink" title="ART 对象表示"></a>ART 对象表示</h3><p>在 ART 中，一个 Java 对象与一个 <code>art::mirror::Object</code> 一一对应，此外一些系统的特殊类会和 mirror Object 的派生类对应，如 java&#x2F;lang&#x2F;Class 对应 <code>art::mirror::Class</code> 。</p>
 <p>mirror::Object 对象所包含的内容就是 instance field 的内容，因此它的大小和类的 instance field 有关。之所以叫 mirror ，是因为这些 mirror 类中定义的成员和 Java 类的字段(field)是一致的。</p>
 <p>一般的类的对象对应的都是 <code>art::mirror::Object</code> ，访问 field 是通过对象地址 + field offset 实现的。如果一个类继承另一个类，则内存布局上子类的 field 排在父类的后面，这和结构体继承的内存布局是一致的。</p>
 <p>例如 <code>art::mirror::Object</code> 只有两个成员：</p>
@@ -292,224 +238,4 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/AndroidHiddenApiBypass/blob/545cd590af5990e66c5ec1fee27839f4c0391b2d/library/src/main/java/org/lsposed/hiddenapibypass/HiddenApiBypass.java#L69">https://github.com/LSPosed/AndroidHiddenApiBypass/blob/545cd590af5990e66c5ec1fee27839f4c0391b2d/library/src/main/java/org/lsposed/hiddenapibypass/HiddenApiBypass.java#L69</a></p>
 <p><a target="_blank" rel="noopener" href="https://lovesykun.cn/archives/android-hidden-api-bypass.html#fn:5">https://lovesykun.cn/archives/android-hidden-api-bypass.html#fn:5</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6950920684768296996">ART虚拟机 | Java对象和类的内存结构 - 掘金</a></p>
-
-    </div>
-
-    
-    
-    
-        
-
-  <div class="followme">
-    <p>欢迎关注我的其它发布渠道</p>
-
-    <div class="social-list">
-
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="https://t.me/real5ec1cff">
-            <span class="icon">
-              <i class="fab fa-telegram"></i>
-            </span>
-
-            <span class="label">Telegram</span>
-          </a>
-        </div>
-
-        <div class="social-item">
-          <a target="_blank" class="social-link" href="https://github.com/5ec1cff">
-            <span class="icon">
-              <i class="fab fa-github"></i>
-            </span>
-
-            <span class="label">Github</span>
-          </a>
-        </div>
-    </div>
-  </div>
-
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/my-blog/2023/08/14/lsplant/" rel="prev" title="LSPlant 学习">
-      <i class="fa fa-chevron-left"></i> LSPlant 学习
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/my-blog/2023/09/20/blog/" rel="next" title="My new blog ...">
-      My new blog ... <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LSPass-%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">LSPass 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ART-%E5%AF%B9%E8%B1%A1%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.1.1.</span> <span class="nav-text">ART 对象表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LinkFields"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">LinkFields</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F-API"><span class="nav-number">1.1.2.</span> <span class="nav-text">隐藏 API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getUnsafe"><span class="nav-number">1.2.</span> <span class="nav-text">getUnsafe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#native-pointer-fields"><span class="nav-number">1.3.</span> <span class="nav-text">native pointer fields</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97-method-%E5%92%8C-field-%E6%95%B0%E7%BB%84%E7%9A%84-bias"><span class="nav-number">1.4.</span> <span class="nav-text">计算 method 和 field 数组的 bias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getDeclared"><span class="nav-number">1.5.</span> <span class="nav-text">getDeclared</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invoke-newInstance"><span class="nav-number">1.6.</span> <span class="nav-text">invoke &#x2F; newInstance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%86%85%E5%85%A8%E5%B1%80%E8%A7%A3%E9%99%A4-API-%E9%99%90%E5%88%B6"><span class="nav-number">1.7.</span> <span class="nav-text">进程内全局解除 API 限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.8.</span> <span class="nav-text">其他方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-OnLoad"><span class="nav-number">1.8.1.</span> <span class="nav-text">JNI_OnLoad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.8.2.</span> <span class="nav-text">系统设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DexFile-setTrusted"><span class="nav-number">1.9.</span> <span class="nav-text">DexFile.setTrusted</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.10.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.11.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">5ec1cff</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/my-blog/archives/">
-        
-          <span class="site-state-item-count">10</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/my-blog/lib/anime.min.js"></script>
-  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
-  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/my-blog/js/utils.js"></script>
-
-<script src="/my-blog/js/motion.js"></script>
-
-
-<script src="/my-blog/js/schemes/muse.js"></script>
-
-
-<script src="/my-blog/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog">5ec1cff</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">https://5ec1cff.github.io/my-blog/2023/08/26/lspass/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://5ec1cff.github.io/my-blog" target="_blank">5ec1cff's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/my-blog/2023/09/20/blog/" title="My new blog ..."><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">My new blog ...</div></div></a></div><div class="next-post pull-right"><a href="/my-blog/2023/08/14/lsplant/" title="LSPlant 学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">LSPlant 学习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">5ec1cff</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/5ec1cff"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/5ec1cff" target="_blank" title="Github"><i class="fab fa-github" style="color: #000000;"></i></a><a class="social-icon" href="https://t.me/real5ec1cff" target="_blank" title="Telegram"><i class="fab fa-telegram" style="color: #000000;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LSPass-%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">LSPass 学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ART-%E5%AF%B9%E8%B1%A1%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.1.1.</span> <span class="toc-text">ART 对象表示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkFields"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">LinkFields</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E8%97%8F-API"><span class="toc-number">1.1.2.</span> <span class="toc-text">隐藏 API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getUnsafe"><span class="toc-number">1.2.</span> <span class="toc-text">getUnsafe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#native-pointer-fields"><span class="toc-number">1.3.</span> <span class="toc-text">native pointer fields</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-method-%E5%92%8C-field-%E6%95%B0%E7%BB%84%E7%9A%84-bias"><span class="toc-number">1.4.</span> <span class="toc-text">计算 method 和 field 数组的 bias</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getDeclared"><span class="toc-number">1.5.</span> <span class="toc-text">getDeclared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#invoke-newInstance"><span class="toc-number">1.6.</span> <span class="toc-text">invoke &#x2F; newInstance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%86%85%E5%85%A8%E5%B1%80%E8%A7%A3%E9%99%A4-API-%E9%99%90%E5%88%B6"><span class="toc-number">1.7.</span> <span class="toc-text">进程内全局解除 API 限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.8.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI-OnLoad"><span class="toc-number">1.8.1.</span> <span class="toc-text">JNI_OnLoad</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.8.2.</span> <span class="toc-text">系统设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DexFile-setTrusted"><span class="toc-number">1.9.</span> <span class="toc-text">DexFile.setTrusted</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.10.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.11.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃">记一次 LSPosed Native Hook 偶现崩溃</a><time datetime="2023-12-06T11:40:56.000Z" title="发表于 2023-12-06 19:40:56">2023-12-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/11/23/system-certs/" title="Android 安装系统证书">Android 安装系统证书</a><time datetime="2023-11-23T02:53:06.000Z" title="发表于 2023-11-23 10:53:06">2023-11-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/" title="在树莓派上部署 Tachidesk Server">在树莓派上部署 Tachidesk Server</a><time datetime="2023-10-08T10:07:29.000Z" title="发表于 2023-10-08 18:07:29">2023-10-08</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/09/20/blog/" title="My new blog ...">My new blog ...</a><time datetime="2023-09-20T10:28:37.000Z" title="发表于 2023-09-20 18:28:37">2023-09-20</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/08/26/lspass/" title="LSPass 学习">LSPass 学习</a><time datetime="2023-08-26T03:46:00.000Z" title="发表于 2023-08-26 11:46:00">2023-08-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 5ec1cff</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js"></script><script src="/my-blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

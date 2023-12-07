@@ -1,1015 +1,216 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/my-blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/my-blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/my-blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/my-blog/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/my-blog/css/main.css">
-
-
-<link rel="stylesheet" href="/my-blog/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"5ec1cff.github.io","root":"/my-blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>5ec1cff's blog</title><meta name="author" content="5ec1cff"><meta name="copyright" content="5ec1cff"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="5ec1cff&#39;s blog">
 <meta property="og:url" content="https://5ec1cff.github.io/my-blog/index.html">
 <meta property="og:site_name" content="5ec1cff&#39;s blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:author" content="5ec1cff">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://5ec1cff.github.io/my-blog/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>5ec1cff's blog</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8K3NDG4D9K"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-8K3NDG4D9K');
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://5ec1cff.github.io/my-blog/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '5ec1cff\'s blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-12-07 10:39:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
       }
-    </script>
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/my-blog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">5ec1cff's blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/my-blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/my-blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
 
-  <a href="https://github.com/5ec1cff" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
 
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/12/06/lsp-native-hook-crash/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/12/06/lsp-native-hook-crash/" class="post-title-link" itemprop="url">记一次 LSPosed Native Hook 偶现崩溃</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-12-06 19:40:56 / 修改时间：21:43:38" itemprop="dateCreated datePublished" datetime="2023-12-06T19:40:56+08:00">2023-12-06</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
+        document.head.appendChild(script)
+      })
     
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="记一次-LSPosed-Native-Hook-偶现崩溃"><a href="#记一次-LSPosed-Native-Hook-偶现崩溃" class="headerlink" title="记一次 LSPosed Native Hook 偶现崩溃"></a>记一次 LSPosed Native Hook 偶现崩溃</h1><h2 id="发现故障"><a href="#发现故障" class="headerlink" title="发现故障"></a>发现故障</h2><p><ruby>昨天<rp>(</rp><rt>12-05</rt><rp>)</rp></ruby>调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/12/06/lsp-native-hook-crash/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/11/23/system-certs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/11/23/system-certs/" class="post-title-link" itemprop="url">Android 安装系统证书</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-11-23 10:53:06 / 修改时间：11:15:55" itemprop="dateCreated datePublished" datetime="2023-11-23T10:53:06+08:00">2023-11-23</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Android-安装系统证书"><a href="#Android-安装系统证书" class="headerlink" title="Android 安装系统证书"></a>Android 安装系统证书</h1><p>抓包的时候通常需要安装特定的 CA 证书以便中间人解密，本文以安装 <a target="_blank" rel="noopener" href="https://mitmproxy.org/">mitmproxy</a> 证书为例介绍如何准备证书文件和临时安装（挂载）证书到特定的 app 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/11/23/system-certs/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/10/08/tachidesk-on-raspberrypi/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/" class="post-title-link" itemprop="url">在树莓派上部署 Tachidesk Server</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-10-08 18:07:29 / 修改时间：20:10:00" itemprop="dateCreated datePublished" datetime="2023-10-08T18:07:29+08:00">2023-10-08</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="在树莓派上部署-Tachidesk-Server-Suwayomi-插件体验"><a href="#在树莓派上部署-Tachidesk-Server-Suwayomi-插件体验" class="headerlink" title="在树莓派上部署 Tachidesk Server &amp; Suwayomi 插件体验"></a>在树莓派上部署 Tachidesk Server &amp; Suwayomi 插件体验</h1><p>最近想在手机上看本子，但是想看的内容重达 8G ，即使处理成 webp ，压缩到了 600M ，但几千张也不是小数目，实在不太好放在手机上。突然想到自己尘封数个月的三手树莓派，于是拿出来搭建了个 WebDAV ，把本子传上去，这样就能舒服地躺在床上用手机看了。剩下的问题就是阅读器。手机上支持 WebDAV 的文件管理器普遍看图效果差，而 Tachiyomi 虽然看漫画好用却没有 WebDAV 源。现在发现 Tachidesk 通过 Suwayomi 插件可以作为 Tachiyomi 的图源，决定在树莓派上部署。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/09/20/blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/09/20/blog/" class="post-title-link" itemprop="url">My new blog ...</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-09-20 18:28:37 / 修改时间：18:39:56" itemprop="dateCreated datePublished" datetime="2023-09-20T18:28:37+08:00">2023-09-20</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="My-new-blog-…"><a href="#My-new-blog-…" class="headerlink" title="My new blog …"></a>My new blog …</h1><p>终于还是用 hexo + gh pages 搭了个博客。</p>
-<p>原本希望用 <a target="_blank" rel="noopener" href="https://github.com/5ec1cff/my-notes">my-notes</a> 作博客，用 github 自带的 actions 生成，然而效果不佳，最大的问题是没有首页，自己又懒于研究，于是就一直挂在那了，想必没人会看吧（笑）。</p>
-<p>开这个新的博客，也是希望另起炉灶，因为原先的 my-notes 堆积了大量的口水话，我还是希望新的 blog 内容更有质量一些，少一些记录性的内容。</p>
-<p>现在我已经从 my-notes 搬运了一些我认为相对来说好一些的内容到这里。也许将来 my-notes 的作用就是草稿箱，如果有成品就会放到这里来。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/26/lspass/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/08/26/lspass/" class="post-title-link" itemprop="url">LSPass 学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-26 11:46:00" itemprop="dateCreated datePublished" datetime="2023-08-26T11:46:00+08:00">2023-08-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 15:01:15" itemprop="dateModified" datetime="2023-09-20T15:01:15+08:00">2023-09-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>学习 LSPass (LSPosed/AndroidHiddenApiByPass)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/08/26/lspass/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/14/lsplant/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/08/14/lsplant/" class="post-title-link" itemprop="url">LSPlant 学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-14 23:56:00" itemprop="dateCreated datePublished" datetime="2023-08-14T23:56:00+08:00">2023-08-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 14:59:33" itemprop="dateModified" datetime="2023-09-20T14:59:33+08:00">2023-09-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="LSPlant"><a href="#LSPlant" class="headerlink" title="LSPlant"></a>LSPlant</h1><p><a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPlant">https://github.com/LSPosed/LSPlant</a></p>
-<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>修改 ArtMethod 的 entry_point_from_quick_compiled_code_ ，这里原先是 dex2oat 优化后的本机代码，现在指向我们控制的代码。同时通过各种手段使调用方法时走本机代码 。</p>
-<p>为此，hook 一个 method 需要另外两个 method ，一个作为 hook 的 stub ；另一个 method 用于备份被 hook 的方法。LSPlant 使用 DexBuilder 生成包含这两个方法的辅助类。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/08/14/lsplant/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/08/11/system-properties/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/08/11/system-properties/" class="post-title-link" itemprop="url">Android 系统属性</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-11 14:27:00" itemprop="dateCreated datePublished" datetime="2023-08-11T14:27:00+08:00">2023-08-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 15:02:27" itemprop="dateModified" datetime="2023-09-20T15:02:27+08:00">2023-09-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Android 系统属性分析</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/08/11/system-properties/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/05/07/android-ptrace/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/05/07/android-ptrace/" class="post-title-link" itemprop="url">Android ptrace</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-05-07 18:27:00" itemprop="dateCreated datePublished" datetime="2023-05-07T18:27:00+08:00">2023-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 15:28:39" itemprop="dateModified" datetime="2023-09-20T15:28:39+08:00">2023-09-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Android 上的 ptrace 实践</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/05/07/android-ptrace/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/04/28/ptrace/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/04/28/ptrace/" class="post-title-link" itemprop="url">ptrace</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-28 12:20:00" itemprop="dateCreated datePublished" datetime="2023-04-28T12:20:00+08:00">2023-04-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 15:06:20" itemprop="dateModified" datetime="2023-09-20T15:06:20+08:00">2023-09-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>ptrace</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/04/28/ptrace/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://5ec1cff.github.io/my-blog/2023/01/27/pwn-tv/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/my-blog/images/avatar.gif">
-      <meta itemprop="name" content="5ec1cff">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="5ec1cff's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/my-blog/2023/01/27/pwn-tv/" class="post-title-link" itemprop="url">pwn-tv</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-27 00:37:38" itemprop="dateCreated datePublished" datetime="2023-01-27T00:37:38+08:00">2023-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-21 23:38:05" itemprop="dateModified" datetime="2023-11-21T23:38:05+08:00">2023-11-21</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Konka-TV-PWN"><a href="#Konka-TV-PWN" class="headerlink" title="Konka TV PWN"></a>Konka TV PWN</h1><blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/5ec1cff/my-notes/blob/8fde03d5031265a8c90df30ed823cc057e1014b2/pwn-tv.md">原文</a>作于 2023.01.27, 整理于 2023.11.21</p>
-</blockquote>
-<p>老家的 Konka 电视是个 Android 系统，曾经 nmap 扫描过，发现 adb 是开放的，这次过年回去研究了一下，发现可以提权。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/my-blog/2023/01/27/pwn-tv/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
       }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">5ec1cff</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/my-blog/archives/">
-        
-          <span class="site-state-item-count">10</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/5ec1cff" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;5ec1cff" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://t.me/real5ec1cff" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;real5ec1cff" rel="noopener" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
-      </span>
-  </div>
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/my-blog/" title="5ec1cff's blog"><span class="site-name">5ec1cff's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃">记一次 LSPosed Native Hook 偶现崩溃</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-12-06T11:40:56.000Z" title="发表于 2023-12-06 19:40:56">2023-12-06</time></span></div><div class="content">记一次 LSPosed Native Hook 偶现崩溃发现故障昨天(12-05)调试 HMA 的时候重启手机，发现某些加载了 LSPosed 模块的 app 无法启动，tombstone 全指向了同一处地址的 SIGSEGV 。
 
 
+重启后恢复正常，于是我赶紧去翻查 tombstone ，发现 backtrace 来自某个 zygisk 模块，并且堆栈回溯到这里断掉了。
+12345signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x7196fa5224backtrace:      #00 pc 00000000000859b0  /apex/com.android.runtime/lib64/bionic/libc.so (__memcpy+96) (BuildId: a790cdbd8e44ea8a90802da343cb82ce)      #01 pc 000000000001c57c  /memfd:jit-cache (deleted)
 
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+既然是 LSPosed 模块导致了崩溃，那么这个应当是 lsp 的 zyg ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/11/23/system-certs/" title="Android 安装系统证书">Android 安装系统证书</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-23T02:53:06.000Z" title="发表于 2023-11-23 10:53:06">2023-11-23</time></span></div><div class="content">Android 安装系统证书抓包的时候通常需要安装特定的 CA 证书以便中间人解密，本文以安装 mitmproxy 证书为例介绍如何准备证书文件和临时安装（挂载）证书到特定的 app 。
 
 
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">5ec1cff</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-        
+准备证书这里可以直接参考 mitmproxy 给出的流程
+System CA on Android Emulator
+mitmproxy CA 证书位于 ~/.mitmproxy/mitmproxy-ca-cert.cer (Windows: %UserProfile%\.mitmproxy\mitmproxy-ca-cert.cer) ，Android 接受这种格式的证书，不过需要重命名为特定的名字。
+命令 openssl x509 -inform PEM -subject_hash_old -in mitmproxy-ca-cert.cer 第一行输出证书的 hash ，本例中为 c8750f0d ，因此复制一份 mitmproxy-ca-cert.cer ，将其重命名为 c8750f0d.0 ，即可得到 Android 上可用的证书。
+挂载到系统目录对于 Android 13 和之前的版本， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/" title="在树莓派上部署 Tachidesk Server">在树莓派上部署 Tachidesk Server</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-10-08T10:07:29.000Z" title="发表于 2023-10-08 18:07:29">2023-10-08</time></span></div><div class="content">在树莓派上部署 Tachidesk Server &amp; Suwayomi 插件体验最近想在手机上看本子，但是想看的内容重达 8G ，即使处理成 webp ，压缩到了 600M ，但几千张也不是小数目，实在不太好放在手机上。突然想到自己尘封数个月的三手树莓派，于是拿出来搭建了个 WebDAV ，把本子传上去，这样就能舒服地躺在床上用手机看了。剩下的问题就是阅读器。手机上支持 WebDAV 的文件管理器普遍看图效果差，而 Tachiyomi 虽然看漫画好用却没有 WebDAV 源。现在发现 Tachidesk 通过 Suwayomi 插件可以作为 Tachiyomi 的图源，决定在树莓派上部署。
 
 
+安装Suwayomi&#x2F;Tachidesk-Server: A rewrite of Tachiyomi for the Desktop
+首先安装 makedeb
+makedeb - A simplicity-focused packaging tool for Debian archives
+1bash -ci &quot;$(wget -qO - &#x27;https:// ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/09/20/blog/" title="My new blog ...">My new blog ...</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-09-20T10:28:37.000Z" title="发表于 2023-09-20 18:28:37">2023-09-20</time></span></div><div class="content">My new blog …终于还是用 hexo + gh pages 搭了个博客。
+原本希望用 my-notes 作博客，用 github 自带的 actions 生成，然而效果不佳，最大的问题是没有首页，自己又懒于研究，于是就一直挂在那了，想必没人会看吧（笑）。
+开这个新的博客，也是希望另起炉灶，因为原先的 my-notes 堆积了大量的口水话，我还是希望新的 blog 内容更有质量一些，少一些记录性的内容。
+现在我已经从 my-notes 搬运了一些我认为相对来说好一些的内容到这里。也许将来 my-notes 的作用就是草稿箱，如果有成品就会放到这里来。
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/08/26/lspass/" title="LSPass 学习">LSPass 学习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-26T03:46:00.000Z" title="发表于 2023-08-26 11:46:00">2023-08-26</time></span></div><div class="content">LSPass 学习前置知识ART 对象表示在 ART 中，一个 Java 对象与一个 art::mirror::Object 一一对应，此外一些系统的特殊类会和 mirror Object 的派生类对应，如 java&#x2F;lang&#x2F;Class 对应 art::mirror::Class 。
+mirror::Object 对象所包含的内容就是 instance field 的内容，因此它的大小和类的 instance field 有关。之所以叫 mirror ，是因为这些 mirror 类中定义的成员和 Java 类的字段(field)是一致的。
+一般的类的对象对应的都是 art::mirror::Object ，访问 field 是通过对象地址 + field offset 实现的。如果一个类继承另一个类，则内存布局上子类的 field 排在父类的后面，这和结构体继承的内存布局是一致的。
+例如 art::mirror::Object 只有两个成员：
+12345// art/runtime/mirror/object.h  // The Class representin ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/08/14/lsplant/" title="LSPlant 学习">LSPlant 学习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-14T15:56:00.000Z" title="发表于 2023-08-14 23:56:00">2023-08-14</time></span></div><div class="content">LSPlanthttps://github.com/LSPosed/LSPlant
+基本原理修改 ArtMethod 的 entry_point_from_quick_compiled_code_ ，这里原先是 dex2oat 优化后的本机代码，现在指向我们控制的代码。同时通过各种手段使调用方法时走本机代码 。
+为此，hook 一个 method 需要另外两个 method ，一个作为 hook 的 stub ；另一个 method 用于备份被 hook 的方法。LSPlant 使用 DexBuilder 生成包含这两个方法的辅助类。
 
 
+ArtMethod 调用约定我们可以从反射执行看 oat 后 ArtMethod 的本机代码是如何调用的。
+ArtMethod::Invoke
+根据方法是否为 static ，执行一段汇编编写的代码 art_quick_invoke_stub 或 art_quick_invoke_static_stub ，其代码位于：
+art/runtime/arch/&#123;arch&#125;/quick_entrypoints_&#123;arch&#12 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/08/11/system-properties/" title="Android 系统属性">Android 系统属性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-11T06:27:00.000Z" title="发表于 2023-08-11 14:27:00">2023-08-11</time></span></div><div class="content">系统属性Android Property 实现解析与黑魔法 - 残页的小博客
+bionic属性系统概述bionic&#x2F;libc&#x2F;bionic&#x2F;system_property_api.cpp
+bionic&#x2F;libc&#x2F;include&#x2F;sys&#x2F;_system_properties.h
+属性系统实际上就是一个整个系统共享的键值对存储器，通过共享文件内存映射实现。
+存放属性的文件位于 /dev/__properties__ ，这下面的多个文件，实际上是将属性按照前缀划分为不同的 SELinux 上下文，存放在对应的文件中。
+划分的规则可以在 /&#123;system,vendor,...&#125;/etc/selinux/&#123;plat,...&#125;_property_contexts 等文件找到。
+init 进程负责初始化属性存储区域，且是系统中唯一能够修改属性的进程（当然，只要某个进程能 rw 映射存放属性的文件，也是可以修改的），其他进程通过属性服务（一个名为 property_service 的 sock ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/05/07/android-ptrace/" title="Android ptrace">Android ptrace</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-05-07T10:27:00.000Z" title="发表于 2023-05-07 18:27:00">2023-05-07</time></span></div><div class="content">Android 上的 ptrace 实践前篇
+
+dlopen获取 dlopen 有两种方法：
+
+从 linker 获取 __loader_dlopen （或者 __dl___loader_dlopen），需要提供 caller_addr  
+从 libdl.so 获取 dlopen
+
+详细代码：
+https://github.com/5ec1cff/ptrace-examples/tree/android
+实现了注入到任意进程，调用 __loader_dlopen 打开指定路径的 lib ，或者调用 __loader_dlclose 关闭指定 handle 的 lib 。目前只支持 x86-64 和 arm64 。
+对齐问题一开始总是得到 SIGSEGV ，并且 fault addr 为 0 。出现问题的时候注入信号并 detach ，观察 crash dump ：
+123456789101112131415161718192005-02 13:13:59.534 18907 18907 F DEBUG   : *** *** *** *** *** *** *** *** *** * ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/04/28/ptrace/" title="ptrace">ptrace</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-28T04:20:00.000Z" title="发表于 2023-04-28 12:20:00">2023-04-28</time></span></div><div class="content">ptraceptrace(2) - Linux manual page
+wait(2) - Linux manual page
+本文相关代码都在下面的仓库：
+https://github.com/5ec1cff/ptrace-examples
+tracee execve 时的行为当被跟踪者(tracee)进程成功调用 execve 后，会立即产生一个 SIGTRAP ，并进入 signal-delivery-stop 状态，允许我们在进程的所有新代码执行之前进行处理。
+这个状态不好辨识，在 man ptrace 中已经不建议使用。我们可以用 PTRACE_O_TRACEEXEC 选项，这样当成功 execve 的时候，原先的 SIGTRAP 不会产生，取而代之的是另一个 stop ，status 满足 status &gt;&gt; 8 == (SIGTRAP | (PTRACE_EVENT_EXEC &lt;&lt; 8)) ，并且我们可以通过 PTRACE_GETEVENTMSG 获得 execve 之前的 pid （在多线程中有用，因为在非主线程进行 execve ，pid 会发 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/my-blog/2023/01/27/pwn-tv/" title="pwn-tv">pwn-tv</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-26T16:37:38.000Z" title="发表于 2023-01-27 00:37:38">2023-01-27</time></span></div><div class="content">Konka TV PWN
+原文作于 2023.01.27, 整理于 2023.11.21
+
+老家的 Konka 电视是个 Android 系统，曾经 nmap 扫描过，发现 adb 是开放的，这次过年回去研究了一下，发现可以提权。
 
 
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/my-blog/lib/anime.min.js"></script>
-  <script src="/my-blog/lib/velocity/velocity.min.js"></script>
-  <script src="/my-blog/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/my-blog/js/utils.js"></script>
-
-<script src="/my-blog/js/motion.js"></script>
-
-
-<script src="/my-blog/js/schemes/muse.js"></script>
-
-
-<script src="/my-blog/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
-</html>
+分析使用 adb 是可以直接连接的，uid 是 shell ，不需要在 TV 上进行任何授权。
+看看系统属性：
+12345678910111213141516[ro.adb.secure]: [0][ro.allow.mock.location]: [1][ro.board.platform]: [bigfish][ro.boot.selinux]: [enforcing][ro.build.tags]: [release-keys][ro.build.type]: [user][ro.build.version.all_codenames]: [REL][ro.build.version.base_os]: [][ro.build.version.codename]: [REL][ro.build.version.incremental]: [eng. ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">5ec1cff</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/5ec1cff"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/5ec1cff" target="_blank" title="Github"><i class="fab fa-github" style="color: #000000;"></i></a><a class="social-icon" href="https://t.me/real5ec1cff" target="_blank" title="Telegram"><i class="fab fa-telegram" style="color: #000000;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃">记一次 LSPosed Native Hook 偶现崩溃</a><time datetime="2023-12-06T11:40:56.000Z" title="发表于 2023-12-06 19:40:56">2023-12-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/11/23/system-certs/" title="Android 安装系统证书">Android 安装系统证书</a><time datetime="2023-11-23T02:53:06.000Z" title="发表于 2023-11-23 10:53:06">2023-11-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/" title="在树莓派上部署 Tachidesk Server">在树莓派上部署 Tachidesk Server</a><time datetime="2023-10-08T10:07:29.000Z" title="发表于 2023-10-08 18:07:29">2023-10-08</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/09/20/blog/" title="My new blog ...">My new blog ...</a><time datetime="2023-09-20T10:28:37.000Z" title="发表于 2023-09-20 18:28:37">2023-09-20</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/08/26/lspass/" title="LSPass 学习">LSPass 学习</a><time datetime="2023-08-26T03:46:00.000Z" title="发表于 2023-08-26 11:46:00">2023-08-26</time></div></div></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/09/"><span class="card-archive-list-date">九月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/my-blog/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">10</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-12-07T02:39:46.197Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 5ec1cff</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js"></script><script src="/my-blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
