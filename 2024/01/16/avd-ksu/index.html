@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>在 AVD 上使用 KernelSU | 5ec1cff's blog</title><meta name="author" content="5ec1cff"><meta name="copyright" content="5ec1cff"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="在 AVD 上使用 KernelSU曾经尝试过给 AVD 构建带有 KernelSU 的内核，方便开发测试，但是发现内核模块不兼容，现在的方法是同时构建内核模块，略为复杂。 构建内核https:&#x2F;&#x2F;source.android.com&#x2F;docs&#x2F;setup&#x2F;build&#x2F;building-kernels?hl&#x3D;zh-cn Android 14 的 AVD 内核版本： 1Linux version 6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 AVD 上使用 KernelSU">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2024/01/16/avd-ksu/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="在 AVD 上使用 KernelSU曾经尝试过给 AVD 构建带有 KernelSU 的内核，方便开发测试，但是发现内核模块不兼容，现在的方法是同时构建内核模块，略为复杂。 构建内核https:&#x2F;&#x2F;source.android.com&#x2F;docs&#x2F;setup&#x2F;build&#x2F;building-kernels?hl&#x3D;zh-cn Android 14 的 AVD 内核版本： 1Linux version 6">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-16T15:17:20.000Z">
+<meta property="article:modified_time" content="2024-01-16T15:57:05.429Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary"><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://5ec1cff.github.io/my-blog/2024/01/16/avd-ksu/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '在 AVD 上使用 KernelSU',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-16 23:57:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style> .avatar-img { display: none; } #pagination.pagination-post { background: #fff; } #pagination.pagination-post .cover { opacity: 1; } :root { --hl-bg: #fff0f4; --hltools-bg: #ffe1e9; --hlscrollbar-bg: #ebaecd; --hlnumber-bg: #fff0f4; --hlnumber-color: #ff2291; --hltools-color: #ff2291; } [data-theme='dark'] { --hl-bg: #191113; --hltools-bg: #4c343a; --hlscrollbar-bg: #ebaecd; --hlnumber-bg: #191113; --hlnumber-color: #ff2291; --hltools-color: #ff2291; --hl-color: #90a4ae; --default-bg-color: #4c343a; }[data-theme='dark'] #footer { background: #4c343a; } </style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/my-blog/" title="5ec1cff's blog"><span class="site-name">5ec1cff's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">在 AVD 上使用 KernelSU</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-16T15:17:20.000Z" title="发表于 2024-01-16 23:17:20">2024-01-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-16T15:57:05.429Z" title="更新于 2024-01-16 23:57:05">2024-01-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="在 AVD 上使用 KernelSU"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="在-AVD-上使用-KernelSU"><a href="#在-AVD-上使用-KernelSU" class="headerlink" title="在 AVD 上使用 KernelSU"></a>在 AVD 上使用 KernelSU</h1><p><a target="_blank" rel="noopener" href="https://github.com/5ec1cff/my-notes/blob/8fde03d5031265a8c90df30ed823cc057e1014b2/cuttlefish-on-wsl.md#avd">曾经</a>尝试过给 AVD 构建带有 KernelSU 的内核，方便开发测试，但是发现内核模块不兼容，现在的方法是同时构建内核模块，略为复杂。</p>
+<h2 id="构建内核"><a href="#构建内核" class="headerlink" title="构建内核"></a>构建内核</h2><p><a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/build/building-kernels?hl=zh-cn">https://source.android.com/docs/setup/build/building-kernels?hl=zh-cn</a></p>
+<p>Android 14 的 AVD 内核版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux version 6.1.23-android14-4-00257-g7e35917775b8-ab9964412 (build-user@build-host) (Android (9796371, based on r487747) clang version 17.0.0 (https://android.googlesource.com/toolchain/llvm-project d9f89f4d16663d5012e5c09495f3b30ece3d2362), LLD 17.0.0) #1 SMP PREEMPT Mon Apr 17 20:50:58 UTC 2023</span><br></pre></td></tr></table></figure>
+
+<p>根据 <a target="_blank" rel="noopener" href="https://github.com/tiann/KernelSU/blob/aef943ebe3be9764ed0aeeb1f4ffb5d38c1d7d22/.github/workflows/gki-kernel.yml#L166">KernelSU CI</a> 进行操作，拉取对应版本源码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repo init --depth=1 --u https://android.googlesource.com/kernel/manifest -b common-android14-6.1-2023-12 --repo-rev=v2.16</span><br><span class="line">REMOTE_BRANCH=$(git ls-remote https://android.googlesource.com/kernel/common android14-6.1-2023-12)</span><br><span class="line">DEFAULT_MANIFEST_PATH=.repo/manifests/default.xml</span><br><span class="line">repo --trace <span class="built_in">sync</span> -c -j$(<span class="built_in">nproc</span> --all) --no-tags</span><br></pre></td></tr></table></figure>
+
+<p>同步完成后可以用 bazel 构建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools/bazel build //common:kernel_x86_64_dist</span><br></pre></td></tr></table></figure>
+
+<p>产物位置： <code>bazel-out/k8-fastbuild/bin/common/kernel_x86_64/bzImage</code></p>
+<h2 id="解决模块不兼容"><a href="#解决模块不兼容" class="headerlink" title="解决模块不兼容"></a>解决模块不兼容</h2><p>上面构建出来的内核与 AVD 原镜像中的模块不兼容，按理来说 GKI 是确保了模块接口稳定性的，虽然我们的 KMI Generation 不同。总之需要构建对应的模块。</p>
+<p>有三个地方的模块会被加载：ramdisk ，&#x2F;system(_dlkm)&#x2F;lib&#x2F;modules ， &#x2F;vendor&#x2F;lib&#x2F;modules 。</p>
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><p>上面执行的 dist 已经构建好了 system_dlkm ，输出在 <code>bazel-out/k8-fastbuild/bin/common/kernel_x86_64/unstripped/</code> （其实应该有一个 dist 目录，不过我没指定，也没找到默认的在哪）。</p>
+<p>我们还需要构建 vendor （以及 boot ）的 ko 。根据文档，执行 <code>tools/bazel run //common-modules/virtual-device:virtual_device_x86_64_dist</code> 即可。输出在 <code>out/virtual_device_x86_64/dist/</code></p>
+<h3 id="ramdisk"><a href="#ramdisk" class="headerlink" title="ramdisk"></a>ramdisk</h3><p>使用 magiskboot 查看 ramdisk ，发现在 lib&#x2F;modules 下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/data/adb/magisk/magiskboot decompress ramdisk.img ramdisk.cpio</span><br><span class="line">/data/adb/magisk/magiskboot cpio ramdisk.cpio <span class="string">&#x27;ls -r&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>因此构建好模块后，只需要把新的 ko 添加到 cpio 即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/data/adb/magisk/magiskboot decompress ramdisk.img ramdisk.cpio</span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> *.ko; <span class="keyword">do</span> /data/adb/magisk/magiskboot cpio ramdisk.cpio <span class="string">&quot;add 0644 lib/modules/<span class="variable">$f</span> <span class="variable">$f</span>&quot;</span>; <span class="keyword">done</span></span><br><span class="line">/data/adb/magisk/magiskboot compress=gzip ramdisk.cpio ramdisk.gz</span><br></pre></td></tr></table></figure>
+
+<p>需要用到的 ko 大概是这些：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> out/virtual_device_x86_64/dist/&#123;virtio-rng.ko,virtio_blk.ko,virtio_console.ko,virtio_dma_buf.ko,virtio_pci.ko,virtio_pci_legacy_dev.ko,virtio_pci_modern_dev.ko,vmw_vsock_virtio_transport.ko&#125; /mnt/d/Documents/tmp/kmods</span><br></pre></td></tr></table></figure>
+
+<h3 id="system-vendor"><a href="#system-vendor" class="headerlink" title="system &amp; vendor"></a>system &amp; vendor</h3><p>观察发现 &#x2F;system&#x2F;lib&#x2F;modules&#x2F;modules.load 是空的，只有 &#x2F;vendor&#x2F;lib&#x2F;modules 有。于是写一个脚本解析需要的 ko ，并从构建好的 ko 中搜索，复制出来。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">os.system(<span class="string">&#x27;adb.exe pull /vendor/lib/modules/modules.dep /vendor/lib/modules/modules.load .&#x27;</span>)</span><br><span class="line">os.system(<span class="string">&#x27;adb.exe pull /system/lib/modules/modules.dep sys_modules.dep&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;modules.load&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    vendor_modules_to_load = re.split(<span class="string">r&#x27;\s+&#x27;</span>, f.read().strip())</span><br><span class="line"></span><br><span class="line">vendor_modules_to_load = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: <span class="string">&#x27;/vendor/lib/modules/&#x27;</span> + x, vendor_modules_to_load))</span><br><span class="line"></span><br><span class="line">to_load = <span class="built_in">set</span>(vendor_modules_to_load)</span><br><span class="line">to_load.add(<span class="string">&#x27;/system/lib/modules/zram.ko&#x27;</span>)</span><br><span class="line">deps = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_dep</span>(<span class="params">fn</span>):</span><br><span class="line">    <span class="keyword">global</span> deps</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;modules.dep&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> f.readlines():</span><br><span class="line">            k, v = l.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">            k = k.strip()</span><br><span class="line">            v = v.strip()</span><br><span class="line">            <span class="keyword">if</span> v == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            deps[k] = re.split(<span class="string">r&#x27;\s+&#x27;</span>, v)</span><br><span class="line">            <span class="comment"># print(k, &#x27;-&gt;&#x27;, deps[k])</span></span><br><span class="line"></span><br><span class="line">load_dep(<span class="string">&#x27;modules.dep&#x27;</span>)</span><br><span class="line">load_dep(<span class="string">&#x27;sys_odules.dep&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(to_load))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    orig_size = <span class="built_in">len</span>(to_load)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">list</span>(to_load):</span><br><span class="line">        <span class="keyword">if</span> k <span class="keyword">in</span> deps:</span><br><span class="line">            <span class="keyword">for</span> v <span class="keyword">in</span> deps[k]:</span><br><span class="line">                to_load.add(v)</span><br><span class="line">    new_size = <span class="built_in">len</span>(to_load)</span><br><span class="line">    <span class="keyword">if</span> orig_size == new_size:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(to_load), to_load)</span><br><span class="line">paths = &#123;&#125;</span><br><span class="line"></span><br><span class="line">search_paths = [<span class="string">&#x27;/home/five_ec1cff/android-kernel/bazel-out/k8-fastbuild/bin/common/kernel_x86_64/unstripped/&#x27;</span>, <span class="string">&#x27;/home/five_ec1cff/android-kernel/out/virtual_device_x86_64/dist/&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> mod <span class="keyword">in</span> to_load:</span><br><span class="line">    path = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">for</span> search_path <span class="keyword">in</span> search_paths:</span><br><span class="line">        tp = search_path + <span class="string">&#x27;/&#x27;</span> + mod.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span> os.path.exists(tp):</span><br><span class="line">            path = tp</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    paths[mod] = path</span><br><span class="line">    </span><br><span class="line">target_path = <span class="string">&#x27;/mnt/d/Documents/tmp/kmods&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> paths:</span><br><span class="line">    <span class="built_in">print</span>(p, <span class="string">&#x27;&lt;-&#x27;</span>, paths[p])</span><br><span class="line">    pp = Path(target_path + p)</span><br><span class="line">    pp.parent.mkdir(parents=<span class="literal">True</span>, exist_ok=<span class="literal">True</span>)</span><br><span class="line">    shutil.copy(paths[p], pp)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>之后需要把构建好的 ko 放到 &#x2F;system_dlkm 和 &#x2F;vendor ，我们需要开启 avd 的 writable system ，这样会使用 overlayfs 提供一个可写的叠加层。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 writable system</span></span><br><span class="line">emulator @API34 -writable-system</span><br><span class="line"><span class="comment"># 启用 writable system</span></span><br><span class="line">adb root</span><br><span class="line">adb remount <span class="comment"># rw</span></span><br></pre></td></tr></table></figure>
+
+<p>首次启用需要先 adb remount 并重启才生效，之后如果启动 avd 指定了 -writable-system 才会使用叠加层，不指定则不会。</p>
+<p>之后就可以直接写这些目录了，通过 adb push 推送 ko 即可。</p>
+<h2 id="KernelSU"><a href="#KernelSU" class="headerlink" title="KernelSU"></a>KernelSU</h2><p>也是参考 CI 的方式，注意构建内核必须用 CI 的命令，否则无法正确找到 KernelSU 版本。似乎是默认的构建方式用了 sandbox ，导致 <a target="_blank" rel="noopener" href="https://github.com/tiann/KernelSU/blob/1e676e5dc2eed4d6db6452d2815f77adb35e37a7/kernel/Makefile#L16">Makefile</a> 中 srctree 传入的路径不对。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools/bazel run --disk_cache=/home/runner/.cache/bazel --config=fast --config=stamp --lto=thin //common:kernel_x86_64_dist -- --dist_dir=dist</span><br></pre></td></tr></table></figure>
+
+<p>指定了 dist 目录后，构建好的内核(bzImage)及 system_dlkm 都在 <code>dist</code> 目录下。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>带着构建好的内核和 patch 的 ramdisk 启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emulator @API34 -kernel D:\Documents\tmp\kmods\bzImage -no-snapshot-load -show-kernel -writable-system -ramdisk D:\Documents\tmp\kmods\ramdisk.gz</span><br></pre></td></tr></table></figure>
+
+<p><img src="/my-blog/images/20240116_01.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然 KernelSU 支持 arm 和 x86，但自动构建一直以来只有 arm ，因此在 x86 上使用只能靠自己。像笔者这样坚持在 x86 上使用 KernelSU 也许是少数人，<del>（也许你们不信 前 ZygiskOnKernelSU 现 ZygiskNext 的主要开发者开发和测试这个模块的主要环境是 AVD 上的 Magisk ，而 Magisk + ZygiskNext 是不推荐的，）毕竟笔者既没有新手机也没有 M1 M2 只能在 x86 PC 上跑模拟器来研究真是抱歉呢</del>。总之，作为 x86 模拟器用户想用 KernelSU 只有两种选择，无论是 cuttlefish 还是 AVD ，集成和使用体验都很痛苦。</p>
+<p>最近 KernelSU 正在筹划模块化的实现，如果能用于 AVD 将可以减少这种痛苦，值得一试。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog">5ec1cff</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog/2024/01/16/avd-ksu/">https://5ec1cff.github.io/my-blog/2024/01/16/avd-ksu/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://5ec1cff.github.io/my-blog" target="_blank">5ec1cff's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">记一次 LSPosed Native Hook 偶现崩溃</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">5ec1cff</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/5ec1cff"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/5ec1cff" target="_blank" title="Github"><i class="fab fa-github" style="color: #000000;"></i></a><a class="social-icon" href="https://t.me/real5ec1cff" target="_blank" title="Telegram"><i class="fab fa-telegram" style="color: #000000;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-AVD-%E4%B8%8A%E4%BD%BF%E7%94%A8-KernelSU"><span class="toc-number">1.</span> <span class="toc-text">在 AVD 上使用 KernelSU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%86%85%E6%A0%B8"><span class="toc-number">1.1.</span> <span class="toc-text">构建内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%A8%A1%E5%9D%97%E4%B8%8D%E5%85%BC%E5%AE%B9"><span class="toc-number">1.2.</span> <span class="toc-text">解决模块不兼容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">构建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ramdisk"><span class="toc-number">1.2.2.</span> <span class="toc-text">ramdisk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#system-vendor"><span class="toc-number">1.2.3.</span> <span class="toc-text">system &amp; vendor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KernelSU"><span class="toc-number">1.3.</span> <span class="toc-text">KernelSU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">1.4.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2024/01/16/avd-ksu/" title="在 AVD 上使用 KernelSU">在 AVD 上使用 KernelSU</a><time datetime="2024-01-16T15:17:20.000Z" title="发表于 2024-01-16 23:17:20">2024-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃">记一次 LSPosed Native Hook 偶现崩溃</a><time datetime="2023-12-06T11:40:56.000Z" title="发表于 2023-12-06 19:40:56">2023-12-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/11/23/system-certs/" title="Android 安装系统证书">Android 安装系统证书</a><time datetime="2023-11-23T02:53:06.000Z" title="发表于 2023-11-23 10:53:06">2023-11-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2023/10/08/tachidesk-on-raspberrypi/" title="在树莓派上部署 Tachidesk Server">在树莓派上部署 Tachidesk Server</a><time datetime="2023-10-08T10:07:29.000Z" title="发表于 2023-10-08 18:07:29">2023-10-08</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/09/20/blog/" title="My new blog ...">My new blog ...</a><time datetime="2023-09-20T10:28:37.000Z" title="发表于 2023-09-20 18:28:37">2023-09-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 5ec1cff</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js"></script><script src="/my-blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
