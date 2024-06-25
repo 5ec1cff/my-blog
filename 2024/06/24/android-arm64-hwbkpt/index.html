@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android arm64 在 ptrace 中使用硬件断点 | 5ec1cff's blog</title><meta name="author" content="5ec1cff"><meta name="copyright" content="5ec1cff"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Android arm64 在 ptrace 中使用硬件断点ARM64内核研究（五） | Ylarod’s Blog gdb 系列(1) (hwbreakpoint\watchpoint)_unable to determine the number of hardware watchpo-CSDN博客 正文为了跟踪相应地址发生的事件（读、写、执行）是哪一条指令造成的，我们可以使用硬件断点来达成这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android arm64 在 ptrace 中使用硬件断点">
+<meta property="og:url" content="https://5ec1cff.github.io/my-blog/2024/06/24/android-arm64-hwbkpt/index.html">
+<meta property="og:site_name" content="5ec1cff&#39;s blog">
+<meta property="og:description" content="Android arm64 在 ptrace 中使用硬件断点ARM64内核研究（五） | Ylarod’s Blog gdb 系列(1) (hwbreakpoint\watchpoint)_unable to determine the number of hardware watchpo-CSDN博客 正文为了跟踪相应地址发生的事件（读、写、执行）是哪一条指令造成的，我们可以使用硬件断点来达成这">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-24T10:51:39.000Z">
+<meta property="article:modified_time" content="2024-06-25T18:09:06.151Z">
+<meta property="article:author" content="5ec1cff">
+<meta name="twitter:card" content="summary"><link rel="shortcut icon" href="/my-blog/img/favicon.png"><link rel="canonical" href="https://5ec1cff.github.io/my-blog/2024/06/24/android-arm64-hwbkpt/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/my-blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/my-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android arm64 在 ptrace 中使用硬件断点',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-26 02:09:06'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style> .avatar-img { display: none; } #pagination.pagination-post { background: #fff; } #pagination.pagination-post .cover { opacity: 1; } :root { --hl-bg: #fff0f4; --hltools-bg: #ffe1e9; --hlscrollbar-bg: #ebaecd; --hlnumber-bg: #fff0f4; --hlnumber-color: #ff2291; --hltools-color: #ff2291; } [data-theme='dark'] { --hl-bg: #191113; --hltools-bg: #4c343a; --hlscrollbar-bg: #ebaecd; --hlnumber-bg: #191113; --hlnumber-color: #ff2291; --hltools-color: #ff2291; --hl-color: #90a4ae; --default-bg-color: #4c343a; }[data-theme='dark'] #footer { background: #4c343a; } </style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/my-blog/" title="5ec1cff's blog"><span class="site-name">5ec1cff's blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Android arm64 在 ptrace 中使用硬件断点</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-24T10:51:39.000Z" title="发表于 2024-06-24 18:51:39">2024-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-25T18:09:06.151Z" title="更新于 2024-06-26 02:09:06">2024-06-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android arm64 在 ptrace 中使用硬件断点"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="Android-arm64-在-ptrace-中使用硬件断点"><a href="#Android-arm64-在-ptrace-中使用硬件断点" class="headerlink" title="Android arm64 在 ptrace 中使用硬件断点"></a>Android arm64 在 ptrace 中使用硬件断点</h1><p><a target="_blank" rel="noopener" href="https://xtuly.cn/article/arm64-kernel-research-5#8da7ebae86b34f0a85beaefb09137274">ARM64内核研究（五） | Ylarod’s Blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/green369258/article/details/55510650">gdb 系列(1) (hwbreakpoint\watchpoint)_unable to determine the number of hardware watchpo-CSDN博客</a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>为了跟踪相应地址发生的事件（读、写、执行）是哪一条指令造成的，我们可以使用硬件断点来达成这一目标。</p>
+<h3 id="准备条件"><a href="#准备条件" class="headerlink" title="准备条件"></a>准备条件</h3><p>需要内核启用 <code>CONFIG_HAVE_HW_BREAKPOINT</code> 和 <code>CONFIG_HAVE_ARCH_TRACEHOOK</code></p>
+<p>gki 上应该是默认打开的</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/Kconfig;l=217;drc=661dc19066ef0fdcb2db3e2542c45744a4067e87">https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/Kconfig;l=217;drc=661dc19066ef0fdcb2db3e2542c45744a4067e87</a></p>
+<h3 id="注册断点"><a href="#注册断点" class="headerlink" title="注册断点"></a>注册断点</h3><p>在 arm64 上，使用 <code>PTRACE_GET/SETREGSET</code> 调用来设置断点。内核的处理逻辑如下：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/kernel/ptrace.c;l=1511;drc=303a061b7c24724c3e79f0aadb247c0c795d4111">common&#x2F;arch&#x2F;arm64&#x2F;kernel&#x2F;ptrace.c</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_HAVE_HW_BREAKPOINT</span></span><br><span class="line">	[REGSET_HW_BREAK] = &#123;</span><br><span class="line">		.core_note_type = NT_ARM_HW_BREAK,</span><br><span class="line">		.n = <span class="keyword">sizeof</span>(<span class="keyword">struct</span> user_hwdebug_state) / <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.size = <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.align = <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.regset_get = hw_break_get,</span><br><span class="line">		.<span class="built_in">set</span> = hw_break_set,</span><br><span class="line">	&#125;,</span><br><span class="line">	[REGSET_HW_WATCH] = &#123;</span><br><span class="line">		.core_note_type = NT_ARM_HW_WATCH,</span><br><span class="line">		.n = <span class="keyword">sizeof</span>(<span class="keyword">struct</span> user_hwdebug_state) / <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.size = <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.align = <span class="keyword">sizeof</span>(u32),</span><br><span class="line">		.regset_get = hw_break_get,</span><br><span class="line">		.<span class="built_in">set</span> = hw_break_set,</span><br><span class="line">	&#125;,</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>有两种断点类型：breakpoint 和 watchpoint 。breakpoint 就是断点，用于当程序运行到指定地址时发生中断。watchpoint 是观察点，当程序对地址进行读(LOAD)或写(STORE)的时候发生中断。</p>
+<p>breakpoint 和 watchpoint 分别对应于 <code>NT_ARM_HW_BREAK</code> 和 <code>NT_ARM_HW_WATCH</code> 。可以在 elf.h 找到这些常量。</p>
+<p><code>NT_ARM_HW_xxx</code> 这些应该写入 ptrace 的 addr 参数。data 参数则是一个指向 <code>struct user_hwdebug_state</code> 的 iovec 。</p>
+<blockquote>
+<p>附 ptrace 定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="title function_">ptrace</span><span class="params">(<span class="keyword">enum</span> __ptrace_request op, <span class="type">pid_t</span> pid,</span></span><br><span class="line"><span class="params">                   <span class="type">void</span> *addr, <span class="type">void</span> *data)</span>;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>user_hwdebug_state</strong> 结构体如下（<code>sys/ptrace.h</code>）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">user_hwdebug_state</span> &#123;</span></span><br><span class="line">  __u32 dbg_info;</span><br><span class="line">  __u32 pad;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    __u64 addr;</span><br><span class="line">    __u32 ctrl;</span><br><span class="line">    __u32 pad;</span><br><span class="line">  &#125; dbg_regs[<span class="number">16</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>设置断点的时候我们需要修改 dbg_regs 。看上去有 16 个，实际上可用的要少于 16。</p>
+<blockquote>
+<p>一般来说， breakpoint 可用个数为 6 ， watchpoint 可用个数为 4 </p>
+</blockquote>
+<p><strong>dbg_info</strong> 包含了可用调试寄存器的槽位个数（低 8 位），在 get 的时候可用，set 时忽略。</p>
+<blockquote>
+<p>参见 <a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/kernel/ptrace.c;l=359;drc=303a061b7c24724c3e79f0aadb247c0c795d4111">ptrace_hbp_get_resource_info</a></p>
+</blockquote>
+<p><strong>dbg_regs</strong> 包含了调试寄存器的信息，其中，addr 就是要监视的地址，ctrl 是下面的结构，将一个 u32 按位编码分成四段：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/include/asm/hw_breakpoint.h;l=13;drc=303a061b7c24724c3e79f0aadb247c0c795d4111">common&#x2F;arch&#x2F;arm64&#x2F;include&#x2F;asm&#x2F;hw_breakpoint.h</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">arch_hw_breakpoint_ctrl</span> &#123;</span></span><br><span class="line">	u32 __reserved	: <span class="number">19</span>,</span><br><span class="line">	len		: <span class="number">8</span>,</span><br><span class="line">	type		: <span class="number">2</span>,</span><br><span class="line">	privilege	: <span class="number">2</span>,</span><br><span class="line">	enabled		: <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>len</strong> 表示监视地址的范围，可取 1-8 字节，实际的值如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_1	0x1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_2	0x3</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_3	0x7</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_4	0xf</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_5	0x1f</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_6	0x3f</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_7	0x7f</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LEN_8	0xff</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>type</strong> 表示断点类型，应该是 bitwise flag 。</p>
+<p>对于 breakpoint ，只能为 execute （执行）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Breakpoint */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_EXECUTE	0</span></span><br></pre></td></tr></table></figure>
+
+<p>对于 watchpoint ，只能为 load （读）或 store （写）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Watchpoints */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_LOAD	1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARM_BREAKPOINT_STORE	2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>privilege</strong> 表示特权级，我们只能用到 EL0 ：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Privilege Levels */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> AARCH64_BREAKPOINT_EL1	1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> AARCH64_BREAKPOINT_EL0	2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>enabled</strong> 表示是否启用断点，0 表示禁用，1 表示启用。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>代码实现如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">arm64_breakpoint</span> &#123;</span><br><span class="line">    <span class="type">uintptr_t</span> addr;</span><br><span class="line">    <span class="type">uint8_t</span> len;</span><br><span class="line">    <span class="type">uint8_t</span> type;</span><br><span class="line">    <span class="type">uint8_t</span> privilege;</span><br><span class="line">    <span class="type">bool</span> enabled;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">uint32_t</span> <span class="title">encode_ctrl_reg</span><span class="params">(<span class="type">const</span> arm64_breakpoint &amp;ctrl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">uint32_t</span> val = (ctrl.len &lt;&lt; <span class="number">5</span>) | (ctrl.type &lt;&lt; <span class="number">3</span>) | (ctrl.privilege &lt;&lt; <span class="number">1</span>) |</span><br><span class="line">                   ctrl.enabled;</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">set_debug_registers</span><span class="params">(<span class="type">pid_t</span> pid, <span class="type">uint32_t</span> type, <span class="type">uint32_t</span> n, arm64_breakpoint* items)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> type_name = type == NT_ARM_HW_BREAK ? <span class="string">&quot;breakpoint&quot;</span> : (type == NT_ARM_HW_WATCH ? <span class="string">&quot;watchpoint&quot;</span> : <span class="string">&quot;&lt;?&gt;&quot;</span>);</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">iovec</span> iov&#123;&#125;;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">user_hwdebug_state</span> hwdebug&#123;&#125;;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;hwdebug, <span class="number">0</span>, <span class="built_in">sizeof</span>(hwdebug));</span><br><span class="line">    iov.iov_base = &amp;hwdebug;</span><br><span class="line">    iov.iov_len = <span class="built_in">sizeof</span>(hwdebug);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">ptrace</span>(PTRACE_GETREGSET, pid, type, &amp;iov) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="built_in">PLOGE</span>(<span class="string">&quot;set_debug_registers %s: get&quot;</span>, type_name);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> limit = hwdebug.dbg_info &amp; <span class="number">0xff</span>;</span><br><span class="line">    <span class="keyword">if</span> (limit &lt; n) &#123;</span><br><span class="line">        <span class="built_in">LOGE</span>(<span class="string">&quot;%s count exceed limit (%d &gt; %d)&quot;</span>, type_name, n, limit);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        hwdebug.dbg_regs[i].addr = items[i].addr;</span><br><span class="line">        hwdebug.dbg_regs[i].ctrl = <span class="built_in">encode_ctrl_reg</span>(items[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    iov.iov_len -= <span class="built_in">sizeof</span>(hwdebug.dbg_regs[<span class="number">0</span>]) * (<span class="number">16</span> - n);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">ptrace</span>(PTRACE_SETREGSET, pid, type, &amp;iov) == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="built_in">PLOGE</span>(<span class="string">&quot;set_debug_registers %s: set&quot;</span>, type_name);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意：</p>
+<ol>
+<li>内核处理设置断点是按照 iovec 的长度动态读取，因此如果要设置 n 个断点，只要从 0 开始写 n 个 hwdebug,dbg_regs   </li>
+<li>并且 iovec 的 iov_len 要设置为实际的断点个数的长度，即减去不需要的长度。  </li>
+<li>由于断点个数有限，因此设置超出了 dbg_info 所提供的个数的断点会返回错误 ENOSPC 。  </li>
+<li>GETREGSET 返回的 dbg_info 似乎与原先 SETREGSET 的并不完全一致，因此建议自己维护断点信息，修改的时候不要使用 GETREGSET 的信息。</li>
+</ol>
+<h3 id="判断命中断点"><a href="#判断命中断点" class="headerlink" title="判断命中断点"></a>判断命中断点</h3><p>命中断点会产生一个 SIGTRAP ，但是在使用 ptrace 的时候，显然收到 SIGTRAP 的情况不止一种。那么如何判断这个信号是不是命中断点呢？</p>
+<p>观察内核中注册断点处理程序的代码：</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/arch/arm64/kernel/ptrace.c;l=314;drc=303a061b7c24724c3e79f0aadb247c0c795d4111">common&#x2F;arch&#x2F;arm64&#x2F;kernel&#x2F;ptrace.c ptrace_hbp_create</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">struct</span> perf_event *<span class="title function_">ptrace_hbp_create</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> note_type,</span></span><br><span class="line"><span class="params">					    <span class="keyword">struct</span> task_struct *tsk,</span></span><br><span class="line"><span class="params">					    <span class="type">unsigned</span> <span class="type">long</span> idx)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">	bp = register_user_hw_breakpoint(&amp;attr, ptrace_hbptriggered, <span class="literal">NULL</span>, tsk);</span><br><span class="line">	<span class="keyword">if</span> (IS_ERR(bp))</span><br><span class="line">		<span class="keyword">return</span> bp;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_HAVE_HW_BREAKPOINT</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Handle hitting a HW-breakpoint.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">ptrace_hbptriggered</span><span class="params">(<span class="keyword">struct</span> perf_event *bp,</span></span><br><span class="line"><span class="params">				<span class="keyword">struct</span> perf_sample_data *data,</span></span><br><span class="line"><span class="params">				<span class="keyword">struct</span> pt_regs *regs)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">	arm64_force_sig_fault(SIGTRAP, TRAP_HWBKPT, bkpt-&gt;trigger, desc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>处理 ptrace 的断点的函数是 <code>ptrace_hbptriggered</code> ，是发送一个 <code>si_code</code> 为 <code>TRAP_HWBKPT</code> 的 <code>SIGTRAP</code> 。</p>
+<p>更进一步可以发现会往 <code>siginfo</code> 的 <code>si_addr</code> 赋值。</p>
+<p>因此，只要 <code>signo == SIGTRAP &amp;&amp; si_code == TRAP_HWBKPT</code> ，这就是一个硬件断点触发的 trap ，且地址在 <code>si_addr</code> 中。</p>
+<p><a target="_blank" rel="noopener" href="https://cs.android.com/android/kernel/superproject/+/common-android-mainline:common/kernel/signal.c;l=1723;drc=303a061b7c24724c3e79f0aadb247c0c795d4111">common&#x2F;kernel&#x2F;signal.c</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">force_sig_fault_to_task</span><span class="params">(<span class="type">int</span> sig, <span class="type">int</span> code, <span class="type">void</span> __user *addr,</span></span><br><span class="line"><span class="params">			    <span class="keyword">struct</span> task_struct *t)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">kernel_siginfo</span> <span class="title">info</span>;</span></span><br><span class="line"></span><br><span class="line">	clear_siginfo(&amp;info);</span><br><span class="line">	info.si_signo = sig;</span><br><span class="line">	info.si_errno = <span class="number">0</span>;</span><br><span class="line">	info.si_code  = code;</span><br><span class="line">	info.si_addr  = addr;</span><br><span class="line">	<span class="keyword">return</span> force_sig_info_to_task(&amp;info, t, HANDLER_CURRENT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实际使用时的工作流"><a href="#实际使用时的工作流" class="headerlink" title="实际使用时的工作流"></a>实际使用时的工作流</h3><p>利用硬件断点，一般遵循以下的步骤：</p>
+<p>注册断点 -&gt; 等待断点命中 -&gt; 禁用相应断点 -&gt; 单步执行当前指令 -&gt; 启用相应断点 -&gt; 继续运行</p>
+<p>在执行当前指令前，需要禁用相应的断点，否则 ptrace 让程序继续运行的时候，断点会在当前的 pc 地址再次触发。</p>
+<p>而为了跟踪所有指令发生的事件，必须单步执行命中断点的这一条指令，在执行完成后，还要启用相应断点并继续执行。</p>
+<h3 id="硬件断点的行为"><a href="#硬件断点的行为" class="headerlink" title="硬件断点的行为"></a>硬件断点的行为</h3><p>根据编写代码和观察可以得到下面的结论：</p>
+<h4 id="读"><a href="#读" class="headerlink" title="读"></a>读</h4><p>如果指令对断点地址执行读操作，则在指令执行前发出中断，即指令未执行，地址指向的内容未被读，pc 指向读指令的地址。</p>
+<h4 id="写"><a href="#写" class="headerlink" title="写"></a>写</h4><p>如果指令对断点地址执行写操作，则在指令执行前发出中断，即指令未执行，地址指向的内容未被写，pc 指向写指令的地址。</p>
+<h4 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h4><p>如果 pc 进入了断点地址，则在当前位置中断。</p>
+<blockquote>
+<p>所以这不能用于在「跳转指令处」中断。</p>
+</blockquote>
+<h4 id="其他行为"><a href="#其他行为" class="headerlink" title="其他行为"></a>其他行为</h4><ol>
+<li>你可以给一个断点同时设置 ARM_BREAKPOINT_LOAD 和 ARM_BREAKPOINT_STORE ，效果是读写都会触发断点。 </li>
+<li>你也可以给同一个地址设置多个 watchpoint，例如分别设置读、写断点，它们都起作用。给同一个地址同时设置 breakpoint 和 watchpoint 也是允许的。</li>
+</ol>
+<h2 id="其他硬件断点相关"><a href="#其他硬件断点相关" class="headerlink" title="其他硬件断点相关"></a>其他硬件断点相关</h2><p>还可以使用 perf event 实现硬件断点</p>
+<p><a target="_blank" rel="noopener" href="https://richar.top/android-perf-eventshi-xian-ying-duan/">Android使用perf_event实现硬断点 | richar的技术集</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog">5ec1cff</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://5ec1cff.github.io/my-blog/2024/06/24/android-arm64-hwbkpt/">https://5ec1cff.github.io/my-blog/2024/06/24/android-arm64-hwbkpt/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://5ec1cff.github.io/my-blog" target="_blank">5ec1cff's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/my-blog/2024/01/31/avd-ksu2/" title="在 AVD 上使用 KernelSU - 第二回 -"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">在 AVD 上使用 KernelSU - 第二回 -</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAAMSURBVAiZY/j//z8ABf4C/ljyaw4AAAAASUVORK5CYII=" onerror="this.onerror=null;this.src='/my-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">5ec1cff</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/my-blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/my-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/my-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/5ec1cff"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/5ec1cff" target="_blank" title="Github"><i class="fab fa-github" style="color: #000000;"></i></a><a class="social-icon" href="https://t.me/real5ec1cff" target="_blank" title="Telegram"><i class="fab fa-telegram" style="color: #000000;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-arm64-%E5%9C%A8-ptrace-%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%A1%AC%E4%BB%B6%E6%96%AD%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">Android arm64 在 ptrace 中使用硬件断点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-number">1.1.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">准备条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%96%AD%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">注册断点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%91%BD%E4%B8%AD%E6%96%AD%E7%82%B9"><span class="toc-number">1.1.3.</span> <span class="toc-text">判断命中断点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.1.4.</span> <span class="toc-text">实际使用时的工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%96%AD%E7%82%B9%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-number">1.1.5.</span> <span class="toc-text">硬件断点的行为</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%A1%8C%E4%B8%BA"><span class="toc-number">1.1.5.4.</span> <span class="toc-text">其他行为</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%A1%AC%E4%BB%B6%E6%96%AD%E7%82%B9%E7%9B%B8%E5%85%B3"><span class="toc-number">1.2.</span> <span class="toc-text">其他硬件断点相关</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2024/06/24/android-arm64-hwbkpt/" title="Android arm64 在 ptrace 中使用硬件断点">Android arm64 在 ptrace 中使用硬件断点</a><time datetime="2024-06-24T10:51:39.000Z" title="发表于 2024-06-24 18:51:39">2024-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2024/01/31/avd-ksu2/" title="在 AVD 上使用 KernelSU - 第二回 -">在 AVD 上使用 KernelSU - 第二回 -</a><time datetime="2024-01-31T05:58:48.000Z" title="发表于 2024-01-31 13:58:48">2024-01-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2024/01/16/avd-ksu/" title="在 AVD 上使用 KernelSU">在 AVD 上使用 KernelSU</a><time datetime="2024-01-16T15:17:20.000Z" title="发表于 2024-01-16 23:17:20">2024-01-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/my-blog/2023/12/06/lsp-native-hook-crash/" title="记一次 LSPosed Native Hook 偶现崩溃">记一次 LSPosed Native Hook 偶现崩溃</a><time datetime="2023-12-06T11:40:56.000Z" title="发表于 2023-12-06 19:40:56">2023-12-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/my-blog/2023/11/23/system-certs/" title="Android 安装系统证书">Android 安装系统证书</a><time datetime="2023-11-23T02:53:06.000Z" title="发表于 2023-11-23 10:53:06">2023-11-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 5ec1cff</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/my-blog/js/utils.js"></script><script src="/my-blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
